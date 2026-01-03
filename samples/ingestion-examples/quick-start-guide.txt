@@ -1,0 +1,32 @@
+Certus TAP Quick Start Guide
+
+Welcome to Certus TAP! This document will help you get started with document ingestion and querying.
+
+What is Certus TAP?
+Certus TAP is an enterprise-grade document ingestion and knowledge management system. It uses advanced techniques like semantic search, embedding-based retrieval, and knowledge graphs to help you extract insights from your documents.
+
+Key Features:
+- Multi-source document ingestion (files, folders, GitHub, web, S3)
+- Vector-based semantic search using embeddings
+- Neo4j knowledge graph for security findings
+- Privacy-preserving PII detection and anonymization
+- RAG (Retrieval-Augmented Generation) pipeline for intelligent querying
+- Multi-workspace isolation for different projects
+
+Getting Started:
+1. Ensure the Certus TAP stack is running: just up
+2. Upload your documents using one of the ingestion methods
+3. Ask questions using the RAG query interface
+4. Inspect results in OpenSearch Dashboards
+
+Supported File Formats:
+- Text files (.txt)
+- PDF documents (.pdf)
+- Markdown (.md)
+- Word documents (.docx)
+- PowerPoint presentations (.pptx)
+- CSV files (.csv)
+- SARIF security scan files
+- SPDX SBOM files
+
+For more information, visit the documentation at http://localhost:8501

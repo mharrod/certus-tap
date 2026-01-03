@@ -1,0 +1,5 @@
+{
+  "name": "security",
+  "sdk": "python",
+  "source": "."
+}

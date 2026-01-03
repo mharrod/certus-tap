@@ -1,0 +1,38 @@
+════════════════════════════════════════════════════════════════
+  AGENT BOOTSTRAP
+════════════════════════════════════════════════════════════════
+
+You must follow the rules in AGENTS.md (root)
+
+REQUIRED FILES TO LOAD:
+  - AGENTS.md                 (core rules, via .rules)
+  - .context/CONTEXT.md       (project state)
+  - .context/tasks/now.md     (current tasks)
+
+LOAD ON-DEMAND:
+  - docs/framework/architecture/  (design docs)
+  - docs/reference/roadmap/       (proposals)
+  - Specific files mentioned in your task
+
+════════════════════════════════════════════════════════════════
+
+BEFORE YOU START, REPLY WITH:
+
+✓ AGENTS.md loaded: [yes/no]
+✓ CONTEXT.md loaded: [yes/no]
+✓ Role: [Planner | Implementer | Tester | Reviewer | Security]
+✓ Next 3 actions:
+  1. [action]
+  2. [action]
+  3. [action]
+
+════════════════════════════════════════════════════════════════
+
+REMEMBER:
+• Files are truth
+• Stay in scope
+• Ask when unclear
+• Test before claiming done
+• Report what changed
+
+════════════════════════════════════════════════════════════════

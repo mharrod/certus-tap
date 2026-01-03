@@ -1,0 +1,8 @@
+nav:
+  - '☑ Certus Integrity': certus-integrity.md
+  - '◐ Certus Assurance': certus-assurance-proposal.md
+  - '◐ Certus Trust': certus-trust-proposal.md
+  - '✎ Certus Evaluate': certus-evaluate-service.md
+  - '✎ Certus-Evaluate Tech Spec': certus-evaluate-technical-spec.md
+  - '✎ Certus Insight': certus-insight-proposal.md
+  - '✎ DigitalOcean Deployment': digitalocean-deployment-proposal.md

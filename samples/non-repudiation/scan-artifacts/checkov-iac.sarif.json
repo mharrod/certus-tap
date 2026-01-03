@@ -1,0 +1,638 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Checkov",
+          "version": "2.13.50",
+          "informationUri": "https://www.checkov.io",
+          "rules": [
+            {
+              "id": "CKV_AWS_1",
+              "shortDescription": {
+                "text": "IAM policy should not allow full * resource"
+              },
+              "fullDescription": {
+                "text": "IAM policies granting permissions to * resource are overly permissive and violate principle of least privilege"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "aws",
+                  "iam",
+                  "access-control"
+                ]
+              }
+            },
+            {
+              "id": "CKV_AWS_21",
+              "shortDescription": {
+                "text": "Ensure all data stored in S3 is encrypted"
+              },
+              "fullDescription": {
+                "text": "S3 buckets should have default encryption enabled to protect data at rest"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "aws",
+                  "s3",
+                  "encryption"
+                ]
+              }
+            },
+            {
+              "id": "CKV_AWS_34",
+              "shortDescription": {
+                "text": "Ensure S3 bucket has public access block"
+              },
+              "fullDescription": {
+                "text": "S3 buckets should have public access blocking enabled to prevent accidental exposure"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "aws",
+                  "s3",
+                  "public-access"
+                ]
+              }
+            },
+            {
+              "id": "CKV_AWS_20",
+              "shortDescription": {
+                "text": "Ensure S3 bucket is encrypted"
+              },
+              "fullDescription": {
+                "text": "S3 buckets should have server-side encryption enabled for all objects"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "aws",
+                  "s3",
+                  "encryption"
+                ]
+              }
+            },
+            {
+              "id": "CKV_AWS_40",
+              "shortDescription": {
+                "text": "Ensure IAM policies are attached to groups or roles"
+              },
+              "fullDescription": {
+                "text": "IAM policies should be attached to groups or roles, not directly to users"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "aws",
+                  "iam",
+                  "best-practice"
+                ]
+              }
+            },
+            {
+              "id": "CKV_AWS_33",
+              "shortDescription": {
+                "text": "Ensure KMS key rotation is enabled"
+              },
+              "fullDescription": {
+                "text": "KMS keys should have rotation enabled to ensure cryptographic key material is regularly updated"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "aws",
+                  "kms",
+                  "encryption"
+                ]
+              }
+            },
+            {
+              "id": "CKV_AWS_45",
+              "shortDescription": {
+                "text": "CloudTrail should be enabled and logging to S3"
+              },
+              "fullDescription": {
+                "text": "CloudTrail should be enabled to track API calls for security and compliance auditing"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "aws",
+                  "audit",
+                  "logging"
+                ]
+              }
+            },
+            {
+              "id": "CKV_AWS_22",
+              "shortDescription": {
+                "text": "RDS database must have encryption enabled"
+              },
+              "fullDescription": {
+                "text": "RDS database instances should have encryption at rest enabled"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "aws",
+                  "rds",
+                  "encryption"
+                ]
+              }
+            },
+            {
+              "id": "CKV_AWS_17",
+              "shortDescription": {
+                "text": "Ensure VPC Flow Logs is enabled"
+              },
+              "fullDescription": {
+                "text": "VPC Flow Logs should be enabled for network traffic monitoring and security analysis"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "aws",
+                  "vpc",
+                  "logging"
+                ]
+              }
+            },
+            {
+              "id": "CKV_DOCKER_2",
+              "shortDescription": {
+                "text": "Ensure only necessary ports are exposed"
+              },
+              "fullDescription": {
+                "text": "Docker containers should only expose necessary ports following principle of least privilege"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "docker",
+                  "container",
+                  "ports"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CKV_AWS_1",
+          "message": {
+            "text": "IAM policy allows overly permissive * resource access"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infrastructure/terraform/iam.tf",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 5,
+                  "endLine": 18,
+                  "endColumn": 6,
+                  "snippet": {
+                    "text": "\"Resource\": \"*\""
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_AWS_1",
+              "severity": "CRITICAL",
+              "description": "IAM role AWSLambdaBasicExecutionRole has overly permissive policy allowing access to all resources (*)",
+              "resource": "aws_iam_role_policy.lambda_execution",
+              "file": "infrastructure/terraform/iam.tf",
+              "line": 12,
+              "remediation": "Specify exact ARNs instead of using wildcard (*) for least privilege",
+              "code_snippet": {
+                "content": "resource \"aws_iam_role_policy\" \"lambda_execution\" {\n  role = aws_iam_role.lambda_role.id\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [{\n      Effect = \"Allow\"\n      Action = \"s3:*\"\n      Resource = \"*\"\n    }]\n  })\n}"
+              }
+            }
+          }
+        },
+        {
+          "ruleId": "CKV_AWS_21",
+          "message": {
+            "text": "S3 bucket does not have default encryption enabled"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infrastructure/terraform/s3.tf",
+                  "index": 1
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 5,
+                  "endLine": 7,
+                  "endColumn": 1,
+                  "snippet": {
+                    "text": "resource \"aws_s3_bucket\" \"data\""
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_AWS_21",
+              "severity": "HIGH",
+              "description": "S3 bucket 'application-data' does not have server-side encryption enabled",
+              "resource": "aws_s3_bucket.data",
+              "file": "infrastructure/terraform/s3.tf",
+              "line": 3,
+              "remediation": "Add server_side_encryption_configuration block with KMS encryption",
+              "code_snippet": {
+                "current": "resource \"aws_s3_bucket\" \"data\" {\n  bucket = \"application-data-prod\"\n  acl    = \"private\"\n}",
+                "remediated": "resource \"aws_s3_bucket\" \"data\" {\n  bucket = \"application-data-prod\"\n  acl    = \"private\"\n}\n\nresource \"aws_s3_bucket_server_side_encryption_configuration\" \"data\" {\n  bucket = aws_s3_bucket.data.id\n  rule {\n    apply_server_side_encryption_by_default {\n      sse_algorithm = \"aws:kms\"\n      kms_master_key_id = aws_kms_key.s3.arn\n    }\n  }\n}"
+              }
+            }
+          }
+        },
+        {
+          "ruleId": "CKV_AWS_34",
+          "message": {
+            "text": "S3 bucket is publicly accessible"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infrastructure/terraform/s3.tf",
+                  "index": 1
+                },
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 5,
+                  "endLine": 15,
+                  "endColumn": 1,
+                  "snippet": {
+                    "text": "resource \"aws_s3_bucket_public_access_block\""
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_AWS_34",
+              "severity": "CRITICAL",
+              "description": "S3 bucket 'user-uploads' does not have public access blocking enabled",
+              "resource": "aws_s3_bucket.uploads",
+              "file": "infrastructure/terraform/s3.tf",
+              "line": 11,
+              "remediation": "Add aws_s3_bucket_public_access_block with all block settings = true",
+              "exposure_risk": "Bucket contents are potentially accessible to the public"
+            }
+          }
+        },
+        {
+          "ruleId": "CKV_AWS_40",
+          "message": {
+            "text": "IAM policy attached directly to user instead of group"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infrastructure/terraform/iam.tf",
+                  "index": 2
+                },
+                "region": {
+                  "startLine": 42,
+                  "startColumn": 5,
+                  "endLine": 48,
+                  "endColumn": 1,
+                  "snippet": {
+                    "text": "resource \"aws_iam_user_policy\" \"developer\""
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_AWS_40",
+              "severity": "MEDIUM",
+              "description": "IAM policy is attached directly to user 'alice@example.com' instead of a group",
+              "resource": "aws_iam_user_policy.developer",
+              "file": "infrastructure/terraform/iam.tf",
+              "line": 42,
+              "remediation": "Move policy to aws_iam_group_policy and add user to group",
+              "best_practice": "Policies should be managed at group level for better access control"
+            }
+          }
+        },
+        {
+          "ruleId": "CKV_AWS_33",
+          "message": {
+            "text": "KMS key rotation is disabled"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infrastructure/terraform/kms.tf",
+                  "index": 3
+                },
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 10,
+                  "endLine": 8,
+                  "endColumn": 15,
+                  "snippet": {
+                    "text": "enable_key_rotation = false"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_AWS_33",
+              "severity": "HIGH",
+              "description": "KMS key for database encryption does not have rotation enabled",
+              "resource": "aws_kms_key.db",
+              "file": "infrastructure/terraform/kms.tf",
+              "line": 8,
+              "remediation": "Set enable_key_rotation = true to rotate key material annually",
+              "code_snippet": {
+                "current": "resource \"aws_kms_key\" \"db\" {\n  description = \"Key for RDS encryption\"\n  enable_key_rotation = false\n}",
+                "remediated": "resource \"aws_kms_key\" \"db\" {\n  description = \"Key for RDS encryption\"\n  enable_key_rotation = true\n}"
+              }
+            }
+          }
+        },
+        {
+          "ruleId": "CKV_AWS_45",
+          "message": {
+            "text": "CloudTrail is not enabled"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infrastructure/terraform/main.tf",
+                  "index": 4
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1,
+                  "snippet": {
+                    "text": "No CloudTrail configuration found"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_AWS_45",
+              "severity": "HIGH",
+              "description": "CloudTrail is not enabled for AWS account. API calls are not being audited.",
+              "resource": "aws_cloudtrail.account",
+              "file": "infrastructure/terraform/main.tf",
+              "line": 1,
+              "remediation": "Create aws_cloudtrail resource with S3 bucket logging enabled",
+              "compliance_impact": "Cannot audit API calls for security and compliance investigations"
+            }
+          }
+        },
+        {
+          "ruleId": "CKV_AWS_22",
+          "message": {
+            "text": "RDS database encryption is disabled"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infrastructure/terraform/rds.tf",
+                  "index": 5
+                },
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 10,
+                  "endLine": 15,
+                  "endColumn": 15,
+                  "snippet": {
+                    "text": "storage_encrypted = false"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_AWS_22",
+              "severity": "CRITICAL",
+              "description": "RDS database instance 'production-db' does not have encryption at rest enabled",
+              "resource": "aws_db_instance.production",
+              "file": "infrastructure/terraform/rds.tf",
+              "line": 15,
+              "remediation": "Set storage_encrypted = true and specify kms_key_id",
+              "code_snippet": {
+                "current": "resource \"aws_db_instance\" \"production\" {\n  identifier = \"production-db\"\n  engine = \"postgres\"\n  allocated_storage = 100\n  storage_encrypted = false\n}",
+                "remediated": "resource \"aws_db_instance\" \"production\" {\n  identifier = \"production-db\"\n  engine = \"postgres\"\n  allocated_storage = 100\n  storage_encrypted = true\n  kms_key_id = aws_kms_key.rds.arn\n}"
+              }
+            }
+          }
+        },
+        {
+          "ruleId": "CKV_AWS_17",
+          "message": {
+            "text": "VPC Flow Logs not enabled for network monitoring"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infrastructure/terraform/vpc.tf",
+                  "index": 6
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 5,
+                  "endLine": 8,
+                  "endColumn": 1,
+                  "snippet": {
+                    "text": "resource \"aws_vpc\" \"main\""
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_AWS_17",
+              "severity": "MEDIUM",
+              "description": "VPC does not have Flow Logs enabled for network traffic analysis",
+              "resource": "aws_vpc.main",
+              "file": "infrastructure/terraform/vpc.tf",
+              "line": 3,
+              "remediation": "Create aws_flow_log resource targeting CloudWatch Logs or S3",
+              "impact": "Cannot monitor network traffic for security incidents"
+            }
+          }
+        },
+        {
+          "ruleId": "CKV_DOCKER_2",
+          "message": {
+            "text": "Docker container exposes unnecessary ports"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile",
+                  "index": 7
+                },
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 1,
+                  "endLine": 28,
+                  "endColumn": 15,
+                  "snippet": {
+                    "text": "EXPOSE 80 443 22 3306 5432"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_DOCKER_2",
+              "severity": "HIGH",
+              "description": "Dockerfile exposes unnecessary ports (SSH 22, MySQL 3306, PostgreSQL 5432)",
+              "resource": "Dockerfile",
+              "file": "Dockerfile",
+              "line": 28,
+              "exposed_ports": [
+                "22",
+                "3306",
+                "5432"
+              ],
+              "remediation": "Only expose necessary ports (80, 443) for web application",
+              "code_snippet": {
+                "current": "EXPOSE 80 443 22 3306 5432",
+                "remediated": "EXPOSE 80 443"
+              }
+            }
+          }
+        },
+        {
+          "ruleId": "CKV_AWS_1",
+          "message": {
+            "text": "Kubernetes RBAC allows overly permissive cluster-admin role"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/rbac.yaml",
+                  "index": 8
+                },
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 5,
+                  "endLine": 18,
+                  "endColumn": 10,
+                  "snippet": {
+                    "text": "roleRef:\n  kind: ClusterRole\n  name: cluster-admin"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "check_id": "CKV_AWS_1",
+              "severity": "CRITICAL",
+              "description": "Kubernetes RoleBinding grants cluster-admin to default service account",
+              "resource": "RoleBinding/admin-binding",
+              "file": "k8s/rbac.yaml",
+              "line": 15,
+              "remediation": "Create minimal role with only required permissions instead of using cluster-admin",
+              "code_snippet": {
+                "current": "apiVersion: rbac.authorization.k8s.io/v1\nkind: RoleBinding\nmetadata:\n  name: admin-binding\nsubjects:\n- kind: ServiceAccount\n  name: default\nroleRef:\n  kind: ClusterRole\n  name: cluster-admin",
+                "remediated": "apiVersion: rbac.authorization.k8s.io/v1\nkind: Role\nmetadata:\n  name: app-role\nrules:\n- apiGroups: [\"\"]\n  resources: [\"pods\"]\n  verbs: [\"get\", \"list\"]\n---\napiVersion: rbac.authorization.k8s.io/v1\nkind: RoleBinding\nmetadata:\n  name: app-binding\nsubjects:\n- kind: ServiceAccount\n  name: app-sa\nroleRef:\n  kind: Role\n  name: app-role"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "scanTime": "2024-01-15T14:33:30Z",
+        "duration": 45,
+        "framework": [
+          "terraform",
+          "docker",
+          "kubernetes"
+        ],
+        "filesScanned": 15,
+        "totalFindings": 10,
+        "critical": 4,
+        "high": 4,
+        "medium": 2,
+        "checkov_config": "default",
+        "checkov_version": "2.13.50",
+        "checks_run": 450
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  neo4j:
+    image: neo4j:5.13-enterprise
+    container_name: neo4j-spike
+    environment:
+      NEO4J_AUTH: neo4j/certus-test-password
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_memory_heap_initial__size: 2G
+      NEO4J_dbms_memory_heap_max__size: 3G
+      NEO4J_dbms_memory_pagecache_size: 1G
+    ports:
+      - "7687:7687"  # Bolt protocol (for cypher-shell, drivers)
+      - "7474:7474"  # Web UI (Neo4j Browser)
+      - "7473:7473"  # HTTPS (optional)
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_imports:/var/lib/neo4j/import
+    healthcheck:
+      test:
+        - CMD
+        - cypher-shell
+        - -u
+        - neo4j
+        - -p
+        - certus-test-password
+        - RETURN 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - neo4j-spike-network
+    restart: unless-stopped
+
+volumes:
+  neo4j_data:
+    driver: local
+  neo4j_logs:
+    driver: local
+  neo4j_imports:
+    driver: local
+
+networks:
+  neo4j-spike-network:
+    driver: bridge

@@ -1,0 +1,325 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "Example Python Web Application SBOM",
+  "documentNamespace": "https://example.com/sbom/python-web-app-1.0.0",
+  "creationInfo": {
+    "created": "2025-11-17T10:00:00Z",
+    "creators": [
+      "Tool: syft-0.75.0",
+      "Organization: Example Inc",
+      "Person: Security Team"
+    ],
+    "licenseListVersion": "3.21"
+  },
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package-app",
+      "name": "example-python-webapp",
+      "versionInfo": "1.0.0",
+      "supplier": "Organization: Example Inc",
+      "originator": "Person: Development Team (dev@example.com)",
+      "downloadLocation": "https://github.com/example/python-webapp",
+      "filesAnalyzed": true,
+      "licenseDeclared": "Apache-2.0",
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright 2025 Example Inc",
+      "description": "A Python web application demonstrating SBOM generation",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:github/example/python-webapp@1.0.0"
+        },
+        {
+          "referenceType": "security-other",
+          "referenceLocator": "cpe:2.3:a:example:python-webapp:1.0.0:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-flask",
+      "name": "Flask",
+      "versionInfo": "3.0.0",
+      "supplier": "Person: Armin Ronacher",
+      "downloadLocation": "https://pypi.org/project/Flask/3.0.0/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "BSD-3-Clause",
+      "licenseConcluded": "BSD-3-Clause",
+      "copyrightText": "Copyright (c) 2010-2025 Armin Ronacher and contributors",
+      "description": "A lightweight WSGI web application framework",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/flask@3.0.0"
+        },
+        {
+          "referenceType": "security-other",
+          "referenceLocator": "cpe:2.3:a:palletsprojects:flask:3.0.0:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-werkzeug",
+      "name": "Werkzeug",
+      "versionInfo": "3.0.1",
+      "supplier": "Person: Armin Ronacher",
+      "downloadLocation": "https://pypi.org/project/Werkzeug/3.0.1/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "BSD-3-Clause",
+      "licenseConcluded": "BSD-3-Clause",
+      "copyrightText": "Copyright (c) 2007-2025 Armin Ronacher and contributors",
+      "description": "Comprehensive WSGI web application library",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/werkzeug@3.0.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-sqlalchemy",
+      "name": "SQLAlchemy",
+      "versionInfo": "2.0.23",
+      "supplier": "Person: Mike Bayer",
+      "downloadLocation": "https://pypi.org/project/SQLAlchemy/2.0.23/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "MIT",
+      "licenseConcluded": "MIT",
+      "copyrightText": "Copyright (c) 2006-2025 Mike Bayer and contributors",
+      "description": "The Python SQL Toolkit and Object Relational Mapper",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/sqlalchemy@2.0.23"
+        },
+        {
+          "referenceType": "security-other",
+          "referenceLocator": "cpe:2.3:a:sqlalchemy:sqlalchemy:2.0.23:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-psycopg2",
+      "name": "psycopg2-binary",
+      "versionInfo": "2.9.9",
+      "supplier": "Person: Federico Di Gregorio",
+      "downloadLocation": "https://pypi.org/project/psycopg2-binary/2.9.9/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "LGPL-3.0-only",
+      "licenseConcluded": "LGPL-3.0-only",
+      "copyrightText": "Copyright (c) 2001-2025 Federico Di Gregorio",
+      "description": "PostgreSQL adapter for Python (binary distribution)",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/psycopg2-binary@2.9.9"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-requests",
+      "name": "requests",
+      "versionInfo": "2.31.0",
+      "supplier": "Person: Kenneth Reitz",
+      "downloadLocation": "https://pypi.org/project/requests/2.31.0/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "Apache-2.0",
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright (c) 2011-2025 Kenneth Reitz",
+      "description": "Python HTTP library for humans",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/requests@2.31.0"
+        },
+        {
+          "referenceType": "security-other",
+          "referenceLocator": "cpe:2.3:a:python-requests:requests:2.31.0:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-pydantic",
+      "name": "pydantic",
+      "versionInfo": "2.5.0",
+      "supplier": "Person: Samuel Colvin",
+      "downloadLocation": "https://pypi.org/project/pydantic/2.5.0/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "MIT",
+      "licenseConcluded": "MIT",
+      "copyrightText": "Copyright (c) 2017-2025 Samuel Colvin and contributors",
+      "description": "Data validation using Python type annotations",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/pydantic@2.5.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-pytest",
+      "name": "pytest",
+      "versionInfo": "7.4.3",
+      "supplier": "Person: Holger Krekel",
+      "downloadLocation": "https://pypi.org/project/pytest/7.4.3/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "MIT",
+      "licenseConcluded": "MIT",
+      "copyrightText": "Copyright (c) 2004-2025 Holger Krekel and others",
+      "description": "pytest framework for Python testing",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/pytest@7.4.3"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-cryptography",
+      "name": "cryptography",
+      "versionInfo": "41.0.7",
+      "supplier": "Organization: The Cryptographic Authority (CA)",
+      "downloadLocation": "https://pypi.org/project/cryptography/41.0.7/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "Apache-2.0 OR BSD-3-Clause",
+      "licenseConcluded": "Apache-2.0 OR BSD-3-Clause",
+      "copyrightText": "Copyright (c) 2008-2025 Cryptographic Authority",
+      "description": "Cryptographic recipes and primitives for Python",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/cryptography@41.0.7"
+        },
+        {
+          "referenceType": "security-other",
+          "referenceLocator": "cpe:2.3:a:cryptography:cryptography:41.0.7:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-redis",
+      "name": "redis",
+      "versionInfo": "5.0.1",
+      "supplier": "Person: Andy McCurdy",
+      "downloadLocation": "https://pypi.org/project/redis/5.0.1/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "MIT",
+      "licenseConcluded": "MIT",
+      "copyrightText": "Copyright (c) 2011-2025 Andy McCurdy and contributors",
+      "description": "Python client for Redis database",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/redis@5.0.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-gunicorn",
+      "name": "gunicorn",
+      "versionInfo": "21.2.0",
+      "supplier": "Person: Benoit Chesneau",
+      "downloadLocation": "https://pypi.org/project/gunicorn/21.2.0/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "MIT",
+      "licenseConcluded": "MIT",
+      "copyrightText": "Copyright (c) 2010-2025 Benoit Chesneau and contributors",
+      "description": "WSGI HTTP server for Python",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/gunicorn@21.2.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-jinja2",
+      "name": "Jinja2",
+      "versionInfo": "3.1.2",
+      "supplier": "Person: Armin Ronacher",
+      "downloadLocation": "https://pypi.org/project/Jinja2/3.1.2/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "BSD-3-Clause",
+      "licenseConcluded": "BSD-3-Clause",
+      "copyrightText": "Copyright (c) 2009-2025 Armin Ronacher and contributors",
+      "description": "A very fast and expressive template engine",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/Jinja2@3.1.2"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-markupsafe",
+      "name": "MarkupSafe",
+      "versionInfo": "2.1.3",
+      "supplier": "Person: Armin Ronacher",
+      "downloadLocation": "https://pypi.org/project/MarkupSafe/2.1.3/",
+      "filesAnalyzed": true,
+      "licenseDeclared": "BSD-3-Clause",
+      "licenseConcluded": "BSD-3-Clause",
+      "copyrightText": "Copyright (c) 2010-2025 Armin Ronacher and contributors",
+      "description": "Safely add untrusted strings to HTML/XML markup",
+      "externalRefs": [
+        {
+          "referenceType": "package-manager",
+          "referenceLocator": "pkg:pypi/MarkupSafe@2.1.3"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-Package-app"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-app",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-flask"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-app",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-sqlalchemy"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-app",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-pydantic"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-app",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-cryptography"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-app",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-redis"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-flask",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-werkzeug"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-flask",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-jinja2"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-jinja2",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-markupsafe"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-sqlalchemy",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-psycopg2"
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+import os
+import time
+from collections import defaultdict, deque
+from typing import Deque, Dict
+import asyncio
+import uuid
+
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from starlette.requests import Request
+from starlette.responses import Response, JSONResponse
+from opentelemetry import trace, metrics
+from opentelemetry.trace import SpanKind
+
+from certus_integrity.evidence import EvidenceGenerator
+from certus_integrity.schemas import IntegrityDecision
+
+tracer = trace.get_tracer(__name__)
+meter = metrics.get_meter("certus.integrity")
+
+decision_counter = meter.create_counter(
+    "integrity_decisions_total",
+    description="Total number of integrity decisions made",
+    unit="1",
+)
+
+check_duration = meter.create_histogram(
+    "integrity_check_duration_seconds",
+    description="Duration of integrity checks",
+    unit="s",
+)
+
+class IntegrityMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app):
+        super().__init__(app)
+        self.rate_limit = int(os.getenv("INTEGRITY_RATE_LIMIT_PER_MIN", "100"))
+        self.shadow_mode = os.getenv("INTEGRITY_SHADOW_MODE", "true").lower() == "true"
+        self._request_history: Dict[str, Deque[float]] = defaultdict(deque)
+
+        # Initialize Evidence Generator
+        # In a real app, this should be a singleton injected via dependency injection
+        self.evidence_generator = EvidenceGenerator(service_name="certus-ask")
+
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+        start_time = time.time()
+        decision = "allowed"
+        guardrail = "none"
+        reason = "pass_through"
+        trace_id = format(trace.get_current_span().get_span_context().trace_id, "032x")
+        span_id = format(trace.get_current_span().get_span_context().span_id, "016x")
+
+        # 1. Start Span
+        with tracer.start_as_current_span(
+            "integrity.request",
+            kind=SpanKind.SERVER,
+        ) as span:
+            # 2. Rate Limit Check
+            client_ip = request.client.host if request.client else "unknown"
+            if self._is_rate_limited(client_ip):
+                guardrail = "rate_limit"
+                reason = "rate_limit_exceeded"
+
+                if self.shadow_mode:
+                    decision = "allowed"
+                    span.set_attribute("integrity.shadow_violation", True)
+                else:
+                    decision = "denied"
+
+            # 3. Graph Budget Check (Placeholder)
+            if decision == "allowed" and "/query" in request.url.path:
+                span.set_attribute("integrity.graph_budget_check", "skipped_phase2")
+
+            # 4. Record Telemetry
+            duration = time.time() - start_time
+            check_duration.record(duration, {"guardrail": "all"})
+
+            decision_counter.add(1, {
+                "decision": decision,
+                "guardrail": guardrail,
+                "reason": reason,
+                "shadow_mode": str(self.shadow_mode),
+                "service": "certus-ask"
+            })
+
+            span.set_attributes({
+                "integrity.decision": decision,
+                "integrity.guardrail": guardrail,
+                "integrity.reason": reason,
+                "integrity.shadow_mode": self.shadow_mode,
+            })
+
+            # 5. Generate Evidence Bundle (Async / Fire-and-Forget)
+            # Create the decision object
+            decision_obj = IntegrityDecision(
+                decision_id=str(uuid.uuid4()),
+                trace_id=trace_id,
+                span_id=span_id,
+                service="certus-ask",
+                decision=decision, # type: ignore
+                reason=reason,
+                guardrail=guardrail,
+                metadata={
+                    "client_ip": client_ip,
+                    "shadow_mode": self.shadow_mode,
+                    "duration_ms": duration * 1000
+                }
+            )
+
+            # Fire and forget - don't block the response
+            # Note: In production, use a background task queue (e.g. BackgroundTasks)
+            # starlette/fastapi BackgroundTasks is cleaner, but here we are in middleware.
+            # a simple create_task works for MVP.
+            asyncio.create_task(self.evidence_generator.process_decision(decision_obj))
+
+            # 6. Enforce Decision
+            if decision == "denied":
+                return JSONResponse(
+                    status_code=429,
+                    content={
+                        "error": "rate_limit_exceeded",
+                        "message": "Too many requests. Please try again later.",
+                        "trace_id": trace_id
+                    }
+                )
+
+            # 7. Connect to Application
+            response = await call_next(request)
+            return response
+
+    def _is_rate_limited(self, ip: str) -> bool:
+        """
+        Checks if the IP has exceeded the rate limit.
+        """
+        if self.rate_limit <= 0:
+             return False
+
+        now = time.time()
+        history = self._request_history[ip]
+
+        # Remove timestamps older than 60s (sliding window)
+        while history and history[0] < now - 60:
+            history.popleft()
+
+        print(f"DEBUG: IP={ip} Count={len(history)} Limit={self.rate_limit}") # DEBUG
+
+        if len(history) >= self.rate_limit:
+            return True
+
+        history.append(now)
+        return False

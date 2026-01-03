@@ -1,0 +1,10 @@
+nav:
+  - Home: index.md
+  - Test Suite Reference: test-suite-reference.md
+  - Strategy & Architecture: overview.md
+  - Fixtures Guide: fixtures.md
+  - Service & Router Playbook: service-playbook.md
+  - Best Practices: best-practices.md
+  - Preflight Deep Dive: preflight-deep-dive.md
+  - Security Scanning: security-scanning.md
+  - Testing Cadence Checklist: testing-checklist.md

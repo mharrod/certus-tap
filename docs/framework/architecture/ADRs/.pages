@@ -1,0 +1,8 @@
+title: Architecture Decision Records
+nav:
+  - Home: index.md
+  - ADR-0001 Structured Logging: 0001-structured-logging.md
+  - ADR-0002 Configuration Management: 0002-configuration-management.md
+  - ADR-0003 Error Handling: 0003-error-handling.md
+  - ADR-0004 Type Hints: 0004-type-hints-strategy.md
+  - ADR-0005 Privacy Design: 0005-privacy-design.md

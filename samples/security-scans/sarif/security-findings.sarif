@@ -1,0 +1,363 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Bandit",
+          "version": "1.7.5",
+          "informationUri": "https://github.com/PyCQA/bandit",
+          "rules": [
+            {
+              "id": "B105",
+              "name": "hardcoded_sql_string",
+              "shortDescription": {
+                "text": "Hardcoded SQL string - possible SQL injection"
+              },
+              "help": {
+                "text": "Using hardcoded SQL strings with user input is vulnerable to SQL injection attacks. Use parameterized queries instead."
+              }
+            },
+            {
+              "id": "B602",
+              "name": "shell_injection",
+              "shortDescription": {
+                "text": "Shell injection - possible execution of untrusted input"
+              },
+              "help": {
+                "text": "Using shell=True with subprocess is vulnerable to shell injection. Use subprocess.run() with a list of arguments instead."
+              }
+            },
+            {
+              "id": "B101",
+              "name": "assert_used",
+              "shortDescription": {
+                "text": "Assert used for data validation - will be removed in production"
+              },
+              "help": {
+                "text": "Assertions are removed when Python is run with -O flag. Use proper validation instead."
+              }
+            },
+            {
+              "id": "B201",
+              "name": "flask_debug_true",
+              "shortDescription": {
+                "text": "Flask debug mode is enabled in production"
+              },
+              "help": {
+                "text": "Flask debug mode should never be enabled in production as it exposes sensitive information."
+              }
+            },
+            {
+              "id": "B308",
+              "name": "mark_safe",
+              "shortDescription": {
+                "text": "Potential XSS vulnerability - mark_safe without validation"
+              },
+              "help": {
+                "text": "Using mark_safe() without proper input validation can lead to XSS attacks."
+              }
+            },
+            {
+              "id": "B303",
+              "name": "pickle_usage",
+              "shortDescription": {
+                "text": "Pickle can execute arbitrary code - potential remote code execution"
+              },
+              "help": {
+                "text": "Avoid pickle for untrusted data. Consider using JSON instead."
+              }
+            },
+            {
+              "id": "B607",
+              "name": "partial_path_execution",
+              "shortDescription": {
+                "text": "Possible unescaped run of partially user-controlled shell command"
+              },
+              "help": {
+                "text": "Ensure the executable path is fully controlled by the application."
+              }
+            },
+            {
+              "id": "B110",
+              "name": "try_except_pass",
+              "shortDescription": {
+                "text": "Try/except block with pass statement - silences all exceptions"
+              },
+              "help": {
+                "text": "Empty except blocks can hide security issues. Catch specific exceptions instead."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "B105",
+          "level": "high",
+          "message": {
+            "text": "Hardcoded SQL string detected - user input concatenated directly into query"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/database.py"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 20,
+                  "endLine": 88,
+                  "endColumn": 45
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B105",
+          "level": "high",
+          "message": {
+            "text": "Hardcoded SQL string detected - concatenating user search term"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/database.py"
+                },
+                "region": {
+                  "startLine": 156,
+                  "startColumn": 15,
+                  "endLine": 156,
+                  "endColumn": 40
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B602",
+          "level": "high",
+          "message": {
+            "text": "Shell injection - using shell=True with subprocess.Popen()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/utils.py"
+                },
+                "region": {
+                  "startLine": 42,
+                  "startColumn": 10,
+                  "endLine": 42,
+                  "endColumn": 65
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B602",
+          "level": "high",
+          "message": {
+            "text": "Shell injection - using os.system() with user input"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/utils.py"
+                },
+                "region": {
+                  "startLine": 67,
+                  "startColumn": 5,
+                  "endLine": 67,
+                  "endColumn": 35
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B101",
+          "level": "medium",
+          "message": {
+            "text": "Assert used for data validation - will be removed when Python runs with -O"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/validators.py"
+                },
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 5,
+                  "endLine": 15,
+                  "endColumn": 35
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B101",
+          "level": "medium",
+          "message": {
+            "text": "Assert used for authentication check"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/auth.py"
+                },
+                "region": {
+                  "startLine": 78,
+                  "startColumn": 5,
+                  "endLine": 78,
+                  "endColumn": 40
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B201",
+          "level": "high",
+          "message": {
+            "text": "Flask debug mode enabled - exposes sensitive information"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/main.py"
+                },
+                "region": {
+                  "startLine": 245,
+                  "startColumn": 10,
+                  "endLine": 245,
+                  "endColumn": 25
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B308",
+          "level": "high",
+          "message": {
+            "text": "Potential XSS - user input passed to mark_safe() without validation"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/templates.py"
+                },
+                "region": {
+                  "startLine": 102,
+                  "startColumn": 15,
+                  "endLine": 102,
+                  "endColumn": 45
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B303",
+          "level": "critical",
+          "message": {
+            "text": "Pickle used to deserialize untrusted data - potential RCE"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/cache.py"
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 8,
+                  "endLine": 34,
+                  "endColumn": 25
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B607",
+          "level": "medium",
+          "message": {
+            "text": "Partial path execution - user input affects executable path"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/executor.py"
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 10,
+                  "endLine": 19,
+                  "endColumn": 40
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B110",
+          "level": "low",
+          "message": {
+            "text": "Try/except with bare pass - silences all exceptions"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/handlers.py"
+                },
+                "region": {
+                  "startLine": 55,
+                  "startColumn": 5,
+                  "endLine": 57,
+                  "endColumn": 10
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B110",
+          "level": "low",
+          "message": {
+            "text": "Try/except with bare pass - silences all exceptions"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/handlers.py"
+                },
+                "region": {
+                  "startLine": 120,
+                  "startColumn": 5,
+                  "endLine": 122,
+                  "endColumn": 10
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

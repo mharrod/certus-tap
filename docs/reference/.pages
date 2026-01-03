@@ -1,0 +1,12 @@
+title: Reference
+nav:
+- index.md
+- core-reference
+- architecture
+- components
+- api
+- testing
+- logging
+- troubleshooting
+- roadmap
+- ...

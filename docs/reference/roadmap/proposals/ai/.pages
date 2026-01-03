@@ -1,0 +1,5 @@
+title: AI
+nav:
+  - '✎  Agent Framework': aaif-agent-framework-proposal.md
+  - '✎  Chat Interface': chat-proposal.md
+  - '✎  MCP Proposal': mcp-proposal.md

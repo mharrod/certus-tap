@@ -1,0 +1,34 @@
+[Unit]
+Description=Certus OpenSearch
+After=network-online.target podman.service
+Wants=network-online.target
+Requires=podman.service
+
+[Service]
+Type=simple
+User=certus
+Restart=always
+RestartSec=10s
+TimeoutStartSec=300
+
+EnvironmentFile=/opt/certus/.env
+
+ExecStartPre=-/usr/bin/podman stop certus-opensearch
+ExecStartPre=-/usr/bin/podman rm certus-opensearch
+ExecStartPre=/usr/bin/podman pull docker.io/opensearchproject/opensearch:2
+
+ExecStart=/usr/bin/podman run --rm \
+  --name certus-opensearch \
+  --network certus \
+  -p 9200:9200 \
+  -p 9600:9600 \
+  -v /var/lib/certus/data/opensearch:/usr/share/opensearch/data:z \
+  -e "discovery.type=single-node" \
+  -e "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g" \
+  -e "DISABLE_SECURITY_PLUGIN=true" \
+  docker.io/opensearchproject/opensearch:2
+
+ExecStop=/usr/bin/podman stop certus-opensearch
+
+[Install]
+WantedBy=multi-user.target

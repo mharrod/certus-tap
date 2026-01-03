@@ -1,0 +1,421 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Semgrep",
+          "version": "1.45.0",
+          "informationUri": "https://semgrep.dev",
+          "rules": [
+            {
+              "id": "python.django.security.audit.insecure-deserialization.insecure-deserialization",
+              "shortDescription": {
+                "text": "Insecure deserialization with pickle"
+              },
+              "fullDescription": {
+                "text": "Use of pickle for deserialization is insecure and can lead to arbitrary code execution. Consider using json or another safe serialization format."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "security",
+                  "python",
+                  "django"
+                ]
+              }
+            },
+            {
+              "id": "python.flask.security.injection.sql-injection",
+              "shortDescription": {
+                "text": "SQL injection vulnerability"
+              },
+              "fullDescription": {
+                "text": "User input is directly concatenated into SQL query. Use parameterized queries instead."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "security",
+                  "python",
+                  "injection"
+                ]
+              }
+            },
+            {
+              "id": "python.lang.security.audit.unsafe-yaml-load.unsafe-yaml-load",
+              "shortDescription": {
+                "text": "Unsafe YAML loading"
+              },
+              "fullDescription": {
+                "text": "yaml.load() without a Loader is unsafe. Use yaml.safe_load() instead."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "security",
+                  "python",
+                  "unsafe-load"
+                ]
+              }
+            },
+            {
+              "id": "python.lang.security.audit.unsafe-pickle-load.unsafe-pickle-load",
+              "shortDescription": {
+                "text": "Unsafe pickle deserialization"
+              },
+              "fullDescription": {
+                "text": "pickle.load() can execute arbitrary code. Use restricted unpickler or json."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "security",
+                  "python",
+                  "deserialization"
+                ]
+              }
+            },
+            {
+              "id": "python.lang.security.audit.avoid-eval.avoid-eval",
+              "shortDescription": {
+                "text": "Use of eval() function"
+              },
+              "fullDescription": {
+                "text": "eval() executes arbitrary Python code and is dangerous. Use ast.literal_eval() for safe evaluation."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "security",
+                  "python",
+                  "code-execution"
+                ]
+              }
+            },
+            {
+              "id": "python.lang.security.audit.exec-detected.exec-detected",
+              "shortDescription": {
+                "text": "Use of exec() function"
+              },
+              "fullDescription": {
+                "text": "exec() executes arbitrary Python code. This is highly dangerous and should be avoided."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "security",
+                  "python",
+                  "code-execution"
+                ]
+              }
+            },
+            {
+              "id": "python.django.security.audit.no-csrf-protection.no-csrf-protection",
+              "shortDescription": {
+                "text": "Missing CSRF protection"
+              },
+              "fullDescription": {
+                "text": "Django view is missing CSRF protection decorator. Add @csrf_protect or include middleware."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "security",
+                  "django",
+                  "csrf"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "python.django.security.audit.insecure-deserialization.insecure-deserialization",
+          "message": {
+            "text": "Insecure deserialization using pickle.loads() detected. This can lead to arbitrary code execution."
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/services/data_processor.py",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 15,
+                  "endLine": 34,
+                  "endColumn": 40,
+                  "snippet": {
+                    "text": "data = pickle.loads(user_input)"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweId": "CWE-502",
+              "severity": "CRITICAL",
+              "description": "Deserialization of untrusted data with pickle can execute arbitrary code",
+              "remediation": "Use json.loads() or implement restricted unpickler",
+              "file": "src/services/data_processor.py",
+              "line": 34
+            }
+          }
+        },
+        {
+          "ruleId": "python.flask.security.injection.sql-injection",
+          "message": {
+            "text": "SQL injection vulnerability: user input directly concatenated in SQL query"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/api/routes/users.py",
+                  "index": 1
+                },
+                "region": {
+                  "startLine": 67,
+                  "startColumn": 30,
+                  "endLine": 67,
+                  "endColumn": 75,
+                  "snippet": {
+                    "text": "query = f'SELECT * FROM users WHERE email = {email}'"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweId": "CWE-89",
+              "severity": "CRITICAL",
+              "description": "SQL query constructed with string concatenation allows injection attacks",
+              "remediation": "Use parameterized queries with SQLAlchemy ORM or prepared statements",
+              "file": "src/api/routes/users.py",
+              "line": 67
+            }
+          }
+        },
+        {
+          "ruleId": "python.lang.security.audit.unsafe-yaml-load.unsafe-yaml-load",
+          "message": {
+            "text": "Unsafe yaml.load() usage without Loader parameter"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/config/loader.py",
+                  "index": 2
+                },
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 20,
+                  "endLine": 12,
+                  "endColumn": 40,
+                  "snippet": {
+                    "text": "config = yaml.load(config_file)"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweId": "CWE-502",
+              "severity": "HIGH",
+              "description": "yaml.load() without Loader can execute arbitrary code via YAML deserialization",
+              "remediation": "Use yaml.safe_load() instead of yaml.load()",
+              "file": "src/config/loader.py",
+              "line": 12
+            }
+          }
+        },
+        {
+          "ruleId": "python.lang.security.audit.unsafe-pickle-load.unsafe-pickle-load",
+          "message": {
+            "text": "Unsafe pickle deserialization detected"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cache/serializer.py",
+                  "index": 3
+                },
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 15,
+                  "endLine": 45,
+                  "endColumn": 35,
+                  "snippet": {
+                    "text": "obj = pickle.load(file)"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweId": "CWE-502",
+              "severity": "HIGH",
+              "description": "pickle.load() can deserialize and execute arbitrary code",
+              "remediation": "Use json for serialization or implement restricted unpickler",
+              "file": "src/cache/serializer.py",
+              "line": 45
+            }
+          }
+        },
+        {
+          "ruleId": "python.lang.security.audit.avoid-eval.avoid-eval",
+          "message": {
+            "text": "Use of eval() with user input"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/utils/expression_evaluator.py",
+                  "index": 4
+                },
+                "region": {
+                  "startLine": 23,
+                  "startColumn": 18,
+                  "endLine": 23,
+                  "endColumn": 40,
+                  "snippet": {
+                    "text": "result = eval(expression)"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweId": "CWE-95",
+              "severity": "CRITICAL",
+              "description": "eval() executes arbitrary Python code and is extremely dangerous",
+              "remediation": "Use ast.literal_eval() for safe evaluation or implement a sandboxed expression parser",
+              "file": "src/utils/expression_evaluator.py",
+              "line": 23
+            }
+          }
+        },
+        {
+          "ruleId": "python.lang.security.audit.exec-detected.exec-detected",
+          "message": {
+            "text": "Use of exec() function detected"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/plugins/dynamic_loader.py",
+                  "index": 5
+                },
+                "region": {
+                  "startLine": 56,
+                  "startColumn": 10,
+                  "endLine": 56,
+                  "endColumn": 30,
+                  "snippet": {
+                    "text": "exec(plugin_code)"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweId": "CWE-95",
+              "severity": "CRITICAL",
+              "description": "exec() executes arbitrary Python code and should never be used with untrusted input",
+              "remediation": "Use import mechanisms or ast.literal_eval() instead of exec()",
+              "file": "src/plugins/dynamic_loader.py",
+              "line": 56
+            }
+          }
+        },
+        {
+          "ruleId": "python.django.security.audit.no-csrf-protection.no-csrf-protection",
+          "message": {
+            "text": "Django view missing CSRF protection"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/api/views/admin.py",
+                  "index": 6
+                },
+                "region": {
+                  "startLine": 89,
+                  "startColumn": 5,
+                  "endLine": 89,
+                  "endColumn": 20,
+                  "snippet": {
+                    "text": "def delete_user(request):"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweId": "CWE-352",
+              "severity": "MEDIUM",
+              "description": "Django view handling POST/PUT/DELETE without CSRF protection is vulnerable to cross-site request forgery",
+              "remediation": "Add @csrf_protect decorator or ensure CSRF middleware is enabled",
+              "file": "src/api/views/admin.py",
+              "line": 89
+            }
+          }
+        }
+      ],
+      "properties": {
+        "scanTime": "2024-01-15T14:31:00Z",
+        "duration": 45,
+        "totalFindings": 7,
+        "critical": 3,
+        "high": 3,
+        "medium": 1,
+        "semgrep_config": "p/security-audit",
+        "semgrep_version": "1.45.0"
+      }
+    }
+  ]
+}

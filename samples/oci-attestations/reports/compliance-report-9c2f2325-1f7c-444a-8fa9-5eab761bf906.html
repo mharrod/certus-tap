@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply Chain Compliance Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        .status-compliant {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-conditional {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .status-non-compliant {
+            background: #dc3545;
+            color: white;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            border-left: 4px solid #2c3e50;
+            padding-left: 20px;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .section h3 {
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .metadata {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .metadata-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metadata-row:last-child {
+            border-bottom: none;
+        }
+
+        .metadata-label {
+            font-weight: bold;
+            color: #2c3e50;
+            width: 30%;
+        }
+
+        .metadata-value {
+            width: 70%;
+            text-align: right;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .findings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .findings-table th {
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .findings-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .findings-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .pass {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .fail {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .recommendations {
+            background: #f0f7ff;
+            border-left: 4px solid #2c3e50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 3px;
+        }
+
+        .recommendations h3 {
+            margin-top: 0;
+        }
+
+        .recommendations ol {
+            margin-left: 20px;
+        }
+
+        .recommendations li {
+            margin: 10px 0;
+        }
+
+        .footer {
+            background: #f5f5f5;
+            padding: 20px 40px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .signature {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .signature-info {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.85em;
+            word-break: break-all;
+        }
+
+        @media print {
+            .container {
+                box-shadow: none;
+            }
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Supply Chain Compliance Report</h1>
+            <p>Security Verification & Artifact Assessment</p>
+            <div class="status-badge status-compliant">
+                COMPLIANT
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Executive Summary -->
+            <div class="section">
+                <h2>Executive Summary</h2>
+                <div class="metadata">
+                    <div class="metadata-row">
+                        <span class="metadata-label">Report ID:</span>
+                        <span class="metadata-value">9c2f2325-1f7c-444a-8fa9-5eab761bf906</span>
+                    </div>
+                    <div class="metadata-row">
+                        <span class="metadata-label">Product:</span>
+                        <span class="metadata-value">Acme Corporation Product v1.0.0</span>
+                    </div>
+                    <div class="metadata-row">
+                        <span class="metadata-label">Vendor:</span>
+                        <span class="metadata-value">ACME Corp</span>
+                    </div>
+                    <div class="metadata-row">
+                        <span class="metadata-label">Reviewer:</span>
+                        <span class="metadata-value">Security Review Team (Your Organization)</span>
+                    </div>
+                    <div class="metadata-row">
+                        <span class="metadata-label">Generated:</span>
+                        <span class="metadata-value">2025-11-26T18:12:38.202179Z</span>
+                    </div>
+                    <div class="metadata-row">
+                        <span class="metadata-label">Expires:</span>
+                        <span class="metadata-value">2026-11-26T18:12:38.202179+00:00Z</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compliance Status -->
+            <div class="section">
+                <h2>Compliance Assessment</h2>
+                <p><strong>Overall Status:</strong> <span class="status-badge status-compliant">COMPLIANT</span></p>
+
+                <!-- Detailed Findings -->
+                <h3>Detailed Findings</h3>
+                <table class="findings-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Signature Verification</td>
+                            <td><span class="pass">✓ PASS</span></td>
+                            <td>All artifacts cryptographically signed</td>
+                            <td>High - Authenticity</td>
+                        </tr>
+                        <tr>
+                            <td>SBOM Analysis</td>
+                            <td><span class="pass">✓ PASS</span></td>
+                            <td>SPDX 2.3 SBOM complete and valid</td>
+                            <td>High - Transparency</td>
+                        </tr>
+                        <tr>
+                            <td>Provenance Validation</td>
+                            <td><span class="pass">✓ PASS</span></td>
+                            <td>SLSA v1.0 provenance verified</td>
+                            <td>High - Build Integrity</td>
+                        </tr>
+                        <tr>
+                            <td>Vulnerability Assessment</td>
+                            <td><span class="warning">⚠ REVIEW</span></td>
+                            <td>See recommendations for findings</td>
+                            <td>Critical - Security Risk</td>
+                        </tr>
+                        <tr>
+                            <td>Dependency Analysis</td>
+                            <td><span class="pass">✓ PASS</span></td>
+                            <td>All dependencies verified with hashes</td>
+                            <td>Medium - Supply Chain Risk</td>
+                        </tr>
+                        <tr>
+                            <td>License Compliance</td>
+                            <td><span class="pass">✓ PASS</span></td>
+                            <td>No incompatible licenses detected</td>
+                            <td>Medium - Legal Risk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="recommendations">
+                <h3>Reviewer Recommendations</h3>
+                <ol>
+                    <li>APPROVE: All compliance checks passed.</li>
+                    <li>Action: Proceed with ingestion and deployment.</li>
+                    <li>Action: Schedule 90-day follow-up review.</li>
+                </ol>
+            </div>
+
+            <!-- Audit Trail -->
+            <div class="section">
+                <h2>Audit Trail & Verification</h2>
+                <div class="metadata">
+                    <div class="metadata-row">
+                        <span class="metadata-label">Review Method:</span>
+                        <span class="metadata-value">Cosign + SLSA Provenance</span>
+                    </div>
+                    <div class="metadata-row">
+                        <span class="metadata-label">Tools Used:</span>
+                        <span class="metadata-value">cosign, oras, sbom-scanner</span>
+                    </div>
+                    <div class="metadata-row">
+                        <span class="metadata-label">Review Start:</span>
+                        <span class="metadata-value">2025-11-26T18:12:38.202179Z</span>
+                    </div>
+                    <div class="metadata-row">
+                        <span class="metadata-label">Review End:</span>
+                        <span class="metadata-value">2025-11-26T18:12:38.202179Z</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Signature -->
+            <div class="section">
+                <h2>Digital Signature & Integrity</h2>
+                <p>This report is digitally signed and tamper-resistant. The signature ensures:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Report authenticity - Signed by authorized reviewer</li>
+                    <li>Report integrity - Any modifications will invalidate signature</li>
+                    <li>Non-repudiation - Reviewer cannot deny signing this report</li>
+                    <li>Timestamped - Signature includes creation timestamp</li>
+                </ul>
+                <div class="signature">
+                    <h3>Signature Information</h3>
+                    <div class="signature-info">
+                        <p><strong>Report ID:</strong> 9c2f2325-1f7c-444a-8fa9-5eab761bf906</p>
+                        <p><strong>Signed:</strong> 2025-11-26T18:12:38.202179Z</p>
+                        <p><strong>Reviewer:</strong> Security Review Team</p>
+                        <p><strong>Organization:</strong> Your Organization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>This report is confidential and contains proprietary security information.</p>
+            <p>Report ID: 9c2f2325-1f7c-444a-8fa9-5eab761bf906 | Generated: 2025-11-26T18:12:38.202179Z</p>
+            <p>Certus TAP Supply Chain Security Review System</p>
+        </div>
+    </div>
+</body>
+</html>

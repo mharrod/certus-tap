@@ -1,0 +1,88 @@
+/* Certus Brand Palette */
+
+/* Light mode (default scheme) */
+[data-md-color-scheme='default'] {
+  /* Primary color (header, navigation tabs, buttons) */
+  --md-primary-fg-color: #a9b2a8;
+  --md-primary-fg-color--light: #c8d0c9;
+  --md-primary-fg-color--dark: #8c958b;
+  --md-primary-bg-color: #fff;
+  --md-primary-bg-color--light: hsla(0, 0%, 100%, 0.7);
+
+  /* Accent color (links, scrollbars, interactive elements) */
+  --md-accent-fg-color: #c6a76b;
+  --md-accent-fg-color--transparent: rgba(198, 167, 107, 0.18);
+  --md-accent-bg-color: #fbfbfb;
+  --md-accent-bg-color--light: hsla(0, 0%, 98%, 0.7);
+
+  /* Link colors in content */
+  --md-typeset-a-color: #c6a76b;
+
+  /* Footer */
+  --md-footer-fg-color: var(--xbrand-bone, #f5f5f2);
+  --md-footer-fg-color--light: rgba(245, 245, 242, 0.75);
+  --md-footer-fg-color--lighter: rgba(245, 245, 242, 0.55);
+  --md-footer-bg-color: #4a5254; /* --xbrand-night-soft */
+  --md-footer-bg-color--dark: #3b3f3b; /* --xbrand-nickel-night */
+}
+
+/* Force header background color for light mode */
+[data-md-color-scheme='default'] .md-header {
+  background-color: #a9b2a8;
+}
+
+[data-md-color-scheme='default'] .md-tabs {
+  background-color: #a9b2a8;
+}
+
+/* Dark mode (slate scheme) */
+[data-md-color-scheme='slate'] {
+  color-scheme: dark;
+
+  /* Background colors */
+  --md-default-bg-color: #3e4547;
+  --md-default-bg-color--light: rgba(62, 69, 71, 0.85);
+  --md-default-fg-color: #f5f5f2;
+  --md-default-fg-color--light: rgba(245, 245, 242, 0.72);
+
+  /* Code blocks */
+  --md-code-bg-color: #4a5254;
+  --md-code-fg-color: #f5f5f2;
+  --md-code-hl-color: rgba(198, 167, 107, 0.3);
+
+  /* Primary color (header, navigation) */
+  --md-primary-fg-color: #a9b2a8;
+  --md-primary-fg-color--light: #c8d0c9;
+  --md-primary-fg-color--dark: #8c958b;
+  --md-primary-bg-color: #3e4547;
+  --md-primary-bg-color--light: rgba(62, 69, 71, 0.88);
+
+  /* Accent colors */
+  --md-accent-fg-color: #c6a76b;
+  --md-accent-fg-color--transparent: rgba(198, 167, 107, 0.18);
+  --md-accent-bg-color: #f5f5f2;
+  --md-accent-bg-color--light: rgba(245, 245, 242, 0.92);
+
+  /* Link colors */
+  --md-typeset-a-color: #d7bc86;
+  --md-typeset-color: #f5f5f2;
+
+  /* Shadows */
+  --md-shadow-z2: 0 1rem 2.5rem rgba(31, 35, 37, 0.5);
+
+  /* Footer */
+  --md-footer-fg-color: var(--xbrand-bone, #f5f5f2);
+  --md-footer-fg-color--light: rgba(245, 245, 242, 0.75);
+  --md-footer-fg-color--lighter: rgba(245, 245, 242, 0.55);
+  --md-footer-bg-color: #3e4547; /* --xbrand-nickel-deep */
+  --md-footer-bg-color--dark: #2c3030; /* deeper tone */
+}
+
+/* Force header background color for dark mode */
+[data-md-color-scheme='slate'] .md-header {
+  background-color: #a9b2a8;
+}
+
+[data-md-color-scheme='slate'] .md-tabs {
+  background-color: #a9b2a8;
+}

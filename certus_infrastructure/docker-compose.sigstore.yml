@@ -1,0 +1,141 @@
+# Complete Sigstore infrastructure for local development
+# Supports trust tutorials and offline workloads
+
+services:
+  # Rekor Server (Transparency Log) - PORT 3001
+  rekor:
+    image: ghcr.io/sigstore/rekor/rekor-server:v1.4.2
+    container_name: rekor
+    ports:
+      - '3001:3000' # Host:3001 → Container:3000
+    command:
+      - serve
+      - --trillian_log_server.address=trillian-log-server
+      - --trillian_log_server.port=8090
+      - --trillian_log_server.tlog_id=1
+      - --rekor_server.address=0.0.0.0
+      - --rekor_server.signer=memory
+      - --enable_attestation_storage
+      - --attestation_storage_bucket=file:///var/run/attestations
+      - --search_index.storage_provider=mysql
+      - --search_index.mysql.dsn=trillian:trillian@tcp(trillian-log-db:3306)/rekor
+    environment:
+      - TMPDIR=/var/run/attestations
+    volumes:
+      - /var/run/attestations:/var/run/attestations:z
+    depends_on:
+      trillian-log-db:
+        condition: service_healthy
+      trillian-log-server:
+        condition: service_started
+    networks:
+      - certus-network
+
+  # Trillian Log Database
+  trillian-log-db:
+    image: mysql:8.0
+    container_name: trillian-log-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=trillian
+      - MYSQL_PASSWORD=trillian
+    volumes:
+      - trillian-log-db-data:/var/lib/mysql
+      - ./scripts/init-sigstore-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - certus-network
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'mysqladmin',
+          'ping',
+          '-h',
+          'localhost',
+          '-u',
+          'trillian',
+          '-ptrillian',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Trillian Log Server
+  trillian-log-server:
+    image: ghcr.io/sigstore/rekor/trillian_log_server:v1.3.4
+    container_name: trillian-log-server
+    ports:
+      - '8090:8090'
+      - '8091:8091'
+    depends_on:
+      trillian-log-db:
+        condition: service_healthy
+    networks:
+      - certus-network
+    command:
+      - --storage_system=mysql
+      - --quota_system=mysql
+      - --mysql_uri=trillian:trillian@tcp(trillian-log-db:3306)/trillian
+      - --rpc_endpoint=0.0.0.0:8090
+      - --http_endpoint=0.0.0.0:8091
+      - --logtostderr
+
+  # Trillian Log Signer
+  trillian-log-signer:
+    image: ghcr.io/sigstore/rekor/trillian_log_signer:v1.3.4
+    container_name: trillian-log-signer
+    depends_on:
+      trillian-log-db:
+        condition: service_healthy
+    networks:
+      - certus-network
+    command:
+      - --storage_system=mysql
+      - --quota_system=mysql
+      - --mysql_uri=trillian:trillian@tcp(trillian-log-db:3306)/trillian
+      - --logtostderr
+      - --force_master
+
+  # Fulcio (Certificate Authority)
+  fulcio:
+    image: ghcr.io/sigstore/fulcio:v1.4.0
+    container_name: fulcio
+    ports:
+      - '5555:5555'
+    environment:
+      - FULCIO_OIDC_ISSUER=https://localhost:5555
+      - FULCIO_OIDC_CLIENT_ID=sigstore
+      - FULCIO_OIDC_CLIENT_SECRET=sigstore
+      - FULCIO_REKOR_URL=http://rekor:3000 # Container port
+    networks:
+      - certus-network
+
+  # Cosign for CLI operations (tutorial support) - DISABLED
+  # cosign:
+  #   image: gcr.io/projectsigstore/cosign:v2.2.0
+  #   container_name: cosign
+  #   volumes:
+  #     - ./samples:/app/samples
+  #   networks:
+  #     - certus-network
+  #   command: ['sleep', 'infinity'] # Keep container running
+
+  # Tutorial support container - DISABLED
+  # trust-tutorial:
+  #   image: python:3.11-slim
+  #   container_name: trust-tutorial
+  #   volumes:
+  #     - ./docs/learn/trust:/app/tutorials
+  #     - ./samples:/app/samples
+  #     - ./scripts:/app/scripts
+  #   networks:
+  #     - certus-network
+  #   command: ['sleep', 'infinity']
+
+volumes:
+  trillian-log-db-data:
+
+networks:
+  certus-network:
+    external: true
+    name: certus-network

@@ -1,0 +1,477 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Bandit",
+          "version": "1.7.5",
+          "informationUri": "https://bandit.readthedocs.io",
+          "rules": [
+            {
+              "id": "B602",
+              "shortDescription": {
+                "text": "Paramiko call with policy set to AutoAddPolicy"
+              },
+              "fullDescription": {
+                "text": "Use of insecure Paramiko policy (AutoAddPolicy) that automatically trusts unknown hosts without verification."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "security",
+                  "python",
+                  "ssh"
+                ]
+              }
+            },
+            {
+              "id": "B101",
+              "shortDescription": {
+                "text": "Use of assert detected"
+              },
+              "fullDescription": {
+                "text": "assert statements are removed when Python is compiled in optimized mode (-O flag), making them unsuitable for security checks."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "code-quality",
+                  "python"
+                ]
+              }
+            },
+            {
+              "id": "B105",
+              "shortDescription": {
+                "text": "Possible hardcoded password"
+              },
+              "fullDescription": {
+                "text": "Hardcoded password found in source code. Passwords should be stored in environment variables or secure vaults."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "security",
+                  "python",
+                  "credentials"
+                ]
+              }
+            },
+            {
+              "id": "B602",
+              "shortDescription": {
+                "text": "subprocess call with shell=True"
+              },
+              "fullDescription": {
+                "text": "subprocess.Popen/call with shell=True allows command injection if input is untrusted."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "security",
+                  "python",
+                  "injection"
+                ]
+              }
+            },
+            {
+              "id": "B303",
+              "shortDescription": {
+                "text": "Use of insecure MD2, MD4, MD5, or SHA1 hash function"
+              },
+              "fullDescription": {
+                "text": "These hash functions are cryptographically broken and should not be used. Use SHA-256 or stronger."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "security",
+                  "python",
+                  "cryptography"
+                ]
+              }
+            },
+            {
+              "id": "B110",
+              "shortDescription": {
+                "text": "Try, Except, Pass detected"
+              },
+              "fullDescription": {
+                "text": "try-except-pass silently ignores all exceptions, potentially hiding security issues."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "code-quality",
+                  "python"
+                ]
+              }
+            },
+            {
+              "id": "B201",
+              "shortDescription": {
+                "text": "Flask debug mode enabled"
+              },
+              "fullDescription": {
+                "text": "Flask debug mode should never be enabled in production as it allows code execution."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "security",
+                  "python",
+                  "flask"
+                ]
+              }
+            },
+            {
+              "id": "B324",
+              "shortDescription": {
+                "text": "Probable use of insecure hash functions"
+              },
+              "fullDescription": {
+                "text": "Probable use of insecure hash function in hashlib. Use secure hashing algorithms."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "security",
+                  "python",
+                  "cryptography"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "B602",
+          "message": {
+            "text": "Paramiko call with policy set to AutoAddPolicy"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/infrastructure/ssh_client.py",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 8,
+                  "endLine": 28,
+                  "endColumn": 55,
+                  "snippet": {
+                    "text": "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "testId": "B602",
+              "severity": "HIGH",
+              "description": "Paramiko client automatically trusts unknown hosts without verification, vulnerable to man-in-the-middle attacks",
+              "remediation": "Use paramiko.WarningPolicy() or better yet, explicitly manage known_hosts",
+              "file": "src/infrastructure/ssh_client.py",
+              "line": 28
+            }
+          }
+        },
+        {
+          "ruleId": "B101",
+          "message": {
+            "text": "Use of assert detected"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/validators/input_validator.py",
+                  "index": 1
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 5,
+                  "endLine": 34,
+                  "endColumn": 40,
+                  "snippet": {
+                    "text": "assert user_id is not None, \"User ID required\""
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "testId": "B101",
+              "severity": "LOW",
+              "description": "assert statements are compiled out with python -O, making them unreliable for validation",
+              "remediation": "Use explicit if/raise statements or validation library instead of assert",
+              "file": "src/validators/input_validator.py",
+              "line": 34
+            }
+          }
+        },
+        {
+          "ruleId": "B105",
+          "message": {
+            "text": "Possible hardcoded password"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/config/database.py",
+                  "index": 2
+                },
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 20,
+                  "endLine": 12,
+                  "endColumn": 42,
+                  "snippet": {
+                    "text": "DB_PASSWORD = \"SecurePass123!\""
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "testId": "B105",
+              "severity": "CRITICAL",
+              "description": "Database password hardcoded in source code exposes credentials to anyone with code access",
+              "remediation": "Move password to environment variable or use AWS Secrets Manager / HashiCorp Vault",
+              "file": "src/config/database.py",
+              "line": 12
+            }
+          }
+        },
+        {
+          "ruleId": "B602",
+          "message": {
+            "text": "subprocess call with shell=True detected"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/system/command_executor.py",
+                  "index": 3
+                },
+                "region": {
+                  "startLine": 47,
+                  "startColumn": 5,
+                  "endLine": 47,
+                  "endColumn": 35,
+                  "snippet": {
+                    "text": "subprocess.Popen(cmd, shell=True)"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "testId": "B602",
+              "severity": "HIGH",
+              "description": "subprocess with shell=True allows command injection if untrusted input reaches this function",
+              "remediation": "Use subprocess with shell=False and pass arguments as list",
+              "file": "src/system/command_executor.py",
+              "line": 47
+            }
+          }
+        },
+        {
+          "ruleId": "B303",
+          "message": {
+            "text": "Use of insecure MD5 hash function"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/security/checksums.py",
+                  "index": 4
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 15,
+                  "endLine": 19,
+                  "endColumn": 45,
+                  "snippet": {
+                    "text": "hash_obj = hashlib.md5(data)"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "testId": "B303",
+              "severity": "MEDIUM",
+              "description": "MD5 is cryptographically broken and vulnerable to collision attacks",
+              "remediation": "Use SHA-256 (hashlib.sha256) or SHA-3 for security-critical hashing",
+              "file": "src/security/checksums.py",
+              "line": 19
+            }
+          }
+        },
+        {
+          "ruleId": "B110",
+          "message": {
+            "text": "try-except-pass silently ignores exceptions"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/middleware/request_handler.py",
+                  "index": 5
+                },
+                "region": {
+                  "startLine": 56,
+                  "startColumn": 5,
+                  "endLine": 59,
+                  "endColumn": 15,
+                  "snippet": {
+                    "text": "try:\n    validate_request()\nexcept:\n    pass"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "testId": "B110",
+              "severity": "LOW",
+              "description": "Bare except clause catches all exceptions including KeyboardInterrupt, and silently ignoring exceptions can hide bugs",
+              "remediation": "Catch specific exception types and log or handle them appropriately",
+              "file": "src/middleware/request_handler.py",
+              "line": 56
+            }
+          }
+        },
+        {
+          "ruleId": "B201",
+          "message": {
+            "text": "Flask debug mode enabled"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/app.py",
+                  "index": 6
+                },
+                "region": {
+                  "startLine": 104,
+                  "startColumn": 5,
+                  "endLine": 104,
+                  "endColumn": 25,
+                  "snippet": {
+                    "text": "app.run(debug=True)"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "testId": "B201",
+              "severity": "CRITICAL",
+              "description": "Flask debug mode allows code execution through the interactive debugger. Must be disabled in production.",
+              "remediation": "Use app.run(debug=False) and only enable debug in development using environment variable",
+              "file": "src/app.py",
+              "line": 104
+            }
+          }
+        },
+        {
+          "ruleId": "B324",
+          "message": {
+            "text": "Insecure hash function in hashlib"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/password.py",
+                  "index": 7
+                },
+                "region": {
+                  "startLine": 22,
+                  "startColumn": 10,
+                  "endLine": 22,
+                  "endColumn": 40,
+                  "snippet": {
+                    "text": "hash = hashlib.sha1(password)"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "testId": "B324",
+              "severity": "MEDIUM",
+              "description": "SHA-1 is deprecated for cryptographic uses. Use SHA-256, SHA-3, or better yet bcrypt/scrypt for passwords",
+              "remediation": "Use bcrypt for password hashing: bcrypt.hashpw(password, bcrypt.gensalt())",
+              "file": "src/crypto/password.py",
+              "line": 22
+            }
+          }
+        }
+      ],
+      "properties": {
+        "scanTime": "2024-01-15T14:31:30Z",
+        "duration": 25,
+        "totalFindings": 8,
+        "critical": 2,
+        "high": 2,
+        "medium": 2,
+        "low": 2,
+        "bandit_config": "default",
+        "bandit_version": "1.7.5",
+        "python_version": "3.11"
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "metrics": {
+    "python_3.9": {
+      "total_lines": 1234,
+      "num_skipped_tests": 0
+    }
+  },
+  "results": [
+    {
+      "test_id": "B602",
+      "test_name": "paramiko_calls",
+      "issue_severity": "HIGH",
+      "issue_confidence": "MEDIUM",
+      "issue_text": "Possible shell injection via paramiko call; check for execution of untrusted input.",
+      "line_number": 42,
+      "line_range": [
+        42,
+        43
+      ],
+      "filename": "app/ssh_utils.py"
+    },
+    {
+      "test_id": "B101",
+      "test_name": "assert_used",
+      "issue_severity": "LOW",
+      "issue_confidence": "HIGH",
+      "issue_text": "Use of assert detected. The enclosed code will be removed when compiling to optimized byte code.",
+      "line_number": 15,
+      "line_range": [
+        15,
+        15
+      ],
+      "filename": "app/validators.py"
+    },
+    {
+      "test_id": "B105",
+      "test_name": "hardcoded_sql_string",
+      "issue_severity": "HIGH",
+      "issue_confidence": "MEDIUM",
+      "issue_text": "Possible SQL injection vector through string-based query construction.",
+      "line_number": 88,
+      "line_range": [
+        88,
+        90
+      ],
+      "filename": "app/database.py"
+    }
+  ]
+}

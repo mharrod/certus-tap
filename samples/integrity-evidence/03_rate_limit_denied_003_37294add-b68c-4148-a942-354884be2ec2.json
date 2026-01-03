@@ -1,0 +1,46 @@
+{
+  "evidence_id": "37294add-b68c-4148-a942-354884be2ec2",
+  "timestamp": "2025-12-20T17:31:32.952235Z",
+  "decision": {
+    "decision_id": "37294add-b68c-4148-a942-354884be2ec2",
+    "timestamp": "2025-12-15T14:32:15Z",
+    "trace_id": "2720b287bdf541ada94701e5ba3d5c32",
+    "span_id": "c1a6ae5f0a0246da",
+    "service": "certus-ask",
+    "decision": "denied",
+    "reason": "rate_limit_exceeded",
+    "guardrail": "rate_limit",
+    "metadata": {
+      "client_ip": "203.0.113.50",
+      "endpoint": "/v1/default/ask",
+      "shadow_mode": false,
+      "requests_in_window": 111,
+      "limit": 100,
+      "burst_limit": 20,
+      "duration_ms": 4.7,
+      "retry_after": 60
+    }
+  },
+  "content_hash": "4156bf4cf5225e11408608b17ee76cc95f0b2be0447dcafba507d3e381471c0b",
+  "signature": "8lwrK1Kf9mT8uzRwQEB3tuybCP8WP/na6tE8VgZ/yKk1tobGl78FVj1/gxT8SCC+zgBRRu3mkM/e1xrZghqQFj85kxADWdFy9BwcBSXm2+YUnLZ0ABdpJEqdR+4zqiQIRzD9Y2uhc37rbIDEd2Cprp9nT+LHakZXwR3LVYq7C1K2gxx2HThK7VJSdthoPjYxHleH7++VvTJHTm59CVOWOo7Q3qU+0nrUPSYwKgjlafPg3/RZCxtY8cLh4FlzJk0ygnyLHKNPovg551XjwqGAxFqHvT4cb3/1pdZfB9g2Qg4EtbEb8k2s8++FSbTA8Vsyk9SYGy3by8OpkzpK4pn2WMIoteFV8Y5MDT5nPHbXWe/yRp/EA8EaaUumS9JG1BcLaTgaQCf5DQ4AhrNy42kSAN8wqh/m0wJH/LZVGNHXhYZAMvDqxcW8XaXx8SbFmzg2UsMBm1blXnqMyiFnhAO0K6pvvnpCLnc5ZYwNQ3lchGEcg+z/8iw1OYw360A7X2WE",
+  "signer_certificate": "-----BEGIN CERTIFICATE-----\nMIIDQTCCAimgAwIBAgITBmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF\nADA/MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNV\nBAMTDkRTVCBSb290IENBIFgzMB4XDTIxMDEyMDE5MTQwM1oXDTI0MDkzMDE4MTQw\nM1owTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJl\nc2VhcmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwggEiMA0GCSqGSIb3\nDQEBAQUAA4IBDwAwggEKAoIBAQCt6CRz9BQ385ueK1coHIe+3LffOJCMbjzmV6B4\n93XCOVfp2BG/z0jZrcuJ8L/RWWAgx0mPf0gzsUbFKLJZSAaJxAgTCWx2e/RMaEkS\n-----END CERTIFICATE-----",
+  "transparency_log_entry": {
+    "uuid": "e9170c68-6f1d-4b5a-b1b9-defdafe51fdf",
+    "log_index": 27559967,
+    "log_id": "c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d",
+    "integrated_time": 1766251892,
+    "inclusion_proof": {
+      "tree_size": 950150570,
+      "root_hash": "26fa140a4d78e78a08f39df5183a189ea8ba7d246daf35fa9aeb3ffca6757555",
+      "log_index": 67519612,
+      "hashes": [
+        "6c23d4d1a6ad7941c8fbad28ce52e07e6d7a39a8d9d3b8c2dcc60f1970f8c11f",
+        "cfc981bdf46c526d2c2fd2b6dca4c14eb499cc34fae409e7c0cb4d74f2d24900",
+        "9263e00a8f01c1e2c2046343b59bfe1e568fd3ea813550a7fd60b5c812672eb4",
+        "bb76be40618bf13ce11f5a8521136e6ad26ceb7be73a0f3938fbafc64d9b1737",
+        "6d36b1ae9bce6c5dcec659fbd903e9cc70b60ac20328b983e0c373f9bd1f3204"
+      ]
+    }
+  },
+  "verification_status": "signed"
+}

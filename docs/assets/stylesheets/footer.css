@@ -1,0 +1,46 @@
+/* ----- Footer Styling for Brass & Sage Brand Palette ----- */
+
+/* Main footer background + text color */
+.md-footer {
+  color: var(--xbrand-bone);
+  background-color: var(--xbrand-night-soft) !important;
+  border-top: 1px solid rgba(185, 191, 184, 0.35);
+}
+
+/* Meta section (below footer links) */
+.md-footer-meta {
+  background-color: var(--xbrand-nickel-night) !important;
+  border-top: 1px solid rgba(185, 191, 184, 0.28);
+}
+
+/* Footer links */
+.md-footer a,
+.md-footer a:visited {
+  color: var(--xbrand-brass); /* warm accent links */
+}
+
+.md-footer a:hover,
+.md-footer a:focus {
+  color: var(--xbrand-brass-soft);
+}
+
+/* Footer icons — use accent for subtle contrast */
+.hp-footer-icon {
+  color: var(--xbrand-brass); /* brass accent icons */
+  margin-right: 10px;
+  height: 32px;
+  width: 32px;
+}
+
+/* Copyright + text alignment */
+.hp-footer-copyright {
+  color: var(--xbrand-bone);
+  position: relative;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}

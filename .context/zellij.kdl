@@ -1,0 +1,22 @@
+layout {
+    pane split_direction="vertical" {
+        pane name="planner" {
+            command "/bin/sh"
+            args "-c" "clear && echo '═══ PLANNER ═══' && echo && cat .context/bootstraps/deep.md && echo && echo 'Ready for planning/analysis agent...' && exec \"${SHELL:-/bin/sh}\""
+        }
+        pane name="reviewer" {
+            command "/bin/sh"
+            args "-c" "clear && echo '═══ REVIEWER ═══' && echo && cat .context/workflows/review.md && echo && echo 'Ready for review workflow...' && exec \"${SHELL:-/bin/sh}\""
+        }
+    }
+    pane split_direction="vertical" {
+        pane name="implementer" {
+            command "/bin/sh"
+            args "-c" "clear && echo '═══ IMPLEMENTER ═══' && echo && cat .context/bootstraps/lite.md && echo && echo 'Ready for implementation agent...' && exec \"${SHELL:-/bin/sh}\""
+        }
+        pane name="tester" {
+            command "/bin/sh"
+            args "-c" "clear && echo '═══ TESTER ═══' && echo && cat .context/bootstrap.txt && echo && echo 'Ready for testing...' && echo 'Run: just test' && exec \"${SHELL:-/bin/sh}\""
+        }
+    }
+}

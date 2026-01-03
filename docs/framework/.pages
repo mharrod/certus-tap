@@ -1,0 +1,9 @@
+title: Framework
+arrange:
+  - index.md
+  - principles.md
+  - practices.md
+  - workflows
+  - architecture
+  - ontology
+  - ...

@@ -1,0 +1,200 @@
+# Shared infrastructure services
+# Used by all services in development
+
+services:
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node1
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m'
+      - 'network.host=0.0.0.0'
+      - 'DISABLE_INSTALL_DEMO_CONFIG=true'
+      - 'DISABLE_SECURITY_PLUGIN=true'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    ports:
+      - '9200:9200'
+      - '9600:9600'
+    networks:
+      - certus-network
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9200']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-dashboards
+    ports:
+      - '5601:5601'
+    environment:
+      - 'OPENSEARCH_HOSTS=["http://opensearch:9200"]'
+      - 'DISABLE_SECURITY_DASHBOARDS_PLUGIN=true'
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    networks:
+      - certus-network
+
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
+    ports:
+      - '4566:4566'
+      - '4510-4559:4510-4559'
+    environment:
+      - DEBUG=${DEBUG:-0}
+      - INIT_AWS_CLI_ADD_ENDPOINT_URL=1
+      - INIT_HOOKS_PATH=/docker-entrypoint-initaws.d
+    volumes:
+      - 'localstack-volume:/var/lib/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '../samples:/tmp/samples'
+      - '../scripts/init-localstack.sh:/docker-entrypoint-initaws.d/init-buckets.sh'
+    networks:
+      - certus-network
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:4566']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  neo4j:
+    image: neo4j:5-community
+    container_name: neo4j
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_memory_heap_initial__size=512M
+      - NEO4J_dbms_memory_heap_max__size=512M
+    ports:
+      - '7687:7687'
+      - '7474:7474'
+    volumes:
+      - neo4j-data:/var/lib/neo4j/data
+      - neo4j-logs:/var/lib/neo4j/logs
+    networks:
+      - certus-network
+    healthcheck:
+      test: ['CMD', 'cypher-shell', '-u', 'neo4j', '-p', 'password', 'RETURN 1']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:latest
+    container_name: victoriametrics
+    command:
+      - '-promscrape.config=/etc/prometheus/prometheus.yml'
+      - '-storageDataPath=/victoria-metrics-data'
+    volumes:
+      - victoriametrics-data:/victoria-metrics-data
+      - ../docker/victoriametrics/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - '8428:8428'
+    networks:
+      - certus-network
+
+  # OpenTelemetry Collector (required by application services)
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    command: ['--config=/etc/otel-collector-config.yaml']
+    volumes:
+      - ../docker/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - '4317:4317' # OTLP gRPC
+      - '4318:4318' # OTLP HTTP
+      - '8889:8889' # Prometheus exporter
+    depends_on:
+      - victoriametrics
+    networks:
+      - certus-network
+    restart: unless-stopped
+
+  # OCI Registry (required for testing and local development)
+  registry:
+    image: registry:2
+    container_name: local-oci-registry
+    ports:
+      - '5000:5000'
+    environment:
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
+    volumes:
+      - registry-data:/var/lib/registry
+    networks:
+      - certus-network
+    restart: unless-stopped
+
+  # Grafana for observability visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - '3002:3000'
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../docker/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - victoriametrics
+      - otel-collector
+    networks:
+      - certus-network
+    restart: unless-stopped
+
+  # Streamlit operations console
+  streamlit:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: streamlit-console
+    command:
+      [
+        'streamlit',
+        'run',
+        'src/certus_tap/streamlit_app.py',
+        '--server.port=8501',
+        '--server.address=0.0.0.0',
+      ]
+    ports:
+      - '8501:8501'
+    env_file:
+      - ../.env
+    environment:
+      - DOCOPS_API_BASE=http://ask-certus-backend:8000
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - OPENSEARCH_HOST=http://opensearch:9200
+    volumes:
+      - ../src:/app/src
+    depends_on:
+      - opensearch
+      - localstack
+    networks:
+      - certus-network
+    restart: unless-stopped
+
+volumes:
+  opensearch-data:
+  localstack-volume:
+  neo4j-data:
+  neo4j-logs:
+  victoriametrics-data:
+  registry-data:
+  grafana-data:
+
+networks:
+  certus-network:
+    external: true
+    name: certus-network

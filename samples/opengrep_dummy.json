@@ -1,0 +1,81 @@
+{
+  "version": "1.45.0",
+  "tool": {
+    "name": "opengrep",
+    "version": "1.45.0"
+  },
+  "results": [
+    {
+      "check_id": "python.django.security.injection.sql-injection.sql-injection",
+      "path": "/app/src/models.py",
+      "start": {
+        "line": 34,
+        "col": 10
+      },
+      "end": {
+        "line": 34,
+        "col": 45
+      },
+      "message": "Potential SQL injection vulnerability",
+      "severity": "ERROR",
+      "extra": {
+        "message": "User input is concatenated directly into SQL query without parameterization",
+        "lines": "cursor.execute(\"SELECT * FROM users WHERE id = \" + user_id)"
+      }
+    },
+    {
+      "check_id": "python.lang.best-practice.use-fstring-fmt.use-fstring-fmt",
+      "path": "/app/src/logger.py",
+      "start": {
+        "line": 12,
+        "col": 5
+      },
+      "end": {
+        "line": 12,
+        "col": 50
+      },
+      "message": "Use f-string instead of .format()",
+      "severity": "WARNING",
+      "extra": {
+        "message": "F-strings are more efficient and readable than .format()",
+        "lines": "print(\"User: {} accessed resource: {}\".format(user, resource))"
+      }
+    },
+    {
+      "check_id": "python.cryptography.security.insecure-hash-function.insecure-hash-function",
+      "path": "/app/src/auth.py",
+      "start": {
+        "line": 56,
+        "col": 15
+      },
+      "end": {
+        "line": 56,
+        "col": 35
+      },
+      "message": "Use of insecure hash function",
+      "severity": "ERROR",
+      "extra": {
+        "message": "MD5 is cryptographically broken and should not be used for hashing passwords",
+        "lines": "hash_obj = hashlib.md5(password.encode())"
+      }
+    },
+    {
+      "check_id": "python.flask.security.injection.jinja2-template-injection.jinja2-template-injection",
+      "path": "/app/src/templates.py",
+      "start": {
+        "line": 23,
+        "col": 8
+      },
+      "end": {
+        "line": 23,
+        "col": 38
+      },
+      "message": "Potential Jinja2 template injection",
+      "severity": "ERROR",
+      "extra": {
+        "message": "User input is used directly in template rendering without escaping",
+        "lines": "return render_template_string(user_input)"
+      }
+    }
+  ]
+}

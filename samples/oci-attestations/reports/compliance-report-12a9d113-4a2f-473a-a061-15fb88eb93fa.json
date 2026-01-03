@@ -1,0 +1,215 @@
+{
+  "reportId": "12a9d113-4a2f-473a-a061-15fb88eb93fa",
+  "reportType": "SupplyChainComplianceReview",
+  "version": "1.0",
+  "generated": "2025-12-20T18:46:11.876657Z",
+  "expiresAt": "2026-12-20T18:46:11.876657+00:00Z",
+  "reviewer": {
+    "name": "Security Review Team",
+    "organization": "Your Organization"
+  },
+  "product": {
+    "name": "Acme Corporation Product",
+    "version": "1.0.0",
+    "vendor": "ACME Corp"
+  },
+  "complianceStatus": "NON_COMPLIANT",
+  "complianceSummary": {
+    "signatureVerification": {
+      "status": "PASS",
+      "details": "All 9 artifacts successfully pulled from OCI registry",
+      "artifacts": [
+        {
+          "name": "syft.spdx.json",
+          "status": "valid"
+        },
+        {
+          "name": "trivy.sarif.json",
+          "status": "valid"
+        },
+        {
+          "name": "semgrep.sarif.json",
+          "status": "valid"
+        },
+        {
+          "name": "bandit.sarif.json",
+          "status": "valid"
+        },
+        {
+          "name": "zap-dast.sarif.json",
+          "status": "valid"
+        },
+        {
+          "name": "presidio-privacy.sarif.json",
+          "status": "valid"
+        },
+        {
+          "name": "scan.json",
+          "status": "valid"
+        },
+        {
+          "name": "slsa-provenance.json",
+          "status": "valid"
+        },
+        {
+          "name": "build.intoto.jsonl",
+          "status": "valid"
+        }
+      ]
+    },
+    "sbomAnalysis": {
+      "status": "PASS",
+      "format": "SPDX-2.3",
+      "packageCount": 45,
+      "details": "Complete SBOM with certus-TAP and all dependencies documented"
+    },
+    "vulnerabilityAssessment": {
+      "status": "CONDITIONAL",
+      "criticalCount": 0,
+      "highCount": 6,
+      "mediumCount": 2,
+      "lowCount": 0,
+      "findings": [
+        {
+          "id": "CVE-2024-1086",
+          "title": "HTTP/HTTPS Smuggling in requests package",
+          "severity": "HIGH",
+          "file": "requirements.txt",
+          "remediation": "Update requests package to latest version"
+        },
+        {
+          "id": "CWE-89",
+          "title": "SQL Injection vulnerability",
+          "severity": "HIGH",
+          "file": "database query handling",
+          "remediation": "Use parameterized queries"
+        }
+      ]
+    },
+    "provanceValidation": {},
+    "dependencyAnalysis": {
+      "status": "PASS",
+      "resolvedCount": 45,
+      "details": "All dependencies documented in SPDX SBOM"
+    },
+    "licenseCompliance": {}
+  },
+  "detailedFindings": {
+    "signatureVerification": {
+      "finding": {
+        "status": "PASS",
+        "details": "All 9 artifacts successfully pulled from OCI registry",
+        "artifacts": [
+          {
+            "name": "syft.spdx.json",
+            "status": "valid"
+          },
+          {
+            "name": "trivy.sarif.json",
+            "status": "valid"
+          },
+          {
+            "name": "semgrep.sarif.json",
+            "status": "valid"
+          },
+          {
+            "name": "bandit.sarif.json",
+            "status": "valid"
+          },
+          {
+            "name": "zap-dast.sarif.json",
+            "status": "valid"
+          },
+          {
+            "name": "presidio-privacy.sarif.json",
+            "status": "valid"
+          },
+          {
+            "name": "scan.json",
+            "status": "valid"
+          },
+          {
+            "name": "slsa-provenance.json",
+            "status": "valid"
+          },
+          {
+            "name": "build.intoto.jsonl",
+            "status": "valid"
+          }
+        ]
+      },
+      "impact": "High - Ensures artifacts are authentic",
+      "complianceRequirement": "All artifacts must be signed with valid keys"
+    },
+    "sbomAnalysis": {
+      "finding": {
+        "status": "PASS",
+        "format": "SPDX-2.3",
+        "packageCount": 45,
+        "details": "Complete SBOM with certus-TAP and all dependencies documented"
+      },
+      "impact": "High - Identifies supply chain transparency",
+      "complianceRequirement": "SBOM must be complete and embeded in provenance"
+    },
+    "vulnerabilityAssessment": {
+      "finding": {
+        "status": "CONDITIONAL",
+        "criticalCount": 0,
+        "highCount": 6,
+        "mediumCount": 2,
+        "lowCount": 0,
+        "findings": [
+          {
+            "id": "CVE-2024-1086",
+            "title": "HTTP/HTTPS Smuggling in requests package",
+            "severity": "HIGH",
+            "file": "requirements.txt",
+            "remediation": "Update requests package to latest version"
+          },
+          {
+            "id": "CWE-89",
+            "title": "SQL Injection vulnerability",
+            "severity": "HIGH",
+            "file": "database query handling",
+            "remediation": "Use parameterized queries"
+          }
+        ]
+      },
+      "impact": "Critical - Identifies security risks",
+      "complianceRequirement": "No critical/high vulnerabilities, or remediation plan required"
+    },
+    "provenanceValidation": {
+      "finding": {},
+      "impact": "High - Verifies build legitimacy",
+      "complianceRequirement": "SLSA provenance v1.0 with reproducibility claim"
+    },
+    "dependencyAnalysis": {
+      "finding": {
+        "status": "PASS",
+        "resolvedCount": 45,
+        "details": "All dependencies documented in SPDX SBOM"
+      },
+      "impact": "Medium - Tracks supply chain risk",
+      "complianceRequirement": "All dependencies documented with cryptographic hashes"
+    },
+    "licenseCompliance": {
+      "finding": {},
+      "impact": "Medium - Manages legal/licensing risk",
+      "complianceRequirement": "No incompatible open-source licenses"
+    }
+  },
+  "recommendations": [
+    "REJECT: Do not ingest. Missing critical verification artifacts.",
+    "Action: Request vendor provide signed artifacts."
+  ],
+  "auditTrail": {
+    "reviewStartTime": "2025-12-20T18:46:11.876657Z",
+    "reviewEndTime": "2025-12-20T18:46:11.876657Z",
+    "verificationMethod": "Cosign + SLSA Provenance",
+    "tools": [
+      "cosign",
+      "oras",
+      "sbom-scanner"
+    ]
+  }
+}

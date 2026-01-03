@@ -1,0 +1,36 @@
+[Unit]
+Description=Certus Integrity API
+After=network-online.target podman.service certus-postgres.service certus-redis.service
+Wants=network-online.target
+Requires=podman.service
+
+[Service]
+Type=simple
+User=certus
+Restart=always
+RestartSec=10s
+TimeoutStartSec=120
+
+MemoryMax=2G
+CPUQuota=100%
+
+EnvironmentFile=/opt/certus/.env
+
+ExecStartPre=-/usr/bin/podman stop certus-integrity-api
+ExecStartPre=-/usr/bin/podman rm certus-integrity-api
+
+ExecStart=/usr/bin/podman run --rm \
+  --name certus-integrity-api \
+  --network certus \
+  -p 8060:8060 \
+  --env-file /opt/certus/.env \
+  localhost/certus-integrity:latest \
+  uvicorn certus_integrity.api:app --host 0.0.0.0 --port 8060
+
+ExecStop=/usr/bin/podman stop certus-integrity-api
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

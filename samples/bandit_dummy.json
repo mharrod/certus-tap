@@ -1,0 +1,48 @@
+{
+  "metrics": [
+    {
+      "_totals": {
+        "loc": 150,
+        "nosec": 0
+      }
+    }
+  ],
+  "results": [
+    {
+      "test_id": "B101",
+      "test": "assert_used",
+      "severity": "MEDIUM",
+      "issue_text": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "filename": "/app/src/utils.py",
+      "line_number": 42,
+      "code": "assert user_id is not None, \"User ID cannot be None\""
+    },
+    {
+      "test_id": "B601",
+      "test": "paramiko_calls",
+      "severity": "HIGH",
+      "issue_text": "Paramiko call with policy set to AutoAddPolicy detected.",
+      "filename": "/app/src/ssh_client.py",
+      "line_number": 15,
+      "code": "ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())"
+    },
+    {
+      "test_id": "B105",
+      "test": "hardcoded_password_string",
+      "severity": "HIGH",
+      "issue_text": "Possible hardcoded password.",
+      "filename": "/app/src/config.py",
+      "line_number": 8,
+      "code": "db_password = \"hardcoded_pass_123\""
+    },
+    {
+      "test_id": "B602",
+      "test": "subprocess_popen_with_shell_equals_true",
+      "severity": "HIGH",
+      "issue_text": "subprocess call - check for execution of untrusted input.",
+      "filename": "/app/src/shell_runner.py",
+      "line_number": 25,
+      "code": "subprocess.Popen(cmd, shell=True)"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+extensions:
+  health_check:
+    endpoint: "0.0.0.0:13133"
+  pprof:
+    endpoint: "0.0.0.0:1777"
+  zpages:
+    endpoint: "0.0.0.0:55679"
+  basicauth/opensearch:
+    client_auth:
+      username: "admin"
+      password: "admin"
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    namespace: certus
+
+  opensearch:
+    http:
+      endpoint: "http://opensearch:9200"
+      tls:
+        insecure: true
+      auth:
+        authenticator: basicauth/opensearch
+    logs_index: "logs-otel"
+    traces_index: "traces-otel"
+
+  debug:
+    verbosity: detailed
+
+service:
+  extensions: [health_check, pprof, zpages, basicauth/opensearch]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: [opensearch, debug]
+    metrics:
+      receivers: [otlp]
+      processors: []
+      exporters: [prometheus, debug]
+    logs:
+      receivers: [otlp]
+      processors: []
+      exporters: [opensearch, debug]

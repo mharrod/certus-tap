@@ -1,0 +1,21 @@
+{
+  "tool_name": "bandit",
+  "version": "1.7.0",
+  "description": "Bandit is a tool for finding common security issues in Python code",
+  "format": {
+    "findings_path": "$.results[*]",
+    "metadata": {
+      "tool_version": "$.metrics[0]._totals.loc"
+    },
+    "mapping": {
+      "id": "$.test_id",
+      "title": "$.test",
+      "severity": "$.severity",
+      "description": "$.issue_text",
+      "type": "vulnerability",
+      "file_path": "$.filename",
+      "line_start": "$.line_number",
+      "code_snippet": "$.code"
+    }
+  }
+}

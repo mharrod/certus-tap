@@ -1,0 +1,282 @@
+#cloud-config
+
+# Certus TAP - Complete Stack Bootstrap
+# This script installs and configures the entire Certus platform
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - podman
+  - git
+  - jq
+  - curl
+  - python3-pip
+  - python3-venv
+  - libpam-google-authenticator
+  - build-essential
+
+write_files:
+  # Environment variables for all services
+  - path: /opt/certus/.env
+    content: |
+      # Environment
+      ENVIRONMENT=${environment}
+
+      # Database credentials
+      DATABASE_URL=postgresql://certus:${db_password}@localhost:5432/certus
+      POSTGRES_USER=certus
+      POSTGRES_PASSWORD=${db_password}
+      POSTGRES_DB=certus
+
+      # Neo4j
+      NEO4J_URI=neo4j://localhost:7687
+      NEO4J_USER=neo4j
+      NEO4J_PASSWORD=${neo4j_password}
+      NEO4J_AUTH=neo4j/${neo4j_password}
+
+      # Redis
+      REDIS_URL=redis://:${redis_password}@localhost:6379
+      REDIS_PASSWORD=${redis_password}
+
+      # OpenSearch
+      OPENSEARCH_URL=http://localhost:9200
+      DISABLE_OPENSEARCH_LOGGING=true
+
+      # Application secrets
+      JWT_SECRET=${jwt_secret}
+      API_KEY=${api_key}
+      SECRET_KEY=${jwt_secret}
+
+      # Dagger configuration
+      DAGGER_TIMEOUT=3600
+      WORKER_TIMEOUT=3600
+
+      # API ports
+      ASSURANCE_API_PORT=8056
+      TRANSFORM_API_PORT=8057
+      ASK_API_PORT=8058
+      TRUST_API_PORT=8059
+      INTEGRITY_API_PORT=8060
+    permissions: '0600'
+    owner: root:root
+
+  # SSH hardening with 2FA
+  - path: /etc/ssh/sshd_config.d/99-hardened.conf
+    content: |
+      # Require both SSH key AND Google Authenticator
+      AuthenticationMethods publickey,keyboard-interactive
+
+      # Google Authenticator for 2FA
+      ChallengeResponseAuthentication yes
+      KbdInteractiveAuthentication yes
+      UsePAM yes
+
+      # No passwords
+      PasswordAuthentication no
+      PubkeyAuthentication yes
+      PermitRootLogin prohibit-password
+
+      # Strong crypto only
+      KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org
+      Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com
+      MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@opensearch.com
+
+      # Connection settings
+      ClientAliveInterval 300
+      ClientAliveCountMax 2
+    permissions: '0644'
+
+  # PAM configuration for Google Authenticator
+  - path: /etc/pam.d/sshd
+    content: |
+      # Google Authenticator 2FA
+      auth required pam_google_authenticator.so nullok
+      auth required pam_env.so
+      auth required pam_unix.so
+
+      @include common-account
+      @include common-session
+      @include common-password
+    permissions: '0644'
+
+runcmd:
+  # Install Dagger CLI
+  - curl -fsSL https://dl.dagger.io/dagger/install.sh | sh
+  - mv /root/bin/dagger /usr/local/bin/ || true
+
+  # Install uv (fast Python package installer)
+  - curl -LsSf https://astral.sh/uv/install.sh | sh
+  - ln -sf /root/.cargo/bin/uv /usr/local/bin/uv
+
+  # Enable Podman socket
+  - systemctl enable --now podman.socket
+  - ln -sf /run/podman/podman.sock /var/run/docker.sock
+
+  # Create Podman network for services
+  - podman network create certus || true
+
+  # Create service user
+  - useradd -r -m -d /opt/certus -s /bin/bash certus || true
+  - usermod -aG sudo certus
+
+  # Create directories
+  - mkdir -p /opt/certus
+  - mkdir -p /var/lib/certus/artifacts
+  - mkdir -p /var/lib/certus/data/postgres
+  - mkdir -p /var/lib/certus/data/neo4j
+  - mkdir -p /var/lib/certus/data/redis
+  - mkdir -p /var/lib/certus/data/opensearch
+
+  # Clone repository
+  - git clone ${github_repo_url} /opt/certus/certus-TAP
+  - cd /opt/certus/certus-TAP && git checkout ${github_branch}
+
+  # Set ownership
+  - chown -R certus:certus /opt/certus
+  - chown -R certus:certus /var/lib/certus
+
+  # Copy systemd service files
+  - cp /opt/certus/certus-TAP/deployment/shared/systemd/*.service /etc/systemd/system/
+  - systemctl daemon-reload
+
+  # Build container images as certus user
+  - su - certus -c "cd /opt/certus/certus-TAP && podman build -t localhost/certus-assurance:latest -f deployment/shared/dockerfiles/Dockerfile.assurance ."
+  - su - certus -c "cd /opt/certus/certus-TAP && podman build -t localhost/certus-transform:latest -f deployment/shared/dockerfiles/Dockerfile.transform ." || true
+  - su - certus -c "cd /opt/certus/certus-TAP && podman build -t localhost/certus-ask:latest -f deployment/shared/dockerfiles/Dockerfile.ask ." || true
+  - su - certus -c "cd /opt/certus/certus-TAP && podman build -t localhost/certus-trust:latest -f deployment/shared/dockerfiles/Dockerfile.trust ." || true
+  - su - certus -c "cd /opt/certus/certus-TAP && podman build -t localhost/certus-integrity:latest -f deployment/shared/dockerfiles/Dockerfile.integrity ." || true
+
+  # Start database services first
+  - systemctl enable --now certus-postgres.service
+  - systemctl enable --now certus-neo4j.service
+  - systemctl enable --now certus-redis.service
+  - systemctl enable --now certus-opensearch.service
+
+  # Wait for databases to be ready
+  - sleep 10
+
+  # Start API services
+  - systemctl enable --now certus-assurance-api.service
+  - systemctl enable --now certus-transform-api.service || true
+  - systemctl enable --now certus-ask-api.service || true
+  - systemctl enable --now certus-trust-api.service || true
+  - systemctl enable --now certus-integrity-api.service || true
+
+  # Start worker services
+  - |
+    for i in $(seq 1 ${worker_count}); do
+      systemctl enable --now certus-worker@$i.service
+    done
+
+  # Install Tailscale
+  - curl -fsSL https://tailscale.com/install.sh | sh
+
+  # Join Tailscale network
+  - |
+    if [ -n "${tailscale_auth_key}" ]; then
+      tailscale up --authkey=${tailscale_auth_key} --hostname=${certus_hostname} --accept-routes
+      echo "✓ Joined Tailscale network as ${certus_hostname}"
+    else
+      echo "⚠ Tailscale auth key not provided, skipping Tailscale setup"
+    fi
+
+  # Setup Google Authenticator for root (2FA)
+  - |
+    echo "Setting up Google Authenticator 2FA..."
+    google-authenticator --time-based --disallow-reuse --force \
+      --rate-limit=3 --rate-time=30 --window-size=3 \
+      --secret=/root/.google_authenticator
+
+    # Save QR code for scanning
+    qrencode -t ANSIUTF8 < /root/.google_authenticator > /root/2fa-qr-code.txt || true
+
+    echo "✓ 2FA configured. QR code saved to /root/2fa-qr-code.txt"
+    echo "  To view: cat /root/2fa-qr-code.txt"
+
+  # Install GitHub Actions runner (if token provided)
+  - |
+    if [ -n "${github_runner_token}" ]; then
+      echo "Installing GitHub Actions runner..."
+
+      # Create runner user
+      useradd -r -m -d /home/runner -s /bin/bash runner || true
+      usermod -aG docker runner || true
+
+      # Download and install runner
+      mkdir -p /home/runner/actions-runner
+      cd /home/runner/actions-runner
+
+      RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r '.tag_name' | sed 's/v//')
+      curl -o actions-runner-linux-x64.tar.gz -L \
+        https://github.com/actions/runner/releases/download/v$${RUNNER_VERSION}/actions-runner-linux-x64-$${RUNNER_VERSION}.tar.gz
+      tar xzf actions-runner-linux-x64.tar.gz
+
+      # Configure runner
+      chown -R runner:runner /home/runner/actions-runner
+      su - runner -c "cd /home/runner/actions-runner && ./config.sh --url ${github_repo_url} --token ${github_runner_token} --name ${certus_hostname}-runner --labels self-hosted,linux,x64,certus --unattended"
+
+      # Install as service
+      cd /home/runner/actions-runner
+      ./svc.sh install runner
+      ./svc.sh start
+
+      echo "✓ GitHub Actions runner installed and started"
+    else
+      echo "⚠ GitHub runner token not provided, skipping runner setup"
+    fi
+
+  # Restart SSH with new config
+  - systemctl restart sshd
+
+  # Configure firewall (ufw)
+  - ufw --force enable
+  - ufw allow 22/tcp
+  - ufw allow 41641/udp # Tailscale
+
+  # Create health check script
+  - |
+    cat > /usr/local/bin/certus-health-check <<'EOF'
+    #!/bin/bash
+    echo "=== Certus Health Check ==="
+    echo ""
+    echo "Services:"
+    systemctl is-active certus-assurance-api.service && echo "✓ Assurance API" || echo "✗ Assurance API"
+    systemctl is-active certus-postgres.service && echo "✓ PostgreSQL" || echo "✗ PostgreSQL"
+    systemctl is-active certus-neo4j.service && echo "✓ Neo4j" || echo "✗ Neo4j"
+    systemctl is-active certus-redis.service && echo "✓ Redis" || echo "✗ Redis"
+    systemctl is-active certus-worker@1.service && echo "✓ Worker 1" || echo "✗ Worker 1"
+    echo ""
+    echo "Tailscale:"
+    tailscale status --json | jq -r '.Self.HostName' 2>/dev/null && echo "✓ Connected" || echo "✗ Not connected"
+    echo ""
+    echo "API:"
+    curl -sf http://localhost:8056/health > /dev/null && echo "✓ Responding" || echo "✗ Not responding"
+    EOF
+  - chmod +x /usr/local/bin/certus-health-check
+  # Mark cloud-init as complete
+  - touch /var/lib/cloud/instance/boot-finished
+
+  # Final status
+  - echo "════════════════════════════════════════════════════════"
+  - echo "Certus deployment complete!"
+  - echo "Hostname: ${certus_hostname}"
+  - echo "Environment: ${environment}"
+  - echo ""
+  - echo "Run 'certus-health-check' to verify services"
+  - echo "════════════════════════════════════════════════════════"
+
+final_message: |
+  ════════════════════════════════════════════════════════════════
+  Certus TAP Deployment Complete!
+
+  Tailscale hostname: ${certus_hostname}
+
+  Next steps:
+  1. View 2FA QR code: cat /root/2fa-qr-code.txt
+  2. Scan with Google Authenticator app
+  3. Check services: certus-health-check
+  4. Access via Tailscale: ssh root@${certus_hostname}
+
+  Boot time: $UPTIME seconds
+  ════════════════════════════════════════════════════════════════

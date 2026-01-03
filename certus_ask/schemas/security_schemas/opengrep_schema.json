@@ -1,0 +1,22 @@
+{
+  "tool_name": "opengrep",
+  "version": "1.45.0",
+  "description": "OpenGrep (formerly Semgrep) is a static analysis tool for finding bugs, security issues, and anti-patterns",
+  "format": {
+    "findings_path": "$.results[*]",
+    "metadata": {
+      "tool_version": "$.tool.version"
+    },
+    "mapping": {
+      "id": "$.check_id",
+      "title": "$.message",
+      "severity": "$.severity",
+      "description": "$.extra.message",
+      "type": "vulnerability",
+      "file_path": "$.path",
+      "line_start": "$.start.line",
+      "line_end": "$.end.line",
+      "code_snippet": "$.extra.lines"
+    }
+  }
+}

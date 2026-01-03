@@ -1,0 +1,78 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "summary.json",
+      "digest": {
+        "sha256": "b57fb3631949c2723c0b8c5fd0a666615769744805cd5e051d184a3f46f295e6"
+      }
+    },
+    {
+      "name": "detect-secrets.json",
+      "digest": {
+        "sha256": "b8d3be3c4d5dbec927dadfc2cb167ba3d8a63e4c38dccc5988d8bbeac04e8b80"
+      }
+    },
+    {
+      "name": "trivy.sarif.json",
+      "digest": {
+        "sha256": "a4291f1e770bcb4e82f8388e68467a56aa8b6b92c2eed39f26b26ddab77a8929"
+      }
+    },
+    {
+      "name": "privacy-findings.json",
+      "digest": {
+        "sha256": "11699945fcb7542ff974b6afb4c946b15835cbcf524e85620149ba50dd41804d"
+      }
+    },
+    {
+      "name": "sbom.spdx.json",
+      "digest": {
+        "sha256": "20374b74c68bd1065d154e1c86c957cf9ab27e9747e36b8718f47841e3dc233f"
+      }
+    },
+    {
+      "name": "sbom.cyclonedx.json",
+      "digest": {
+        "sha256": "bceaedacbf02bc046ecc8a4f186bfc06fe8d3c924199e31724f039c67e14dea5"
+      }
+    }
+  ],
+  "predicateType": "https://in-toto.io/attestation/v1",
+  "predicate": {
+    "buildType": "https://certus.dev/security-scan/v1",
+    "builder": {
+      "id": "https://certus.dev/dagger-security-module/v1"
+    },
+    "invocation": {
+      "configSource": {
+        "entryPoint": "security.standard"
+      },
+      "parameters": {
+        "bundleId": "20251210-172203-dcc309c",
+        "executedTools": [
+          "detect-secrets",
+          "trivy",
+          "eslint-security",
+          "retire-js",
+          "sbom-spdx",
+          "sbom-cyclonedx"
+        ]
+      },
+      "environment": {
+        "timestamp": "2025-12-10T17:23:41.892811+00:00"
+      }
+    },
+    "metadata": {
+      "buildStartedOn": "2025-12-10T17:23:41.892818+00:00",
+      "buildFinishedOn": "2025-12-10T17:23:41.892819+00:00",
+      "completeness": {
+        "parameters": true,
+        "environment": false,
+        "materials": false
+      },
+      "reproducible": false
+    },
+    "materials": []
+  }
+}

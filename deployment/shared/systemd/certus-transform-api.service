@@ -1,0 +1,37 @@
+[Unit]
+Description=Certus Transform API
+After=network-online.target podman.service certus-postgres.service certus-redis.service
+Wants=network-online.target
+Requires=podman.service
+
+[Service]
+Type=simple
+User=certus
+Restart=always
+RestartSec=10s
+TimeoutStartSec=120
+
+MemoryMax=2G
+CPUQuota=100%
+
+EnvironmentFile=/opt/certus/.env
+
+ExecStartPre=-/usr/bin/podman stop certus-transform-api
+ExecStartPre=-/usr/bin/podman rm certus-transform-api
+
+ExecStart=/usr/bin/podman run --rm \
+  --name certus-transform-api \
+  --network certus \
+  -p 8057:8057 \
+  -v /var/lib/certus/artifacts:/var/lib/certus/artifacts:z \
+  --env-file /opt/certus/.env \
+  localhost/certus-transform:latest \
+  uvicorn certus_transform.api:app --host 0.0.0.0 --port 8057
+
+ExecStop=/usr/bin/podman stop certus-transform-api
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

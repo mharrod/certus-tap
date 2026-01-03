@@ -1,0 +1,59 @@
+# Certus Assurance Service
+# Customer-deployed service for security scanning
+
+services:
+  certus-assurance:
+    build:
+      context: ../..
+      dockerfile: certus_assurance/Dockerfile
+    container_name: certus-assurance
+    ports:
+      - "8056:8000"
+    env_file:
+      - ../../.env
+    environment:
+      - SERVICE_NAME=certus-assurance
+      - LOG_LEVEL=INFO
+      - CERTUS_ASSURANCE_ARTIFACT_ROOT=/tmp/certus-assurance
+
+      # Trust service integration
+      - CERTUS_ASSURANCE_TRUST_BASE_URL=http://certus-trust:8000
+
+      # Scanning mode
+      # - true: Use pre-generated sample data (faster, for demos/tutorials)
+      # - false: Run real security scans with installed tools (production)
+      - CERTUS_ASSURANCE_USE_SAMPLE_MODE=false
+
+      # S3 upload configuration
+      - CERTUS_ASSURANCE_ENABLE_S3_UPLOAD=true
+      - CERTUS_ASSURANCE_S3_ENDPOINT_URL=http://localstack:4566
+      - CERTUS_ASSURANCE_DATALAKE_RAW_BUCKET=raw
+      - CERTUS_ASSURANCE_DATALAKE_GOLDEN_BUCKET=golden
+
+      # Infrastructure dependencies (customer provides)
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - VICTORIAMETRICS_URL=http://victoriametrics:8428
+
+      # Dagger modules for development
+      - PYTHONPATH=/app/dagger_modules:/app
+    volumes:
+      # Commented out for production mode - these mounts overwrite the built .venv
+      # Uncomment for development with hot-reload:
+      # - ../../:/app # Dev only - mount the entire repo
+      # - ../../dagger_modules:/app/dagger_modules # Dev only
+      - ../../certus-assurance-artifacts:/tmp/certus-assurance
+    networks:
+      - certus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  assurance-data:
+
+networks:
+  certus-network:
+    external: true
+    name: certus-network

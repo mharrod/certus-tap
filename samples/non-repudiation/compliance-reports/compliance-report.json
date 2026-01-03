@@ -1,0 +1,383 @@
+{
+  "report_metadata": {
+    "report_id": "report_550e8400e29b41d4a716446655440002",
+    "assessment_id": "assessment-20240115-001",
+    "scan_id": "scan_550e8400e29b41d4a716446655440000",
+    "product": "Certus TAP",
+    "version": "1.0.0",
+    "generated_at": "2024-01-15T14:35:30Z",
+    "generated_by": "compliance-reporter@certus.cloud",
+    "verified": true,
+    "signature": {
+      "signer": "certus-trust@certus.cloud",
+      "timestamp": "2024-01-15T14:35:32Z",
+      "signature": "MEUCIQDz9pVEZV8H7X5K6L2M3N4O5P6Q7R8S9T0U1V2W3X4Y5Z6aA==",
+      "algorithm": "SHA256-RSA"
+    }
+  },
+  "executive_summary": {
+    "overall_status": "CONDITIONAL_APPROVE",
+    "status_details": "Product approved for production use with required remediation of critical vulnerability within 7 days",
+    "risk_posture": "MEDIUM",
+    "confidence_level": 95,
+    "recommendation": "Approve for limited deployment pending critical vulnerability patch"
+  },
+  "verification_chain": {
+    "chain_verified": true,
+    "inner_signature_valid": true,
+    "outer_signature_valid": true,
+    "chain_unbroken": true,
+    "signer_inner": "certus-assurance@certus.cloud",
+    "signer_outer": "certus-trust@certus.cloud",
+    "sigstore_timestamp": "2024-01-15T14:35:23Z",
+    "verification_timestamp": "2024-01-15T14:35:25Z",
+    "rekor_entry_uuid": "550e8400-e29b-41d4-a716-446655440001",
+    "verification_url": "https://rekor.sigstore.dev/?logIndex=12345678"
+  },
+  "risk_summary": {
+    "statistics": {
+      "critical": 1,
+      "high": 2,
+      "medium": 2,
+      "low": 1,
+      "info": 0,
+      "total": 6
+    },
+    "risk_score": 7.8,
+    "trend": "stable",
+    "previous_scan_date": "2024-01-14T11:20:15Z",
+    "previous_critical_count": 1,
+    "change_in_critical": 0
+  },
+  "findings": [
+    {
+      "finding_id": "CVE-2024-1086",
+      "severity": "CRITICAL",
+      "title": "HTTP response smuggling in requests library",
+      "description": "Package requests is vulnerable to HTTP/HTTPS Smuggling attack (CVE-2024-1086). This could allow attackers to bypass security controls and manipulate HTTP responses.",
+      "affected_component": "requests",
+      "affected_version": "2.31.0",
+      "cwe_id": "CWE-444",
+      "cvss_score": 9.8,
+      "published_date": "2024-01-10",
+      "discovered_in_scan": "2024-01-15T14:30:45Z",
+      "remediation": "Upgrade requests to version 2.32.0 or later",
+      "remediation_effort": "LOW",
+      "remediation_priority": "IMMEDIATE",
+      "estimated_fix_date": "2024-01-20",
+      "impact": "Could allow attackers to bypass authentication and access sensitive data",
+      "evidence": {
+        "file": "requirements.txt",
+        "line": 5,
+        "context": "requests==2.31.0"
+      }
+    },
+    {
+      "finding_id": "CWE-89",
+      "severity": "HIGH",
+      "title": "SQL Injection vulnerability in database handler",
+      "description": "SQL queries are constructed using string concatenation instead of parameterized queries, allowing SQL injection attacks.",
+      "affected_component": "certus-TAP",
+      "affected_version": "1.0.0",
+      "cwe_id": "CWE-89",
+      "cvss_score": 9.0,
+      "discovered_in_scan": "2024-01-15T14:30:45Z",
+      "remediation": "Replace string concatenation with parameterized queries using ORM or prepared statements",
+      "remediation_effort": "MEDIUM",
+      "remediation_priority": "HIGH",
+      "estimated_fix_date": "2024-02-15",
+      "impact": "Attackers could read, modify, or delete database contents, potentially exposing sensitive data",
+      "evidence": {
+        "file": "src/api/handlers.py",
+        "line": 45,
+        "code_snippet": "query = f'SELECT * FROM users WHERE id = {user_id}'"
+      }
+    },
+    {
+      "finding_id": "CWE-78",
+      "severity": "HIGH",
+      "title": "Command Injection via shell=True in subprocess",
+      "description": "Subprocess is called with shell=True, allowing command injection if untrusted input is passed",
+      "affected_component": "certus-TAP",
+      "affected_version": "1.0.0",
+      "cwe_id": "CWE-78",
+      "cvss_score": 8.8,
+      "discovered_in_scan": "2024-01-15T14:30:45Z",
+      "remediation": "Use subprocess with shell=False and pass arguments as list",
+      "remediation_effort": "LOW",
+      "remediation_priority": "HIGH",
+      "estimated_fix_date": "2024-02-15",
+      "impact": "Remote code execution if untrusted input reaches subprocess call",
+      "evidence": {
+        "file": "src/utils/shell_runner.py",
+        "line": 23,
+        "code_snippet": "subprocess.run(cmd, shell=True)"
+      }
+    },
+    {
+      "finding_id": "CWE-295",
+      "severity": "MEDIUM",
+      "title": "Disabled SSL certificate validation",
+      "description": "HTTPS requests are made with verify=False, disabling SSL certificate validation and allowing MITM attacks",
+      "affected_component": "certus-TAP",
+      "affected_version": "1.0.0",
+      "cwe_id": "CWE-295",
+      "cvss_score": 5.9,
+      "discovered_in_scan": "2024-01-15T14:30:45Z",
+      "remediation": "Remove verify=False or set to path of CA certificate bundle",
+      "remediation_effort": "LOW",
+      "remediation_priority": "MEDIUM",
+      "estimated_fix_date": "2024-03-15",
+      "impact": "Man-in-the-middle attacks could intercept and modify HTTPS communications",
+      "evidence": {
+        "file": "src/api/client.py",
+        "line": 67,
+        "code_snippet": "requests.get(url, verify=False)"
+      }
+    },
+    {
+      "finding_id": "CWE-798",
+      "severity": "MEDIUM",
+      "title": "Hardcoded database credentials",
+      "description": "Database password is hardcoded in source code, exposing credentials to anyone with code access",
+      "affected_component": "certus-TAP",
+      "affected_version": "1.0.0",
+      "cwe_id": "CWE-798",
+      "cvss_score": 5.3,
+      "discovered_in_scan": "2024-01-15T14:30:45Z",
+      "remediation": "Move credentials to environment variables or secrets management system (e.g., HashiCorp Vault, AWS Secrets Manager)",
+      "remediation_effort": "MEDIUM",
+      "remediation_priority": "MEDIUM",
+      "estimated_fix_date": "2024-03-30",
+      "impact": "Compromised credentials allow unauthorized database access",
+      "evidence": {
+        "file": "config.py",
+        "line": 12,
+        "code_snippet": "DB_PASSWORD = 'super_secret_123'"
+      }
+    },
+    {
+      "finding_id": "CWE-327",
+      "severity": "LOW",
+      "title": "Use of weak cryptographic hash (MD5)",
+      "description": "MD5 hash algorithm is used instead of SHA-256 or stronger algorithm",
+      "affected_component": "certus-TAP",
+      "affected_version": "1.0.0",
+      "cwe_id": "CWE-327",
+      "cvss_score": 2.7,
+      "discovered_in_scan": "2024-01-15T14:30:45Z",
+      "remediation": "Replace MD5 with SHA-256 or SHA-3",
+      "remediation_effort": "LOW",
+      "remediation_priority": "LOW",
+      "estimated_fix_date": "2024-04-30",
+      "impact": "Hash collisions could allow duplicate content to be treated as unique",
+      "evidence": {
+        "file": "src/security/crypto.py",
+        "line": 34,
+        "code_snippet": "hashlib.md5(data).hexdigest()"
+      }
+    }
+  ],
+  "compliance_assessment": {
+    "framework": "OWASP Top 10 2021",
+    "compliance_status": "PARTIAL",
+    "checks": [
+      {
+        "check": "A01:2021 - Broken Access Control",
+        "status": "PASS",
+        "finding_count": 0,
+        "notes": "No broken access control patterns detected"
+      },
+      {
+        "check": "A02:2021 - Cryptographic Failures",
+        "status": "FAIL",
+        "finding_count": 2,
+        "findings": [
+          "CVE-2024-1086",
+          "CWE-295"
+        ],
+        "notes": "SSL validation disabled and weak cryptography used"
+      },
+      {
+        "check": "A03:2021 - Injection",
+        "status": "FAIL",
+        "finding_count": 2,
+        "findings": [
+          "CWE-89",
+          "CWE-78"
+        ],
+        "notes": "SQL and command injection vulnerabilities present"
+      },
+      {
+        "check": "A04:2021 - Insecure Design",
+        "status": "PASS",
+        "finding_count": 0,
+        "notes": "Architecture design follows secure principles"
+      },
+      {
+        "check": "A05:2021 - Security Misconfiguration",
+        "status": "FAIL",
+        "finding_count": 1,
+        "findings": [
+          "CWE-798"
+        ],
+        "notes": "Hardcoded credentials in configuration"
+      },
+      {
+        "check": "A06:2021 - Vulnerable Outdated Components",
+        "status": "FAIL",
+        "finding_count": 1,
+        "findings": [
+          "CVE-2024-1086"
+        ],
+        "notes": "Vulnerable version of requests library"
+      },
+      {
+        "check": "A07:2021 - Authentication Failures",
+        "status": "PASS",
+        "finding_count": 0,
+        "notes": "No authentication mechanism flaws detected"
+      },
+      {
+        "check": "A08:2021 - Data Integrity Failures",
+        "status": "PASS",
+        "finding_count": 0,
+        "notes": "Data integrity checks properly implemented"
+      },
+      {
+        "check": "A09:2021 - Logging Failures",
+        "status": "PASS",
+        "finding_count": 0,
+        "notes": "Security event logging implemented"
+      },
+      {
+        "check": "A10:2021 - SSRF",
+        "status": "PASS",
+        "finding_count": 0,
+        "notes": "No server-side request forgery patterns detected"
+      }
+    ],
+    "overall_compliance": "NOT_COMPLIANT",
+    "compliance_score": 60,
+    "required_actions": [
+      {
+        "priority": "IMMEDIATE",
+        "action": "Patch CVE-2024-1086 in requests library",
+        "due_date": "2024-01-20",
+        "owner": "Engineering Team"
+      },
+      {
+        "priority": "HIGH",
+        "action": "Remediate SQL injection vulnerability",
+        "due_date": "2024-02-15",
+        "owner": "Backend Team"
+      },
+      {
+        "priority": "HIGH",
+        "action": "Fix command injection in shell_runner.py",
+        "due_date": "2024-02-15",
+        "owner": "Backend Team"
+      },
+      {
+        "priority": "MEDIUM",
+        "action": "Migrate hardcoded credentials to secrets management",
+        "due_date": "2024-03-30",
+        "owner": "DevOps Team"
+      }
+    ]
+  },
+  "sbom_analysis": {
+    "format": "SPDX 2.3",
+    "package_count": 8,
+    "vulnerable_packages": [
+      {
+        "name": "requests",
+        "version": "2.31.0",
+        "vulnerability_count": 1,
+        "license": "Apache-2.0"
+      }
+    ],
+    "license_compliance": {
+      "status": "COMPLIANT",
+      "licenses_found": [
+        "MIT",
+        "Apache-2.0",
+        "BSD-3-Clause"
+      ],
+      "incompatible_licenses": [],
+      "notes": "All licenses are permissive and compatible with project license"
+    },
+    "dependency_depth": 3,
+    "transitive_dependencies": 24
+  },
+  "audit_trail": {
+    "scan_requested": "2024-01-15T14:30:00Z",
+    "scan_requested_by": "security-team@certus.cloud",
+    "scan_completed": "2024-01-15T14:32:45Z",
+    "scan_duration_seconds": 165,
+    "promoted_to_golden": "2024-01-15T14:32:50Z",
+    "promoted_by": "transform-service@certus.cloud",
+    "verification_started": "2024-01-15T14:35:20Z",
+    "verification_completed": "2024-01-15T14:35:25Z",
+    "verified_by": "certus-trust@certus.cloud",
+    "stored_in_datalake": "2024-01-15T14:35:30Z",
+    "report_generated": "2024-01-15T14:35:30Z",
+    "report_signed": "2024-01-15T14:35:32Z",
+    "events": [
+      {
+        "timestamp": "2024-01-15T14:30:00Z",
+        "event": "SCAN_REQUESTED",
+        "actor": "security-team@certus.cloud",
+        "details": "Scan initiated for certus-TAP:main"
+      },
+      {
+        "timestamp": "2024-01-15T14:32:45Z",
+        "event": "SCAN_COMPLETED",
+        "actor": "certus-assurance@certus.cloud",
+        "details": "6 findings discovered"
+      },
+      {
+        "timestamp": "2024-01-15T14:32:50Z",
+        "event": "PROMOTED_TO_GOLDEN",
+        "actor": "transform-service@certus.cloud",
+        "details": "Promoted to premium tier for verification"
+      },
+      {
+        "timestamp": "2024-01-15T14:35:25Z",
+        "event": "VERIFICATION_PASSED",
+        "actor": "certus-trust@certus.cloud",
+        "details": "Chain verified, signatures valid, recorded in Sigstore"
+      },
+      {
+        "timestamp": "2024-01-15T14:35:30Z",
+        "event": "REPORT_GENERATED",
+        "actor": "compliance-reporter@certus.cloud",
+        "details": "Compliance report generated with verified data"
+      },
+      {
+        "timestamp": "2024-01-15T14:35:32Z",
+        "event": "REPORT_SIGNED",
+        "actor": "certus-trust@certus.cloud",
+        "details": "Report signed with cosign"
+      }
+    ]
+  },
+  "next_steps": {
+    "immediate": [
+      "Notify engineering team of critical CVE",
+      "Plan emergency patch release",
+      "Update security dashboard"
+    ],
+    "short_term": [
+      "Fix SQL and command injection vulnerabilities",
+      "Plan security training for team",
+      "Review code for similar patterns"
+    ],
+    "medium_term": [
+      "Migrate credentials to secrets management",
+      "Implement security scanning in CI/CD",
+      "Set up continuous monitoring"
+    ],
+    "next_review": "2024-02-15T00:00:00Z"
+  }
+}

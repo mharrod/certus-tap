@@ -1,0 +1,209 @@
+# Complete development compose file
+# All services with hot reload for local development
+
+services:
+  # Infrastructure services
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node1
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m'
+      - 'network.host=0.0.0.0'
+      - 'DISABLE_INSTALL_DEMO_CONFIG=true'
+      - 'DISABLE_SECURITY_PLUGIN=true'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    ports:
+      - '9200:9200'
+      - '9600:9600'
+    networks:
+      - certus-network
+
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
+    ports:
+      - '4566:4566'
+      - '4510-4559:4510-4559'
+    environment:
+      - DEBUG=${DEBUG:-0}
+      - INIT_AWS_CLI_ADD_ENDPOINT_URL=1
+      - INIT_HOOKS_PATH=/docker-entrypoint-initaws.d
+    volumes:
+      - 'localstack-volume:/var/lib/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - './samples:/tmp/samples'
+      - './scripts/init-localstack.sh:/docker-entrypoint-initaws.d/init-buckets.sh'
+    networks:
+      - certus-network
+
+  neo4j:
+    image: neo4j:5-community
+    container_name: neo4j
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_memory_heap_initial__size=512M
+      - NEO4J_dbms_memory_heap_max__size=512M
+    ports:
+      - '7687:7687'
+      - '7474:7474'
+    volumes:
+      - neo4j-data:/var/lib/neo4j/data
+      - neo4j-logs:/var/lib/neo4j/logs
+    networks:
+      - certus-network
+
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:latest
+    container_name: victoriametrics
+    volumes:
+      - victoriametrics-data:/victoria-metrics-data
+    ports:
+      - '8428:8428'
+    networks:
+      - certus-network
+
+
+  # Application services with hot reload
+  ask-certus-backend:
+    build:
+      context: .
+      dockerfile: certus_ask/Dockerfile
+      args:
+        - SKIP_EMBEDDING_PRELOAD=1
+    container_name: ask-certus-backend
+    ports:
+      - '8000:8000'
+    env_file:
+      - ./.env
+    environment:
+      - SERVICE_NAME=ask-certus-backend
+      - LOG_LEVEL=INFO
+      - PYTHONPATH=/app
+      - INTEGRITY_SHADOW_MODE=false
+      - INTEGRITY_RATE_LIMIT_PER_MIN=100
+      - OPENSEARCH_HOST=http://opensearch:9200
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - NEO4J_URI=neo4j://neo4j:7687
+      - VICTORIAMETRICS_URL=http://victoriametrics:8428
+      - RELOAD=true
+    volumes:
+      - ./certus_ask:/app/certus_ask
+      - certus-ask-cache:/opt/huggingface
+    command:
+      [
+        'uv',
+        'run',
+        'uvicorn',
+        'certus_ask.main:app',
+        '--host',
+        '0.0.0.0',
+        '--port',
+        '8000',
+        '--reload',
+      ]
+    depends_on:
+      - opensearch
+      - localstack
+    networks:
+      - certus-network
+
+  certus-trust:
+    build:
+      context: .
+      dockerfile: certus_trust/Dockerfile
+    container_name: certus-trust
+    ports:
+      - '8057:8000'
+    env_file:
+      - ./.env
+    environment:
+      - SERVICE_NAME=certus-trust
+      - LOG_LEVEL=INFO
+      - CERTUS_TRUST_BASE_URL=http://localhost:8057
+      - CERTUS_TRUST_API_KEY=dev-key-trust
+      - MOCK_SIGSTORE=true
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - VICTORIAMETRICS_URL=http://victoriametrics:8428
+      - RELOAD=true
+    volumes:
+      - ./certus_trust:/app/certus_trust
+    depends_on:
+      - localstack
+    networks:
+      - certus-network
+
+  certus-assurance:
+    build:
+      context: .
+      dockerfile: certus_assurance/Dockerfile
+    container_name: certus-assurance
+    ports:
+      - '8056:8000'
+    env_file:
+      - ./.env
+    environment:
+      - SERVICE_NAME=certus-assurance
+      - LOG_LEVEL=INFO
+      - CERTUS_ASSURANCE_ARTIFACT_ROOT=/tmp/certus-assurance
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - VICTORIAMETRICS_URL=http://victoriametrics:8428
+      - PYTHONPATH=/app/dagger_modules:/app
+      - RELOAD=true
+    volumes:
+      - ./certus_assurance:/app/certus_assurance
+      - ./dagger_modules:/app/dagger_modules
+      - assurance-data:/tmp/certus-assurance
+    depends_on:
+      - localstack
+    networks:
+      - certus-network
+
+  certus-transform:
+    build:
+      context: .
+      dockerfile: certus_transform/Dockerfile
+    container_name: certus-transform
+    ports:
+      - '8100:8100'
+    env_file:
+      - ./.env
+    environment:
+      - SERVICE_NAME=certus-transform
+      - LOG_LEVEL=INFO
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - VICTORIAMETRICS_URL=http://victoriametrics:8428
+      - SAAS_BACKEND_URL=http://ask-certus-backend:8000
+      - RELOAD=true
+    volumes:
+      - ./certus_transform:/app/certus_transform
+    depends_on:
+      - localstack
+      - ask-certus-backend
+    networks:
+      - certus-network
+
+volumes:
+  opensearch-data:
+  localstack-volume:
+  neo4j-data:
+  neo4j-logs:
+  victoriametrics-data:
+  certus-ask-cache:
+  assurance-data:
+
+networks:
+  certus-network:
+    driver: bridge

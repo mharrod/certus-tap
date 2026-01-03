@@ -1,0 +1,101 @@
+@startuml
+!define RECTANGLE_START_RECTANGLE rectangle
+skinparam backgroundColor #F9F9F9
+skinparam package {
+    BackgroundColor #D0E6F5
+    BorderColor #01579B
+    FontColor #01579B
+}
+skinparam rectangle {
+    BackgroundColor #FFFFFF
+    BorderColor #666666
+    FontColor #333333
+}
+skinparam note {
+    BackgroundColor #FFF9C4
+    BorderColor #FFCC80
+    FontColor #795548
+}
+skinparam Arrow {
+    Color #42A5F5
+    Thickness 2
+}
+skinparam defaultTextAlignment center
+
+left to right direction
+
+package "AWS" {
+    package "AWS Cloud Services" {
+        package "Datalake on S3" as DL {
+            RECTANGLE_START_RECTANGLE "S3 Raw Data" as S3R
+            RECTANGLE_START_RECTANGLE "AWS Glue Transformations" as AG
+            RECTANGLE_START_RECTANGLE "S3 Processed Data" as S3P
+
+            S3R --> AG
+            AG --> S3P
+
+            note right of S3R : Threats: Data Exfiltration\nUnauthorized Access
+            note bottom of AG : Threats: Data Tampering
+        }
+
+        RECTANGLE_START_RECTANGLE "SageMaker" as LLM
+        RECTANGLE_START_RECTANGLE "Amazon OpenSearch" as OS
+
+        note bottom of LLM : Threats: Model Poisoning
+        note bottom of OS : Threats: Query Injection\nData Leakage
+    }
+
+    package "VPC" {
+        package "User Interface" as UX {
+            RECTANGLE_START_RECTANGLE "API" as UAPI
+            RECTANGLE_START_RECTANGLE "WEB" as UWEB
+
+            UAPI <--> UWEB
+
+            note right of UWEB : Threat: XSS
+            note bottom of UAPI : Threat: API Abuse
+        }
+
+        package "Index Pipeline Service (EC2)" as IP {
+            package "Container" as IPE {
+                RECTANGLE_START_RECTANGLE "API" as IPA
+                RECTANGLE_START_RECTANGLE "Backend" as IPB
+
+                IPA <--> IPB
+
+                note right of IPA : Threats: Malicious Input
+                note bottom of IPB : Threats: Unauthorized API Calls
+            }
+        }
+
+        package "Query Pipeline (EC2)" as QP {
+            package "Container" as QPE {
+                RECTANGLE_START_RECTANGLE "API" as QPA
+                RECTANGLE_START_RECTANGLE "Backend" as QPB
+
+                QPA <--> QPB
+
+                note right of QPA : Threat: Adversarial Queries
+                note bottom of QPB : Threat: Model Evasion
+            }
+        }
+    }
+}
+
+UX --> IP : "Index Process"
+IP --> DL
+IP --> OS
+IP --> UX
+
+UX --> QP : "Query Process"
+QP --> OS
+OS --> QP
+QP --> LLM
+LLM --> QP
+QP --> UX
+
+note bottom of QP : Threats: Data Interception\nUnauthorized Data Modification
+note bottom of IP : Threat: Unauthorized Data Modification
+note bottom of UX : Threat: Data Interception
+note bottom of DL : Threat: Unauthorized Data Modification
+@enduml

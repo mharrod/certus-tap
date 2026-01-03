@@ -1,0 +1,50 @@
+# Certus Trust Production Configuration
+# Uses real sigstore services for offline workloads
+
+services:
+  certus-trust:
+    build:
+      context: ../..
+      dockerfile: certus_trust/Dockerfile
+    container_name: certus-trust
+    ports:
+      - '8057:8000'
+    env_file:
+      - ../../.env
+    environment:
+      - SERVICE_NAME=certus-trust
+      - LOG_LEVEL=INFO
+      - CERTUS_TRUST_BASE_URL=http://localhost:8057
+      - CERTUS_TRUST_API_KEY=dev-key-trust
+
+      # Real sigstore services
+      - CERTUS_TRUST_MOCK_SIGSTORE=false
+      - CERTUS_TRUST_REKOR_ADDR=http://rekor:3000
+      - CERTUS_TRUST_FULCIO_ADDR=http://fulcio:5555
+
+      # Offline/performance settings
+      - SIGSTORE_TIMEOUT=30
+      - SIGSTORE_RETRIES=3
+      - OFFLINE_MODE=true
+
+      # Tutorial compatibility
+      - TUTORIAL_MODE=true
+      - SUPPORT_SMOKE_TESTS=true
+      - ALLOW_LOCAL_SIGNING=true
+
+      # Infrastructure dependencies
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - VICTORIAMETRICS_URL=http://victoriametrics:8428
+    depends_on: {}
+    networks:
+      - certus-network
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8000/v1/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  certus-network:
+    external: true
+    name: certus-network

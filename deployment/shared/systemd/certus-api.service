@@ -1,0 +1,48 @@
+[Unit]
+Description=Certus Assurance API
+After=network.target podman.socket
+Requires=podman.socket
+
+[Service]
+Type=simple
+User=certus
+Group=certus
+WorkingDirectory=/opt/certus/certus-TAP
+
+# Environment variables
+Environment="CERTUS_ASSURANCE_USE_SAMPLE_MODE=false"
+Environment="CERTUS_ASSURANCE_ARTIFACT_ROOT=/var/lib/certus/artifacts"
+Environment="CERTUS_ASSURANCE_HOST=0.0.0.0"
+Environment="CERTUS_ASSURANCE_PORT=8056"
+Environment="CERTUS_ASSURANCE_TRUST_BASE_URL=http://localhost:8000"
+Environment="WORKER_TIMEOUT=3600"
+
+# Run API container
+ExecStart=/usr/bin/podman run --rm \
+  --name certus-api \
+  -p 8056:8056 \
+  -v /var/run/podman/podman.sock:/var/run/docker.sock:z \
+  -v /var/lib/certus/artifacts:/var/lib/certus/artifacts:z \
+  -e CERTUS_ASSURANCE_USE_SAMPLE_MODE=false \
+  -e CERTUS_ASSURANCE_ARTIFACT_ROOT=/var/lib/certus/artifacts \
+  -e WORKER_TIMEOUT=3600 \
+  localhost/certus-assurance:latest \
+  uvicorn certus_assurance.api:app --host 0.0.0.0 --port 8056
+
+ExecStop=/usr/bin/podman stop -t 30 certus-api
+
+Restart=always
+RestartSec=10
+
+# Resource limits
+CPUQuota=400%
+MemoryLimit=8G
+MemoryHigh=7G
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=certus-api
+
+[Install]
+WantedBy=multi-user.target

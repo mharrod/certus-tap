@@ -1,0 +1,18 @@
+# Optional Development Tools
+# This file is reserved for OPTIONAL development tools that are NOT part of the core stack
+
+# REQUIRED infrastructure (including Streamlit) is in: certus_infrastructure/docker-compose.yml
+# - OpenSearch, Neo4j, LocalStack, VictoriaMetrics
+# - OpenTelemetry Collector, OCI Registry, Grafana
+# - Streamlit Console (now starts automatically with infrastructure)
+
+# Usage:
+#   just up                    # Starts all required infrastructure + Streamlit
+#   just infrastructure-up     # Starts infrastructure including Streamlit
+
+services: {}
+
+networks:
+  certus-network:
+    external: true
+    name: certus-network

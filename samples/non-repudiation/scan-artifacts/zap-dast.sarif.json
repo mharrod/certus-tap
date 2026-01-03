@@ -1,0 +1,657 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "OWASP ZAP",
+          "version": "2.13.0",
+          "informationUri": "https://www.zaproxy.org",
+          "rules": [
+            {
+              "id": "SQL_INJECTION",
+              "shortDescription": {
+                "text": "SQL Injection"
+              },
+              "fullDescription": {
+                "text": "The application appears to be vulnerable to SQL injection attacks. User input is passed directly into SQL queries without proper parameterization."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "owasp-top-10",
+                  "injection",
+                  "database"
+                ]
+              }
+            },
+            {
+              "id": "CROSS_SITE_SCRIPTING",
+              "shortDescription": {
+                "text": "Cross-site Scripting (XSS)"
+              },
+              "fullDescription": {
+                "text": "User input is reflected back in the HTTP response without proper encoding, allowing injection of malicious JavaScript."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "owasp-top-10",
+                  "injection",
+                  "xss"
+                ]
+              }
+            },
+            {
+              "id": "AUTHENTICATION_BYPASS",
+              "shortDescription": {
+                "text": "Authentication Bypass"
+              },
+              "fullDescription": {
+                "text": "The application's authentication mechanism can be bypassed through weak session handling or improper access controls."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "owasp-top-10",
+                  "authentication",
+                  "access-control"
+                ]
+              }
+            },
+            {
+              "id": "INSECURE_COOKIE",
+              "shortDescription": {
+                "text": "Insecure Cookie Configuration"
+              },
+              "fullDescription": {
+                "text": "Session cookies are missing security flags (HttpOnly, Secure, SameSite) making them vulnerable to theft or hijacking."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "owasp-top-10",
+                  "session-management"
+                ]
+              }
+            },
+            {
+              "id": "MISSING_CSRF_TOKEN",
+              "shortDescription": {
+                "text": "Missing CSRF Protection"
+              },
+              "fullDescription": {
+                "text": "The application does not implement CSRF tokens on state-changing operations, making it vulnerable to cross-site request forgery attacks."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "owasp-top-10",
+                  "csrf"
+                ]
+              }
+            },
+            {
+              "id": "INSECURE_DESERIALIZATION",
+              "shortDescription": {
+                "text": "Insecure Deserialization"
+              },
+              "fullDescription": {
+                "text": "The application deserializes untrusted data without validation, allowing arbitrary code execution through gadget chain attacks."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "owasp-top-10",
+                  "deserialization"
+                ]
+              }
+            },
+            {
+              "id": "BROKEN_ACCESS_CONTROL",
+              "shortDescription": {
+                "text": "Broken Access Control"
+              },
+              "fullDescription": {
+                "text": "The application does not properly validate user permissions, allowing access to resources that should be restricted."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "owasp-top-10",
+                  "access-control"
+                ]
+              }
+            },
+            {
+              "id": "UNENCRYPTED_TRANSMISSION",
+              "shortDescription": {
+                "text": "Unencrypted Transmission"
+              },
+              "fullDescription": {
+                "text": "Sensitive data is transmitted over HTTP without encryption instead of using HTTPS."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "owasp-top-10",
+                  "encryption"
+                ]
+              }
+            },
+            {
+              "id": "WEAK_PASSWORD_POLICY",
+              "shortDescription": {
+                "text": "Weak Password Policy"
+              },
+              "fullDescription": {
+                "text": "The application does not enforce strong password requirements or implement rate limiting on login attempts."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "owasp-top-10",
+                  "authentication"
+                ]
+              }
+            },
+            {
+              "id": "MISSING_SECURITY_HEADERS",
+              "shortDescription": {
+                "text": "Missing Security Headers"
+              },
+              "fullDescription": {
+                "text": "The application is missing critical security headers like X-Content-Type-Options, X-Frame-Options, and Content-Security-Policy."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "owasp-top-10",
+                  "headers"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "SQL_INJECTION",
+          "message": {
+            "text": "SQL Injection vulnerability detected in user search endpoint"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080/api/users/search",
+                  "index": 0
+                },
+                "region": {
+                  "snippet": {
+                    "text": "GET /api/users/search?q=<payload>"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A03:2021 - Injection",
+              "cwe_id": "CWE-89",
+              "cvss_score": 9.8,
+              "severity": "CRITICAL",
+              "description": "Parameter 'q' is vulnerable to SQL injection. Payloads like ' OR '1'='1 return all users.",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8080/api/users/search?q=' OR '1'='1",
+                "headers": {}
+              },
+              "response": {
+                "status_code": 200,
+                "body_contains": [
+                  "user@example.com",
+                  "admin@example.com"
+                ]
+              },
+              "remediation": "Use parameterized queries or ORM with automatic escaping",
+              "payload_used": "' OR '1'='1"
+            }
+          }
+        },
+        {
+          "ruleId": "CROSS_SITE_SCRIPTING",
+          "message": {
+            "text": "Reflected XSS vulnerability in comment section"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080/post/123/comments",
+                  "index": 1
+                },
+                "region": {
+                  "snippet": {
+                    "text": "POST /post/123/comments with comment parameter"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A03:2021 - Injection",
+              "cwe_id": "CWE-79",
+              "cvss_score": 6.1,
+              "severity": "HIGH",
+              "description": "User input in 'comment' parameter is reflected in HTTP response without HTML encoding",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8080/post/123/comments",
+                "body": "comment=<script>alert('XSS')</script>"
+              },
+              "response": {
+                "status_code": 200,
+                "body_contains": [
+                  "<script>alert('XSS')</script>"
+                ]
+              },
+              "remediation": "HTML-encode all user input before reflecting in response",
+              "payload_used": "<script>alert('XSS')</script>"
+            }
+          }
+        },
+        {
+          "ruleId": "AUTHENTICATION_BYPASS",
+          "message": {
+            "text": "Authentication can be bypassed with weak session handling"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080/admin",
+                  "index": 2
+                },
+                "region": {
+                  "snippet": {
+                    "text": "Admin panel accessible without valid authentication"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A01:2021 - Broken Access Control",
+              "cwe_id": "CWE-287",
+              "cvss_score": 9.1,
+              "severity": "CRITICAL",
+              "description": "Admin panel does not validate authentication. Session tokens are predictable (incrementing integers).",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8080/admin",
+                "cookies": "session_id=1001"
+              },
+              "response": {
+                "status_code": 200,
+                "body_contains": [
+                  "Admin Dashboard"
+                ]
+              },
+              "remediation": "Use cryptographically secure session tokens, implement proper authentication checks",
+              "test_results": "Successfully accessed admin with session_id values 1000, 1001, 1002"
+            }
+          }
+        },
+        {
+          "ruleId": "INSECURE_COOKIE",
+          "message": {
+            "text": "Session cookie missing security flags"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080/login",
+                  "index": 3
+                },
+                "region": {
+                  "snippet": {
+                    "text": "Set-Cookie: session_id=abc123"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A02:2021 - Cryptographic Failures",
+              "cwe_id": "CWE-614",
+              "cvss_score": 6.5,
+              "severity": "HIGH",
+              "description": "Session cookie is missing HttpOnly and Secure flags. Missing SameSite protection.",
+              "cookie_details": {
+                "name": "session_id",
+                "http_only": false,
+                "secure": false,
+                "same_site": "Not Set"
+              },
+              "remediation": "Set HttpOnly, Secure, and SameSite=Strict flags on session cookies",
+              "expected_header": "Set-Cookie: session_id=abc123; HttpOnly; Secure; SameSite=Strict; Path=/"
+            }
+          }
+        },
+        {
+          "ruleId": "MISSING_CSRF_TOKEN",
+          "message": {
+            "text": "Missing CSRF protection on password change endpoint"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080/account/change-password",
+                  "index": 4
+                },
+                "region": {
+                  "snippet": {
+                    "text": "POST /account/change-password"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A01:2021 - Broken Access Control",
+              "cwe_id": "CWE-352",
+              "cvss_score": 6.5,
+              "severity": "HIGH",
+              "description": "Password change endpoint accepts requests without CSRF token validation",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8080/account/change-password",
+                "body": "new_password=hacker123&confirm=hacker123"
+              },
+              "response": {
+                "status_code": 200,
+                "body_contains": [
+                  "Password changed successfully"
+                ]
+              },
+              "remediation": "Implement CSRF token validation on all state-changing operations",
+              "attack_scenario": "Attacker tricks logged-in user into clicking malicious link that changes password"
+            }
+          }
+        },
+        {
+          "ruleId": "INSECURE_DESERIALIZATION",
+          "message": {
+            "text": "Unsafe Java deserialization in profile data"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080/api/profile/import",
+                  "index": 5
+                },
+                "region": {
+                  "snippet": {
+                    "text": "POST /api/profile/import with serialized Java object"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A08:2021 - Software and Data Integrity Failures",
+              "cwe_id": "CWE-502",
+              "cvss_score": 9.8,
+              "severity": "CRITICAL",
+              "description": "Application deserializes untrusted Java objects without validation, vulnerable to RCE via gadget chains",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8080/api/profile/import",
+                "content_type": "application/octet-stream",
+                "body": "<serialized Java object with CommonsCollections gadget chain>"
+              },
+              "remediation": "Never deserialize untrusted data. Use JSON instead of Java serialization. If necessary, implement object filtering.",
+              "vulnerable_library": "commons-collections 3.2.1"
+            }
+          }
+        },
+        {
+          "ruleId": "BROKEN_ACCESS_CONTROL",
+          "message": {
+            "text": "User can access other users' orders via ID enumeration"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080/api/orders/456",
+                  "index": 6
+                },
+                "region": {
+                  "snippet": {
+                    "text": "GET /api/orders/{order_id}"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A01:2021 - Broken Access Control",
+              "cwe_id": "CWE-639",
+              "cvss_score": 7.5,
+              "severity": "HIGH",
+              "description": "Endpoint returns order details without verifying user owns the order",
+              "request": {
+                "method": "GET",
+                "url": "http://localhost:8080/api/orders/456",
+                "cookies": "session_id=user123"
+              },
+              "response": {
+                "status_code": 200,
+                "body_contains": [
+                  "order_total",
+                  "shipping_address",
+                  "customer_email"
+                ]
+              },
+              "remediation": "Verify that authenticated user owns the requested resource before returning data",
+              "test_result": "Successfully accessed orders belonging to other users by modifying order_id"
+            }
+          }
+        },
+        {
+          "ruleId": "UNENCRYPTED_TRANSMISSION",
+          "message": {
+            "text": "Password transmitted over HTTP without encryption"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080/login",
+                  "index": 7
+                },
+                "region": {
+                  "snippet": {
+                    "text": "HTTP POST with password parameter"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A02:2021 - Cryptographic Failures",
+              "cwe_id": "CWE-311",
+              "cvss_score": 9.1,
+              "severity": "CRITICAL",
+              "description": "Login endpoint uses HTTP instead of HTTPS, transmitting passwords in plaintext",
+              "request": {
+                "method": "POST",
+                "url": "http://localhost:8080/login",
+                "body": "username=user&password=MyPassword123"
+              },
+              "remediation": "Use HTTPS for all endpoints, especially those handling sensitive data",
+              "attack_vector": "Network traffic can be captured and passwords intercepted by MITM"
+            }
+          }
+        },
+        {
+          "ruleId": "WEAK_PASSWORD_POLICY",
+          "message": {
+            "text": "Weak password policy allows single character passwords"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080/account/register",
+                  "index": 8
+                },
+                "region": {
+                  "snippet": {
+                    "text": "POST /account/register"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A07:2021 - Identification and Authentication Failures",
+              "cwe_id": "CWE-521",
+              "cvss_score": 5.3,
+              "severity": "MEDIUM",
+              "description": "Password minimum length is 1 character. No complexity requirements. No rate limiting on registration.",
+              "weak_passwords_accepted": [
+                "1",
+                "a",
+                "pass",
+                "password"
+              ],
+              "remediation": "Enforce minimum 12 character passwords with complexity requirements. Implement rate limiting.",
+              "test_result": "Successfully registered accounts with passwords: '1', 'pass', 'user'"
+            }
+          }
+        },
+        {
+          "ruleId": "MISSING_SECURITY_HEADERS",
+          "message": {
+            "text": "Multiple critical security headers are missing"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "http://localhost:8080",
+                  "index": 9
+                },
+                "region": {
+                  "snippet": {
+                    "text": "HTTP Response Headers"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "owasp_category": "A05:2021 - Security Misconfiguration",
+              "cwe_id": "CWE-693",
+              "cvss_score": 5.3,
+              "severity": "MEDIUM",
+              "description": "Application is missing critical security headers",
+              "missing_headers": [
+                {
+                  "header": "X-Content-Type-Options",
+                  "expected": "nosniff",
+                  "impact": "Allows MIME-sniffing attacks"
+                },
+                {
+                  "header": "X-Frame-Options",
+                  "expected": "DENY",
+                  "impact": "Application vulnerable to clickjacking"
+                },
+                {
+                  "header": "Content-Security-Policy",
+                  "expected": "default-src 'self'",
+                  "impact": "Allows XSS, inline scripts"
+                },
+                {
+                  "header": "Strict-Transport-Security",
+                  "expected": "max-age=31536000",
+                  "impact": "HSTS not enforced, downgrade attacks possible"
+                }
+              ],
+              "remediation": "Add security headers to all HTTP responses"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "scanTime": "2024-01-15T14:33:00Z",
+        "duration": 180,
+        "baseUrl": "http://localhost:8080",
+        "scanType": "baseline",
+        "totalFindings": 10,
+        "critical": 4,
+        "high": 4,
+        "medium": 2,
+        "zap_config": "baseline-2024",
+        "zap_version": "2.13.0",
+        "rules_enabled": 150
+      }
+    }
+  ]
+}

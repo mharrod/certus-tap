@@ -1,0 +1,19 @@
+{
+  "tool_name": "trivy",
+  "version": "0.50.0",
+  "description": "Trivy is a simple and comprehensive vulnerability scanner for containers and other artifacts",
+  "format": {
+    "findings_path": "$.Results[*].Vulnerabilities[*]",
+    "metadata": {
+      "tool_version": "$.ArtifactType"
+    },
+    "mapping": {
+      "id": "$.VulnerabilityID",
+      "title": "$.Title",
+      "severity": "$.Severity",
+      "description": "$.Description",
+      "type": "dependency",
+      "references": "$.References[*]"
+    }
+  }
+}

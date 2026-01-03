@@ -1,0 +1,33 @@
+[Unit]
+Description=Certus PostgreSQL Database
+After=network-online.target podman.service
+Wants=network-online.target
+Requires=podman.service
+
+[Service]
+Type=simple
+User=certus
+Restart=always
+RestartSec=10s
+TimeoutStartSec=300
+
+EnvironmentFile=/opt/certus/.env
+
+ExecStartPre=-/usr/bin/podman stop certus-postgres
+ExecStartPre=-/usr/bin/podman rm certus-postgres
+ExecStartPre=/usr/bin/podman pull docker.io/library/postgres:15-alpine
+
+ExecStart=/usr/bin/podman run --rm \
+  --name certus-postgres \
+  --network certus \
+  -p 5432:5432 \
+  -v /var/lib/certus/data/postgres:/var/lib/postgresql/data:z \
+  -e POSTGRES_USER=${POSTGRES_USER} \
+  -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+  -e POSTGRES_DB=${POSTGRES_DB} \
+  docker.io/library/postgres:15-alpine
+
+ExecStop=/usr/bin/podman stop certus-postgres
+
+[Install]
+WantedBy=multi-user.target

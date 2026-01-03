@@ -1,0 +1,39 @@
+[Unit]
+Description=Certus Assurance API
+After=network-online.target podman.service certus-postgres.service certus-redis.service
+Wants=network-online.target
+Requires=podman.service
+
+[Service]
+Type=simple
+User=certus
+Restart=always
+RestartSec=10s
+TimeoutStartSec=120
+
+# Resource limits
+MemoryMax=4G
+CPUQuota=200%
+
+EnvironmentFile=/opt/certus/.env
+
+ExecStartPre=-/usr/bin/podman stop certus-assurance-api
+ExecStartPre=-/usr/bin/podman rm certus-assurance-api
+
+ExecStart=/usr/bin/podman run --rm \
+  --name certus-assurance-api \
+  --network certus \
+  -p 8056:8056 \
+  -v /var/run/podman/podman.sock:/var/run/docker.sock:z \
+  -v /var/lib/certus/artifacts:/var/lib/certus/artifacts:z \
+  --env-file /opt/certus/.env \
+  localhost/certus-assurance:latest \
+  uvicorn certus_assurance.api:app --host 0.0.0.0 --port 8056
+
+ExecStop=/usr/bin/podman stop certus-assurance-api
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

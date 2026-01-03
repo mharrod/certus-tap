@@ -1,0 +1,40 @@
+# Git metadata and local config
+.git
+.gitignore
+.dockerignore
+
+# Python build artifacts
+__pycache__/
+*.py[cod]
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# Virtual environments and env files
+.env
+.envrc
+.venv/
+venv/
+ENV/
+
+# Tool caches
+.ruff_cache/
+.uv-cache/
+.pdm-python
+.pixi/
+
+# Editor / OS clutter
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Documentation output
+site/
+
+# Project resources not required in runtime image
+services/
+docs/
+tests/

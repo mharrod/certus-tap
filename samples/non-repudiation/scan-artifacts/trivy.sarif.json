@@ -1,0 +1,213 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Trivy",
+          "version": "0.45.0",
+          "informationUri": "https://github.com/aquasecurity/trivy"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CVE-2024-1086",
+          "message": {
+            "text": "Package requests is vulnerable to HTTP/HTTPS Smuggling attack (CVE-2024-1086)"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "requirements.txt",
+                  "index": 0
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cveId": "CVE-2024-1086",
+              "severity": "CRITICAL",
+              "description": "HTTP response smuggling in requests library before 2.31.0",
+              "publishedDate": "2024-01-10T00:00:00Z",
+              "affectedComponent": "requests",
+              "affectedVersionRange": "< 2.31.0",
+              "fixedVersionRange": ">= 2.31.0"
+            }
+          }
+        },
+        {
+          "ruleId": "CWE-89",
+          "message": {
+            "text": "SQL Injection vulnerability detected in database query handling"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/api/handlers.py",
+                  "index": 1
+                },
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 20,
+                  "endLine": 45,
+                  "endColumn": 65
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweid": "CWE-89",
+              "severity": "HIGH",
+              "description": "SQL queries are constructed using string concatenation instead of parameterized queries",
+              "remediation": "Use parameterized queries or ORM with proper escaping",
+              "file": "src/api/handlers.py",
+              "line": 45
+            }
+          }
+        },
+        {
+          "ruleId": "CWE-78",
+          "message": {
+            "text": "Command Injection vulnerability: shell=True in subprocess call"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/utils/shell_runner.py",
+                  "index": 2
+                },
+                "region": {
+                  "startLine": 23,
+                  "startColumn": 10,
+                  "endLine": 23,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweid": "CWE-78",
+              "severity": "HIGH",
+              "description": "Subprocess call with shell=True allows command injection attacks",
+              "remediation": "Use subprocess with shell=False and pass arguments as list",
+              "file": "src/utils/shell_runner.py",
+              "line": 23
+            }
+          }
+        },
+        {
+          "ruleId": "CWE-295",
+          "message": {
+            "text": "Improper Certificate Validation: verify=False in requests"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/api/client.py",
+                  "index": 3
+                },
+                "region": {
+                  "startLine": 67,
+                  "startColumn": 15
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweid": "CWE-295",
+              "severity": "MEDIUM",
+              "description": "SSL certificate validation is disabled, allowing MITM attacks",
+              "remediation": "Remove verify=False or set verify to path of CA bundle",
+              "file": "src/api/client.py",
+              "line": 67
+            }
+          }
+        },
+        {
+          "ruleId": "CWE-798",
+          "message": {
+            "text": "Hardcoded credentials detected in configuration"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "config.py",
+                  "index": 4
+                },
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweid": "CWE-798",
+              "severity": "MEDIUM",
+              "description": "Database password hardcoded in source code",
+              "remediation": "Use environment variables or secrets management system",
+              "file": "config.py",
+              "line": 12
+            }
+          }
+        },
+        {
+          "ruleId": "CWE-327",
+          "message": {
+            "text": "Use of Broken or Risky Cryptographic Algorithm"
+          },
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/security/crypto.py",
+                  "index": 5
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "vulnerability": {
+              "cweid": "CWE-327",
+              "severity": "LOW",
+              "description": "MD5 hash algorithm used instead of SHA-256",
+              "remediation": "Replace MD5 with SHA-256 or stronger hash algorithm",
+              "file": "src/security/crypto.py",
+              "line": 34
+            }
+          }
+        }
+      ],
+      "properties": {
+        "scanTime": "2024-01-15T14:30:15Z",
+        "duration": 30,
+        "totalFindings": 6,
+        "critical": 1,
+        "high": 2,
+        "medium": 2,
+        "low": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "certus-dagger-security"
+description = "Light security profile packaged as a Dagger module."
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "dagger-io>=0.9.0",
+]
+
+[project.scripts]
+security-scan = "security_module.cli:main"
+
+[project.entry-points."dagger.mod"]
+main_object = "security_module.main:Security"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["security_module"]
+include = [
+  "*.py",
+  "security_module/scripts/*.py",
+  "config/**/*.yml",
+  "assets/**",
+  "dagger.json",
+]
+exclude = ["tests"]

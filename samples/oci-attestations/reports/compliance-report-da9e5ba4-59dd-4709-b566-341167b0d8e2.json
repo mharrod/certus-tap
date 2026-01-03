@@ -1,0 +1,212 @@
+{
+  "reportId": "da9e5ba4-59dd-4709-b566-341167b0d8e2",
+  "reportType": "SupplyChainComplianceReview",
+  "version": "1.0",
+  "generated": "2025-11-30T19:04:28.142573Z",
+  "expiresAt": "2026-11-28T19:04:28.142573+00:00Z",
+  "reviewer": {
+    "name": "Security Review Team",
+    "organization": "Your Organization"
+  },
+  "product": {
+    "name": "Acme Corporation Product",
+    "version": "1.0.0",
+    "vendor": "ACME Corp"
+  },
+  "complianceStatus": "COMPLIANT",
+  "complianceSummary": {
+    "signatureVerification": {
+      "status": "PASS",
+      "details": "All 5 artifacts have valid cosign signatures",
+      "artifacts": [
+        {
+          "name": "product.spdx.json",
+          "status": "valid"
+        },
+        {
+          "name": "build.intoto.json",
+          "status": "valid"
+        },
+        {
+          "name": "privacy-scan.json",
+          "status": "valid"
+        },
+        {
+          "name": "vulnerability.sarif",
+          "status": "valid"
+        },
+        {
+          "name": "slsa-provenance.json",
+          "status": "valid"
+        }
+      ]
+    },
+    "sbomAnalysis": {
+      "status": "PASS",
+      "format": "SPDX 2.3",
+      "packageCount": 5,
+      "details": "Complete SBOM with all dependencies documented"
+    },
+    "vulnerabilityAssessment": {
+      "status": "CONDITIONAL",
+      "criticalCount": 0,
+      "highCount": 2,
+      "mediumCount": 0,
+      "lowCount": 0,
+      "findings": [
+        {
+          "id": "CWE-89",
+          "title": "SQL Injection",
+          "severity": "HIGH",
+          "file": "src/api/handlers.py",
+          "remediation": "Use parameterized queries"
+        },
+        {
+          "id": "CWE-78",
+          "title": "Shell Injection",
+          "severity": "HIGH",
+          "file": "src/utils/shell_runner.py",
+          "remediation": "Avoid shell execution with untrusted input"
+        }
+      ]
+    },
+    "provanceValidation": {
+      "status": "PASS",
+      "format": "SLSA v1.0",
+      "buildType": "https://github.com/Certus/build-system/v1.0",
+      "reproducible": true,
+      "details": "SLSA provenance verified with reproducibility claim"
+    },
+    "dependencyAnalysis": {
+      "status": "PASS",
+      "resolvedCount": 3,
+      "details": "All dependencies cryptographically verified with SHA-256 hashes"
+    },
+    "licenseCompliance": {
+      "status": "PASS",
+      "details": "No incompatible open-source licenses detected",
+      "licenses": [
+        "Apache-2.0",
+        "BSD-3-Clause",
+        "MIT"
+      ]
+    }
+  },
+  "detailedFindings": {
+    "signatureVerification": {
+      "finding": {
+        "status": "PASS",
+        "details": "All 5 artifacts have valid cosign signatures",
+        "artifacts": [
+          {
+            "name": "product.spdx.json",
+            "status": "valid"
+          },
+          {
+            "name": "build.intoto.json",
+            "status": "valid"
+          },
+          {
+            "name": "privacy-scan.json",
+            "status": "valid"
+          },
+          {
+            "name": "vulnerability.sarif",
+            "status": "valid"
+          },
+          {
+            "name": "slsa-provenance.json",
+            "status": "valid"
+          }
+        ]
+      },
+      "impact": "High - Ensures artifacts are authentic",
+      "complianceRequirement": "All artifacts must be signed with valid keys"
+    },
+    "sbomAnalysis": {
+      "finding": {
+        "status": "PASS",
+        "format": "SPDX 2.3",
+        "packageCount": 5,
+        "details": "Complete SBOM with all dependencies documented"
+      },
+      "impact": "High - Identifies supply chain transparency",
+      "complianceRequirement": "SBOM must be complete and embeded in provenance"
+    },
+    "vulnerabilityAssessment": {
+      "finding": {
+        "status": "CONDITIONAL",
+        "criticalCount": 0,
+        "highCount": 2,
+        "mediumCount": 0,
+        "lowCount": 0,
+        "findings": [
+          {
+            "id": "CWE-89",
+            "title": "SQL Injection",
+            "severity": "HIGH",
+            "file": "src/api/handlers.py",
+            "remediation": "Use parameterized queries"
+          },
+          {
+            "id": "CWE-78",
+            "title": "Shell Injection",
+            "severity": "HIGH",
+            "file": "src/utils/shell_runner.py",
+            "remediation": "Avoid shell execution with untrusted input"
+          }
+        ]
+      },
+      "impact": "Critical - Identifies security risks",
+      "complianceRequirement": "No critical/high vulnerabilities, or remediation plan required"
+    },
+    "provenanceValidation": {
+      "finding": {
+        "status": "PASS",
+        "format": "SLSA v1.0",
+        "buildType": "https://github.com/Certus/build-system/v1.0",
+        "reproducible": true,
+        "details": "SLSA provenance verified with reproducibility claim"
+      },
+      "impact": "High - Verifies build legitimacy",
+      "complianceRequirement": "SLSA provenance v1.0 with reproducibility claim"
+    },
+    "dependencyAnalysis": {
+      "finding": {
+        "status": "PASS",
+        "resolvedCount": 3,
+        "details": "All dependencies cryptographically verified with SHA-256 hashes"
+      },
+      "impact": "Medium - Tracks supply chain risk",
+      "complianceRequirement": "All dependencies documented with cryptographic hashes"
+    },
+    "licenseCompliance": {
+      "finding": {
+        "status": "PASS",
+        "details": "No incompatible open-source licenses detected",
+        "licenses": [
+          "Apache-2.0",
+          "BSD-3-Clause",
+          "MIT"
+        ]
+      },
+      "impact": "Medium - Manages legal/licensing risk",
+      "complianceRequirement": "No incompatible open-source licenses"
+    }
+  },
+  "recommendations": [
+    "APPROVE: All compliance checks passed.",
+    "Action: Proceed with ingestion and deployment.",
+    "Action: Schedule 90-day follow-up review."
+  ],
+  "auditTrail": {
+    "reviewStartTime": "2025-11-30T19:04:28.142573Z",
+    "reviewEndTime": "2025-11-30T19:04:28.142573Z",
+    "verificationMethod": "Cosign + SLSA Provenance",
+    "tools": [
+      "cosign",
+      "oras",
+      "sbom-scanner"
+    ]
+  }
+}

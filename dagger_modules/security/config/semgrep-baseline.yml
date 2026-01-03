@@ -1,0 +1,15 @@
+rules:
+  - id: python-eval-audit
+    patterns:
+      - pattern: eval(...)
+    message: "Avoid using eval(); prefer safer parsing helpers."
+    severity: WARNING
+    languages:
+      - python
+  - id: python-subprocess-shell
+    patterns:
+      - pattern: subprocess.$FUNC(..., shell=True, ...)
+    message: "subprocess.* with shell=True can lead to command injection."
+    severity: WARNING
+    languages:
+      - python

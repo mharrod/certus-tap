@@ -1,0 +1,519 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Presidio",
+          "version": "2.2.350",
+          "informationUri": "https://microsoft.github.io/presidio",
+          "rules": [
+            {
+              "id": "PERSON",
+              "shortDescription": {
+                "text": "Person name detected"
+              },
+              "fullDescription": {
+                "text": "Personally identifiable information: Person name or full name detected in document"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "pii",
+                  "person"
+                ]
+              }
+            },
+            {
+              "id": "EMAIL_ADDRESS",
+              "shortDescription": {
+                "text": "Email address detected"
+              },
+              "fullDescription": {
+                "text": "Personally identifiable information: Email address detected which could be used to identify an individual"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "pii",
+                  "contact"
+                ]
+              }
+            },
+            {
+              "id": "PHONE_NUMBER",
+              "shortDescription": {
+                "text": "Phone number detected"
+              },
+              "fullDescription": {
+                "text": "Personally identifiable information: Phone number detected which could be used to contact an individual"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "pii",
+                  "contact"
+                ]
+              }
+            },
+            {
+              "id": "CREDIT_CARD",
+              "shortDescription": {
+                "text": "Credit card number detected"
+              },
+              "fullDescription": {
+                "text": "Sensitive financial information: Credit card number detected in document"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "pii",
+                  "financial"
+                ]
+              }
+            },
+            {
+              "id": "BANK_ACCOUNT",
+              "shortDescription": {
+                "text": "Bank account number detected"
+              },
+              "fullDescription": {
+                "text": "Sensitive financial information: Bank account or routing number detected"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "pii",
+                  "financial"
+                ]
+              }
+            },
+            {
+              "id": "SOCIAL_SECURITY_NUMBER",
+              "shortDescription": {
+                "text": "Social Security Number detected"
+              },
+              "fullDescription": {
+                "text": "Highly sensitive PII: United States Social Security Number detected"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "very-high",
+                "tags": [
+                  "pii",
+                  "government-id"
+                ]
+              }
+            },
+            {
+              "id": "DRIVERS_LICENSE",
+              "shortDescription": {
+                "text": "Driver's License number detected"
+              },
+              "fullDescription": {
+                "text": "Government-issued ID number detected which could identify an individual"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "pii",
+                  "government-id"
+                ]
+              }
+            },
+            {
+              "id": "DATE_OF_BIRTH",
+              "shortDescription": {
+                "text": "Date of birth detected"
+              },
+              "fullDescription": {
+                "text": "Personal information: Date of birth detected which combined with other data could identify an individual"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "pii",
+                  "personal"
+                ]
+              }
+            },
+            {
+              "id": "IP_ADDRESS",
+              "shortDescription": {
+                "text": "IP address detected"
+              },
+              "fullDescription": {
+                "text": "Network information: IP address detected which could be linked to an individual's network"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "precision": "high",
+                "tags": [
+                  "pii",
+                  "network"
+                ]
+              }
+            },
+            {
+              "id": "PASSWORD",
+              "shortDescription": {
+                "text": "Password or secret detected"
+              },
+              "fullDescription": {
+                "text": "Security risk: Password, API key, or authentication secret detected in document"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "precision": "medium",
+                "tags": [
+                  "secret",
+                  "credential"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "PERSON",
+          "message": {
+            "text": "Person name detected: 'Sarah Johnson'"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "docs/contracts/client_agreement.pdf",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 25,
+                  "endLine": 15,
+                  "endColumn": 40,
+                  "snippet": {
+                    "text": "Contract with Sarah Johnson for..."
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "pii": {
+              "entity_type": "PERSON",
+              "entity_value": "Sarah Johnson",
+              "confidence": 0.95,
+              "start_index": 17,
+              "end_index": 31,
+              "recognition_method": "Spacy NER + Pattern matching"
+            }
+          }
+        },
+        {
+          "ruleId": "EMAIL_ADDRESS",
+          "message": {
+            "text": "Email address detected: 'sarah.johnson@company.com'"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "docs/contracts/client_agreement.pdf",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 18,
+                  "startColumn": 15,
+                  "endLine": 18,
+                  "endColumn": 42,
+                  "snippet": {
+                    "text": "Email: sarah.johnson@company.com"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "pii": {
+              "entity_type": "EMAIL_ADDRESS",
+              "entity_value": "sarah.johnson@company.com",
+              "confidence": 1.0,
+              "start_index": 7,
+              "end_index": 32,
+              "recognition_method": "Regular expression pattern"
+            }
+          }
+        },
+        {
+          "ruleId": "PHONE_NUMBER",
+          "message": {
+            "text": "Phone number detected: '+1-555-0147'"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "docs/contracts/client_agreement.pdf",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 10,
+                  "endLine": 19,
+                  "endColumn": 21,
+                  "snippet": {
+                    "text": "Phone: +1-555-0147"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "pii": {
+              "entity_type": "PHONE_NUMBER",
+              "entity_value": "+1-555-0147",
+              "confidence": 0.98,
+              "start_index": 7,
+              "end_index": 18,
+              "recognition_method": "Phone number regex pattern"
+            }
+          }
+        },
+        {
+          "ruleId": "CREDIT_CARD",
+          "message": {
+            "text": "Credit card number detected: '4532-1234-5678-9010'"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "docs/financial/payment_records.csv",
+                  "index": 1
+                },
+                "region": {
+                  "startLine": 42,
+                  "startColumn": 35,
+                  "endLine": 42,
+                  "endColumn": 53,
+                  "snippet": {
+                    "text": "Card: 4532-1234-5678-9010 Expires: 12/25"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "pii": {
+              "entity_type": "CREDIT_CARD",
+              "entity_value": "4532-1234-5678-9010",
+              "confidence": 0.99,
+              "start_index": 6,
+              "end_index": 24,
+              "recognition_method": "Luhn algorithm + regex pattern",
+              "card_type": "Visa"
+            }
+          }
+        },
+        {
+          "ruleId": "SOCIAL_SECURITY_NUMBER",
+          "message": {
+            "text": "Social Security Number detected: '123-45-6789'"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "docs/hr/employee_records.xlsx",
+                  "index": 2
+                },
+                "region": {
+                  "startLine": 156,
+                  "startColumn": 20,
+                  "endLine": 156,
+                  "endColumn": 31,
+                  "snippet": {
+                    "text": "SSN: 123-45-6789"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "pii": {
+              "entity_type": "SOCIAL_SECURITY_NUMBER",
+              "entity_value": "123-45-6789",
+              "confidence": 1.0,
+              "start_index": 5,
+              "end_index": 15,
+              "recognition_method": "SSN regex pattern validation"
+            }
+          }
+        },
+        {
+          "ruleId": "DATE_OF_BIRTH",
+          "message": {
+            "text": "Date of birth detected: '1987-03-15'"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "docs/hr/employee_records.xlsx",
+                  "index": 2
+                },
+                "region": {
+                  "startLine": 157,
+                  "startColumn": 12,
+                  "endLine": 157,
+                  "endColumn": 22,
+                  "snippet": {
+                    "text": "DOB: 1987-03-15"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "pii": {
+              "entity_type": "DATE_OF_BIRTH",
+              "entity_value": "1987-03-15",
+              "confidence": 0.92,
+              "start_index": 5,
+              "end_index": 14,
+              "recognition_method": "Date pattern matching"
+            }
+          }
+        },
+        {
+          "ruleId": "IP_ADDRESS",
+          "message": {
+            "text": "IP address detected: '192.168.1.105'"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "logs/system_audit.log",
+                  "index": 3
+                },
+                "region": {
+                  "startLine": 2847,
+                  "startColumn": 45,
+                  "endLine": 2847,
+                  "endColumn": 58,
+                  "snippet": {
+                    "text": "USER_LOGIN from_ip=192.168.1.105 user=sjohnson"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "pii": {
+              "entity_type": "IP_ADDRESS",
+              "entity_value": "192.168.1.105",
+              "confidence": 1.0,
+              "start_index": 29,
+              "end_index": 41,
+              "recognition_method": "IP address regex pattern"
+            }
+          }
+        },
+        {
+          "ruleId": "PASSWORD",
+          "message": {
+            "text": "Password or secret detected in configuration"
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "config/.env.example",
+                  "index": 4
+                },
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 15,
+                  "endLine": 8,
+                  "endColumn": 40,
+                  "snippet": {
+                    "text": "DB_PASSWORD=MySecurePass123!"
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "pii": {
+              "entity_type": "PASSWORD",
+              "entity_value": "MySecurePass123!",
+              "confidence": 0.85,
+              "start_index": 12,
+              "end_index": 27,
+              "recognition_method": "Pattern matching for common password patterns"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "scanTime": "2024-01-15T14:32:00Z",
+        "duration": 35,
+        "filesScanned": 12,
+        "filesWithPII": 5,
+        "totalPIIFindings": 8,
+        "piiDistribution": {
+          "person": 1,
+          "email": 1,
+          "phone": 1,
+          "credit_card": 1,
+          "ssn": 1,
+          "dob": 1,
+          "ip_address": 1,
+          "password": 1
+        },
+        "presidio_config": "default",
+        "presidio_version": "2.2.350",
+        "nlp_engine": "spacy",
+        "spacy_model": "en_core_web_lg"
+      }
+    }
+  ]
+}

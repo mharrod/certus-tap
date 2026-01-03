@@ -1,0 +1,8 @@
+nav:
+  - '◐ Assurance Manifest': assurance-manifest-proposal.md
+  - '◐ Dagger Module': dagger-proposal.md
+  - '✎ Runtime Security': runtime-security-proposal.md
+  - '✎ Security SLM': security-slm-proposal.md
+  - '✎ AAA': authentication-authorization-proposal.md
+  - '✎ Secrets Management': infrastructure-secrets-management.md
+  - '✎ Policy Engine': policy-engine-proposal.md

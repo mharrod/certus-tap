@@ -1,0 +1,4 @@
+title: Architecture
+nav:
+  - dependency-injection.md
+  - adding-ingestion-service.md

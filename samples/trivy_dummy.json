@@ -1,0 +1,73 @@
+{
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "ImageID": "sha256:abcd1234",
+    "ImageConfig": {
+      "architecture": "amd64",
+      "os": "linux"
+    }
+  },
+  "Results": [
+    {
+      "Target": "python:3.9-slim (debian 11.2)",
+      "Type": "os",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2021-33909",
+          "PkgName": "linux",
+          "InstalledVersion": "5.10.46-5",
+          "FixedVersion": "5.10.46-6",
+          "Title": "Linux kernel - Sequoia - fs/seq_file.c - seq_read integer overflow",
+          "Description": "An integer overflow was discovered in fs/seq_file.c in the Linux kernel. This can lead to a buffer overflow and potential code execution.",
+          "Severity": "CRITICAL",
+          "References": [
+            "https://nvd.nist.gov/vuln/detail/CVE-2021-33909",
+            "https://www.linux.com/news/major-linux-kernel-vulnerability-discovered"
+          ]
+        },
+        {
+          "VulnerabilityID": "CVE-2021-22911",
+          "PkgName": "openssl",
+          "InstalledVersion": "1.1.1k-1",
+          "FixedVersion": "1.1.1l-1",
+          "Title": "OpenSSL - OPENSSL_LH_flush() infinite loop",
+          "Description": "In OpenSSL 1.1.1 an attacker may cause a DoS attack by crafted SSL objects.",
+          "Severity": "HIGH",
+          "References": [
+            "https://nvd.nist.gov/vuln/detail/CVE-2021-22911"
+          ]
+        },
+        {
+          "VulnerabilityID": "CVE-2021-3807",
+          "PkgName": "libssl1.1",
+          "InstalledVersion": "1.1.1k-1",
+          "FixedVersion": "1.1.1m-1",
+          "Title": "lz4 - frame.c - integer overflow",
+          "Description": "An integer overflow was found in the LZ4 library. This could lead to a buffer overflow.",
+          "Severity": "MEDIUM",
+          "References": [
+            "https://nvd.nist.gov/vuln/detail/CVE-2021-3807"
+          ]
+        }
+      ]
+    },
+    {
+      "Target": "requirements.txt",
+      "Type": "pip",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2021-23369",
+          "PkgName": "urllib3",
+          "InstalledVersion": "1.26.4",
+          "FixedVersion": "1.26.5",
+          "Title": "urllib3 - retries list can be mutated before being checked",
+          "Description": "The urllib3 library before version 1.26.5 contains a vulnerability that could allow an attacker to modify the retries list.",
+          "Severity": "LOW",
+          "References": [
+            "https://nvd.nist.gov/vuln/detail/CVE-2021-23369"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+[Unit]
+Description=Certus Trust API
+After=network-online.target podman.service certus-postgres.service
+Wants=network-online.target
+Requires=podman.service
+
+[Service]
+Type=simple
+User=certus
+Restart=always
+RestartSec=10s
+TimeoutStartSec=120
+
+MemoryMax=2G
+CPUQuota=100%
+
+EnvironmentFile=/opt/certus/.env
+
+ExecStartPre=-/usr/bin/podman stop certus-trust-api
+ExecStartPre=-/usr/bin/podman rm certus-trust-api
+
+ExecStart=/usr/bin/podman run --rm \
+  --name certus-trust-api \
+  --network certus \
+  -p 8059:8059 \
+  --env-file /opt/certus/.env \
+  localhost/certus-trust:latest \
+  uvicorn certus_trust.api:app --host 0.0.0.0 --port 8059
+
+ExecStop=/usr/bin/podman stop certus-trust-api
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+# Cosign private key - never commit
+cosign.key
+cosign.key.pub
+
+# Keep public key for reference
+!cosign.pub

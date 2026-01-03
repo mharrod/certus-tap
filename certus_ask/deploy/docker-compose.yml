@@ -1,0 +1,49 @@
+# Certus Ask Service
+# SaaS service for document ingestion and querying
+
+services:
+  ask-certus-backend:
+    build:
+      context: ../..
+      dockerfile: certus_ask/Dockerfile
+      args:
+        - SKIP_EMBEDDING_PRELOAD=1
+    container_name: ask-certus-backend
+    ports:
+      - '8000:8000'
+    env_file:
+      - ../../.env
+    environment:
+      # Service configuration
+      - SERVICE_NAME=ask-certus-backend
+      - LOG_LEVEL=INFO
+      - PYTHONPATH=/app
+
+      # Integrity configuration (library)
+      - INTEGRITY_SHADOW_MODE=false
+      - INTEGRITY_RATE_LIMIT_PER_MIN=100
+
+      # Infrastructure dependencies
+      - OPENSEARCH_HOST=http://opensearch:9200
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - NEO4J_URI=neo4j://neo4j:7687
+      - VICTORIAMETRICS_URL=http://victoriametrics:8428
+    volumes:
+      - certus-ask-cache:/opt/huggingface
+      - ../../scripts:/app/scripts:ro
+      - ~/certus-evidence:/tmp/evidence
+    networks:
+      - certus-network
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8000/v1/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  certus-ask-cache:
+
+networks:
+  certus-network:
+    external: true
+    name: certus-network

@@ -1,0 +1,69 @@
+# ============================================================================
+# Certus Single-Node DigitalOcean Deployment Environment - EXAMPLE
+# ============================================================================
+# Copy this file to .envrc and customize
+# Then run: direnv allow
+
+# Inherit parent .envrc settings
+source_up
+
+# Environment marker
+export CERTUS_ENV=staging
+export DEPLOYMENT_TYPE=single-node
+
+# DigitalOcean configuration
+# Get token from: https://cloud.digitalocean.com/account/api/tokens
+# Options for secure token storage:
+# 1. 1Password CLI: export DIGITALOCEAN_TOKEN=$(op read "op://certus/digitalocean/token")
+# 2. pass: export DIGITALOCEAN_TOKEN=$(pass show digitalocean/token)
+# 3. Manual: export DIGITALOCEAN_TOKEN="dop_v1_xxxxx"
+#
+# For now, uncomment and add your token:
+# export DIGITALOCEAN_TOKEN="your-token-here"
+
+# OpenTofu variables (passed automatically to tofu via TF_VAR_*)
+export TF_VAR_environment=staging
+export TF_VAR_region=nyc3
+export TF_VAR_droplet_size=s-4vcpu-8gb
+export TF_VAR_worker_count=2
+
+# Helpful aliases for deployment workflow
+alias tf='tofu'
+alias tf-init='tofu init'
+alias tf-plan='tofu plan -var-file=secrets.tfvars'
+alias tf-apply='tofu apply -var-file=secrets.tfvars'
+alias tf-destroy='tofu destroy -var-file=secrets.tfvars'
+alias tf-output='tofu output'
+alias tf-state='tofu state list'
+
+# Deployment helpers
+alias deploy='tofu apply -var-file=secrets.tfvars'
+alias deploy-plan='tofu plan -var-file=secrets.tfvars'
+alias get-ip='tofu output -raw droplet_ip'
+alias ssh-droplet='ssh root@$(tofu output -raw droplet_ip 2>/dev/null || echo "not-deployed")'
+
+# Show environment info
+echo "🚀 Certus Single-Node Deployment Environment"
+echo "   Environment: $CERTUS_ENV"
+echo "   Deployment Type: $DEPLOYMENT_TYPE"
+echo "   Region: $TF_VAR_region"
+echo "   Droplet Size: $TF_VAR_droplet_size"
+echo ""
+echo "   Quick start:"
+echo "     1. Edit secrets.tfvars (add Tailscale key)"
+echo "     2. tf-init           - Initialize OpenTofu"
+echo "     3. tf-plan           - Preview changes"
+echo "     4. tf-apply          - Deploy to DigitalOcean"
+echo ""
+echo "   Useful commands:"
+echo "     tf-output            - Show deployment outputs"
+echo "     get-ip               - Get droplet IP"
+echo "     ssh-droplet          - SSH to droplet"
+echo ""
+
+# Safety check
+if [ ! -f secrets.tfvars ]; then
+    echo "⚠️  WARNING: secrets.tfvars not found!"
+    echo "   Run: ../../shared/scripts/generate-secrets.sh"
+    echo ""
+fi

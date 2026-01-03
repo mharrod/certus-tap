@@ -1,0 +1,30 @@
+[run]
+branch = True
+source =
+    certus_ask
+    certus_assurance
+    certus_transform
+    certus_trust
+    src/certus_docops
+
+[report]
+show_missing = True
+precision = 2
+fail_under = 90
+
+[paths]
+certus_ask =
+    certus_ask
+    */site-packages/certus_ask
+certus_assurance =
+    certus_assurance
+    */site-packages/certus_assurance
+certus_transform =
+    certus_transform
+    */site-packages/certus_transform
+certus_trust =
+    certus_trust
+    */site-packages/certus_trust
+certus_docops =
+    src/certus_docops
+    */site-packages/certus_docops

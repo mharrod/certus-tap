@@ -1,0 +1,42 @@
+[Unit]
+Description=Certus Security Scan Worker %i
+After=network-online.target podman.service certus-assurance-api.service
+Wants=network-online.target
+Requires=podman.service
+
+[Service]
+Type=simple
+User=certus
+Restart=always
+RestartSec=10s
+TimeoutStartSec=120
+
+# Resource limits (workers need more resources)
+MemoryMax=6G
+CPUQuota=300%
+
+EnvironmentFile=/opt/certus/.env
+Environment="WORKER_ID=%i"
+
+ExecStartPre=-/usr/bin/podman stop certus-worker-%i
+ExecStartPre=-/usr/bin/podman rm certus-worker-%i
+
+ExecStart=/usr/bin/podman run --rm \
+  --name certus-worker-%i \
+  --network certus \
+  -v /var/run/podman/podman.sock:/var/run/docker.sock:z \
+  -v /var/lib/certus/artifacts:/var/lib/certus/artifacts:z \
+  --env-file /opt/certus/.env \
+  -e WORKER_ID=%i \
+  -e DAGGER_TIMEOUT=3600 \
+  -e WORKER_TIMEOUT=3600 \
+  localhost/certus-assurance:latest \
+  python -m certus_assurance.jobs.worker --worker-id %i
+
+ExecStop=/usr/bin/podman stop certus-worker-%i
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

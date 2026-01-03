@@ -1,0 +1,17 @@
+title: Workflows
+arrange:
+  - index.md
+  - system.md
+  - ingestion-query.md
+  - guardrails.md
+  - datalake.md
+  - model-lifecycle.md
+  - evaluation.md
+  - developer.md
+  - platform.md
+  - executive.md
+  - customer.md
+  - assurance.md
+  - engineer.md
+  - construction.md
+  - runtime.md

@@ -1,0 +1,5 @@
+nav:
+- a. Document Ingestion: ingestion-pipelines.md
+- b. Using the Datalake: sample-datalake-upload.md
+- c. Data Promotion: golden-bucket.md
+- ...

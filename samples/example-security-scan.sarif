@@ -1,0 +1,338 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Bandit",
+          "version": "1.7.5",
+          "informationUri": "https://bandit.readthedocs.io/",
+          "semanticVersion": "1.7.5",
+          "rules": [
+            {
+              "id": "B101",
+              "name": "assert_used",
+              "shortDescription": {
+                "text": "Use of assert detected"
+              },
+              "fullDescription": {
+                "text": "The use of assert() in code can be problematic in production environments. Assert statements are removed when Python is run with the -O flag, meaning assertions will not be evaluated in optimized code."
+              },
+              "messageStrings": {
+                "default": {
+                  "text": "Use of assert detected. The assert statement is useful for debugging, but should not be used in production code for error handling. Asserts are removed when Python is run with -O optimization."
+                }
+              },
+              "properties": {
+                "cwe_id": 506,
+                "severity": "LOW"
+              }
+            },
+            {
+              "id": "B602",
+              "name": "shell_injection",
+              "shortDescription": {
+                "text": "Possible shell injection via a string-based shell invocation"
+              },
+              "fullDescription": {
+                "text": "The use of shell=True in subprocess calls can lead to shell injection vulnerabilities. User input should never be directly passed to shell commands without proper sanitization."
+              },
+              "messageStrings": {
+                "default": {
+                  "text": "Possible shell injection via shell=True. This is a high-risk operation as it allows arbitrary shell commands to be executed. Avoid shell=True and use argument lists instead."
+                }
+              },
+              "properties": {
+                "cwe_id": 78,
+                "severity": "CRITICAL"
+              }
+            },
+            {
+              "id": "B703",
+              "name": "postgres_parameterized_query",
+              "shortDescription": {
+                "text": "Potential SQL injection vulnerability"
+              },
+              "fullDescription": {
+                "text": "SQL injection vulnerabilities occur when user-controlled data is concatenated directly into SQL queries. Always use parameterized queries with placeholders and pass data separately."
+              },
+              "messageStrings": {
+                "default": {
+                  "text": "Possible SQL injection detected. SQL queries should use parameterized statements with bound parameters rather than string concatenation."
+                }
+              },
+              "properties": {
+                "cwe_id": 89,
+                "severity": "HIGH"
+              }
+            },
+            {
+              "id": "B404",
+              "name": "import_subprocess",
+              "shortDescription": {
+                "text": "Consider possible security implications associated with the subprocess module"
+              },
+              "fullDescription": {
+                "text": "The subprocess module allows spawning new processes and interacting with them. Ensure that user input is properly validated and sanitized when used with subprocess functions."
+              },
+              "messageStrings": {
+                "default": {
+                  "text": "The subprocess module is being used. Be careful when passing user-controlled data to subprocess functions to avoid injection attacks."
+                }
+              },
+              "properties": {
+                "cwe_id": 94,
+                "severity": "MEDIUM"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "B101",
+          "level": "note",
+          "message": {
+            "text": "Use of assert detected. The assert statement is useful for debugging, but should not be used in production code for error handling. Asserts are removed when Python is run with -O optimization."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/validators.py"
+                },
+                "region": {
+                  "startLine": 42,
+                  "startColumn": 8,
+                  "endLine": 42,
+                  "endColumn": 42
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Replace assert with explicit error handling"
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "app/validators.py"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "B602",
+          "level": "error",
+          "message": {
+            "text": "Possible shell injection via shell=True. This is a high-risk operation as it allows arbitrary shell commands to be executed. Avoid shell=True and use argument lists instead."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/utils/system.py"
+                },
+                "region": {
+                  "startLine": 127,
+                  "startColumn": 4,
+                  "endLine": 128,
+                  "endColumn": 65
+                }
+              }
+            }
+          ],
+          "codeFlows": [
+            {
+              "message": {
+                "text": "This subprocess call uses shell=True with user input"
+              },
+              "locations": [
+                {
+                  "location": {
+                    "message": {
+                      "text": "subprocess.run(user_command, shell=True) at line 127"
+                    },
+                    "physicalLocation": {
+                      "artifactLocation": {
+                        "uri": "app/utils/system.py"
+                      },
+                      "region": {
+                        "startLine": 127
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Use argument list instead of shell=True to prevent injection"
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "app/utils/system.py"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "B703",
+          "level": "error",
+          "message": {
+            "text": "Possible SQL injection detected. SQL queries should use parameterized statements with bound parameters rather than string concatenation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/database/queries.py"
+                },
+                "region": {
+                  "startLine": 89,
+                  "startColumn": 12,
+                  "endLine": 91,
+                  "endColumn": 8
+                }
+              }
+            }
+          ],
+          "snippet": {
+            "text": "query = f\"SELECT * FROM users WHERE email = '{user_email}'\"\nresult = db.execute(query)"
+          },
+          "fixes": [
+            {
+              "description": {
+                "text": "Use parameterized query with bound parameters"
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "app/database/queries.py"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "B404",
+          "level": "warning",
+          "message": {
+            "text": "The subprocess module is being used. Be careful when passing user-controlled data to subprocess functions to avoid injection attacks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/utils/system.py"
+                },
+                "region": {
+                  "startLine": 5,
+                  "startColumn": 1,
+                  "endLine": 5,
+                  "endColumn": 23
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "B602",
+          "level": "error",
+          "message": {
+            "text": "Possible shell injection via shell=True. This is a high-risk operation as it allows arbitrary shell commands to be executed. Avoid shell=True and use argument lists instead."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/background_tasks.py"
+                },
+                "region": {
+                  "startLine": 56,
+                  "startColumn": 8,
+                  "endLine": 58,
+                  "endColumn": 72
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Refactor to use subprocess.run with argument list (shell=False)"
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "app/background_tasks.py"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "B703",
+          "level": "warning",
+          "message": {
+            "text": "Possible SQL injection detected. SQL queries should use parameterized statements with bound parameters rather than string concatenation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/reporting/export.py"
+                },
+                "region": {
+                  "startLine": 142,
+                  "startColumn": 20,
+                  "endLine": 144,
+                  "endColumn": 15
+                }
+              }
+            }
+          ],
+          "snippet": {
+            "text": "where_clause = f\"WHERE status = '{status}' AND created_date > '{date_str}'\"\nquery = f\"SELECT * FROM orders {where_clause}\""
+          },
+          "fixes": [
+            {
+              "description": {
+                "text": "Migrate to ORM or parameterized queries"
+              },
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "app/reporting/export.py"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "metrics": {
+          "total_issues": 6,
+          "critical": 1,
+          "high": 1,
+          "medium": 1,
+          "low": 1,
+          "info": 2
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+# Certus Transform Service
+# Customer-deployed service for data transformation
+
+services:
+  certus-transform:
+    build:
+      context: ../..
+      dockerfile: certus_transform/Dockerfile
+    container_name: certus-transform
+    ports:
+      - '8100:8100'
+    env_file:
+      - ../../.env
+    environment:
+      - SERVICE_NAME=certus-transform
+      - LOG_LEVEL=INFO
+
+      # Infrastructure dependencies (customer provides)
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - VICTORIAMETRICS_URL=http://victoriametrics:8428
+
+      # SaaS service connections
+      - SAAS_BACKEND_URL=http://ask-certus-backend:8000
+    networks:
+      - certus-network
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8100/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  certus-network:
+    external: true
+    name: certus-network

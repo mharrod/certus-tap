@@ -1,0 +1,6 @@
+nav:
+- 1. Keyword Search: keyword-search.md
+- 2. Semantic Search: semantic-search.md
+- 3. Knowledge Graphs: neo4j-local-ingestion.md
+- 4. Hybrid search: hybrid-search.md
+- ...

@@ -1,0 +1,391 @@
+# Certus TAP documentation powered by Zensical.
+
+
+# Mirrors the existing MkDocs configuration so we can evaluate the new runtime
+# without losing parity with mkdocs.yml.
+
+
+[project]
+site_name = "Certus TAP"
+site_url = "https://mharrod.github.io/certus-tap"
+site_description = "Certus TAP (Transparency, Assurance, and Privacy) - A production-grade RAG system"
+site_author = "Martin Harrod"
+repo_url = "https://github.com/mharrod/certus-tap"
+edit_uri = "edit/main/docs/"
+copyright = 'Maintained by <a href="https://mharrod.com">mharrod</a>.'
+
+# Documentation content lives in /docs and static assets ship from site/
+docs_dir = "docs"
+site_dir = "site"
+
+extra_css = [
+    "assets/stylesheets/main.css?v=7",
+    "assets/stylesheets/footer.css",
+    "assets/stylesheets/palette.css",
+    "assets/stylesheets/admonition-overrides.css?v=1"
+
+]
+
+extra_javascript = [
+    "assets/javascripts/theme-default.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js",
+    "assets/javascripts/tables.js",
+    "assets/javascripts/nav-toggle.js",
+    "assets/javascripts/mermaid-init.js",
+]
+
+nav = [
+  { "Home" = "index.md" },
+  { "Framework" = [
+    { "Index" = "framework/index.md" },
+    { "Practices" = "framework/practices.md" },
+    { "Workflows" = [
+      { "Index" = "framework/workflows/index.md" },
+      { "System" = "framework/workflows/system.md" },
+      { "Ingestion Query" = "framework/workflows/ingestion-query.md" },
+      { "Guardrails" = "framework/workflows/guardrails.md" },
+      { "Datalake" = "framework/workflows/datalake.md" },
+      { "Model Lifecycle" = "framework/workflows/model-lifecycle.md" },
+      { "Evaluation" = "framework/workflows/evaluation.md" },
+      { "Developer" = "framework/workflows/developer.md" },
+      { "Platform" = "framework/workflows/platform.md" },
+      { "Executive" = "framework/workflows/executive.md" },
+      { "Customer" = "framework/workflows/customer.md" },
+      { "Assurance" = "framework/workflows/assurance.md" },
+      { "Engineer" = "framework/workflows/engineer.md" },
+      { "Runtime" = "framework/workflows/runtime.md" }
+    ] },
+    { "Architecture" = [
+      { "Index" = "framework/architecture/index.md" },
+      { "System Landscape" = "framework/architecture/system-landscape.md" },
+      { "Certus Ask" = [
+        { "Context" = "framework/architecture/certus-ask/context.md" },
+        { "Container" = "framework/architecture/certus-ask/container.md" },
+        { "Sequence" = "framework/architecture/certus-ask/sequence.md" },
+        { "Deployment" = "framework/architecture/certus-ask/deployment.md" },
+        { "Security" = "framework/architecture/certus-ask/security.md" }
+      ] },
+      { "Certus Transform" = [
+        { "Context" = "framework/architecture/certus-transform/context.md" },
+        { "Container" = "framework/architecture/certus-transform/container.md" },
+        { "Component" = "framework/architecture/certus-transform/component.md" },
+        { "Sequence" = "framework/architecture/certus-transform/sequence.md" },
+        { "Deployment" = "framework/architecture/certus-transform/deployment.md" },
+        { "Security" = "framework/architecture/certus-transform/security.md" }
+      ] },
+      { "Certus Assurance" = [
+        { "Context" = "framework/architecture/certus-assurance/context.md" },
+        { "Container" = "framework/architecture/certus-assurance/container.md" },
+        { "Component" = "framework/architecture/certus-assurance/component.md" },
+        { "Sequence" = "framework/architecture/certus-assurance/sequence.md" },
+        { "Deployment" = "framework/architecture/certus-assurance/deployment.md" },
+        { "Security" = "framework/architecture/certus-assurance/security.md" }
+      ] },
+      { "Certus Trust" = [
+        { "Context" = "framework/architecture/certus-trust/context.md" },
+        { "Container" = "framework/architecture/certus-trust/container.md" },
+        { "Component" = "framework/architecture/certus-trust/component.md" },
+        { "Sequence" = "framework/architecture/certus-trust/sequence.md" },
+        { "Deployment" = "framework/architecture/certus-trust/deployment.md" },
+        { "Security" = "framework/architecture/certus-trust/security.md" }
+      ] },
+      { "Certus Integrity" = [
+        { "Component" = "framework/architecture/certus-integrity/component.md" },
+        { "Container" = "framework/architecture/certus-integrity/container.md" },
+        { "Context" = "framework/architecture/certus-integrity/context.md" },
+        { "Security" = "framework/architecture/certus-integrity/security.md" },
+        { "Sequence" = "framework/architecture/certus-integrity/sequence.md" }
+      ] },
+      { "Certus Security Module" = [
+        { "Context" = "framework/architecture/certus-security-module/context.md" },
+        { "Container" = "framework/architecture/certus-security-module/container.md" },
+        { "Component" = "framework/architecture/certus-security-module/component.md" },
+        { "Sequence" = "framework/architecture/certus-security-module/sequence.md" },
+        { "Deployment" = "framework/architecture/certus-security-module/deployment.md" },
+        { "Security" = "framework/architecture/certus-security-module/security.md" }
+      ] },
+      { "Certus Evaluate" = [
+        { "Context" = "framework/architecture/certus-evaluate/context.md" },
+        { "Container" = "framework/architecture/certus-evaluate/container.md" },
+        { "Component" = "framework/architecture/certus-evaluate/component.md" },
+        { "Sequence" = "framework/architecture/certus-evaluate/sequence.md" },
+        { "Deployment" = "framework/architecture/certus-evaluate/deployment.md" },
+        { "Security" = "framework/architecture/certus-evaluate/security.md" }
+      ] },
+      { "Assurance Manifests" = [
+        { "Context" = "framework/architecture/assurance-manifests/context.md" },
+        { "Container" = "framework/architecture/assurance-manifests/container.md" },
+        { "Component" = "framework/architecture/assurance-manifests/component.md" },
+        { "Sequence" = "framework/architecture/assurance-manifests/sequence.md" },
+        { "Deployment" = "framework/architecture/assurance-manifests/deployment.md" },
+        { "Security" = "framework/architecture/assurance-manifests/security.md" }
+      ] },
+      { "Architecture Decision Records" = [
+        { "Home" = "framework/architecture/ADRs/index.md" },
+        { "ADR-0001 Structured Logging" = "framework/architecture/ADRs/0001-structured-logging.md" },
+        { "ADR-0002 Configuration Management" = "framework/architecture/ADRs/0002-configuration-management.md" },
+        { "ADR-0003 Error Handling" = "framework/architecture/ADRs/0003-error-handling.md" },
+        { "ADR-0004 Type Hints" = "framework/architecture/ADRs/0004-type-hints-strategy.md" },
+        { "ADR-0005 Privacy Design" = "framework/architecture/ADRs/0005-privacy-design.md" },
+        { "0006 Verification First Storage" = "framework/architecture/ADRs/0006-verification-first-storage.md" },
+        { "0007 Deployment Topologies" = "framework/architecture/ADRs/0007-deployment-topologies.md" },
+        { "0008 Separate Evaluate And Integrity" = "framework/architecture/ADRs/0008-separate-evaluate-and-integrity.md" },
+        { "0009 Guardrail Framework" = "framework/architecture/ADRs/0009-guardrail-framework.md" },
+        { "0010 Observability Strategy" = "framework/architecture/ADRs/0010-observability-strategy.md" }
+      ] },
+      { "Certus Insight" = [
+        { "Context" = "framework/architecture/certus-insight/context.md" },
+        { "Container" = "framework/architecture/certus-insight/container.md" },
+        { "Component" = "framework/architecture/certus-insight/component.md" },
+        { "Sequence" = "framework/architecture/certus-insight/sequence.md" },
+        { "Deployment" = "framework/architecture/certus-insight/deployment.md" },
+        { "Security" = "framework/architecture/certus-insight/security.md" }
+      ] }
+    ] },
+    { "Ontology" = [
+      { "Index" = "framework/ontology/index.md" },
+      { "Tao" = "framework/ontology/tao.md" }
+    ] }
+  ] },
+  { "Installation" = [
+    { "Index" = "installation/index.md" },
+    { "Application" = "installation/application.md" },
+    { "Verify" = "installation/verify.md" },
+    { "Misc" = "installation/misc.md" },
+    { "Configuration Reference" = "installation/configuration-reference.md" },
+    { "Environment Setup" = "installation/environment-setup.md" }
+  ] },
+  { "Learn" = [
+    { "1. Getting Started" = "learn/getting-started.md" },
+    { "2. Transform" = [
+      { "A) Document Ingestion" = "learn/transform/ingestion-pipelines.md" },
+      { "B) Using the Datalake" = "learn/transform/sample-datalake-upload.md" },
+      { "C) Data Promotion" = "learn/transform/golden-bucket.md" }
+    ] },
+    { "3. Ask" = [
+      { "A) Keyword Search" = "learn/ask/keyword-search.md" },
+      { "B) Semantic Search" = "learn/ask/semantic-search.md" },
+      { "C) Knowledge Graphs" = "learn/ask/neo4j-local-ingestion.md" },
+      { "D) Hybrid search" = "learn/ask/hybrid-search.md" }
+    ] },
+    { "4. Assurance" = [
+      { "Index" = "learn/assurance/index.md" },
+      { "A) Quick Start CLI Scan" = "learn/assurance/quick-start-cli-scan.md" },
+      { "B) Custom Manifests" = "learn/assurance/custom-manifests.md" },
+      { "C) Managed Service API" = "learn/assurance/managed-service-api-scanning.md" },
+      { "D) Scanning Without Git" = "learn/assurance/scanning-without-git.md" },
+      { "E) End-to-End Workflow" = "learn/assurance/end-to-end-workflow.md" }
+    ] },
+    { "5. Trust" = [
+      { "A) Overview" = "learn/trust/overview.md" },
+      { "B) Sign Attestations" = "learn/trust/sign-attestations.md" },
+      { "C) Verify Trust" = "learn/trust/verify-trust.md" },
+      { "D) Vendor Review" = "learn/trust/vendor-review.md" },
+      { "E) Audit Queries" = "learn/trust/audit-queries.md" },
+      { "Sample Data" = "learn/trust/_sample-data.md" },
+      { "Index" = "learn/trust/index.md" }
+    ] },
+    { "6. Integrity" = [
+      { "A) Baselining Rate Limits" = "learn/integrity/testing-rate-limits.md" },
+      { "B) Investigating Incidents" = "learn/integrity/investigating-incidents.md" },
+      { "C) Compliance Reporting" = "learn/integrity/compliance-reporting.md" }
+    ] },
+    { "7. Evaluate" = [
+      { "Index" = "learn/evaluate/index.md" }
+    ] },
+    { "8. Agentic Workflows" = [
+      { "Index" = "learn/agentic/index.md" }
+    ] },
+    { "9. Protect" = [
+      { "Index" = "learn/protect/index.md" }
+    ] },
+    { "10. Sovereign AI" = [
+      { "Index" = "learn/soverign/index.md" }
+    ] },
+    { "Index" = "learn/index.md" }
+  ] },
+  { "Reference" = [
+    { "Index" = "reference/index.md" },
+    { "Core Reference" = [
+      { "Assurance Manifest" = "reference/core-reference/assurance-manifest-reference.md" },
+      { "Local Sast Scanning" = "reference/core-reference/local-sast-scanning.md" },
+      { "Multi Workspace Isolation" = "reference/core-reference/multi-workspace-isolation.md" },
+      { "Non Repudation Flow" = "reference/core-reference/non-repudation-flow.md" },
+      { "Troubleshooting" = "reference/core-reference/troubleshooting.md" },
+      { "Reference Doc Template" = "reference/core-reference/reference-doc-template.md" }
+    ] },
+    { "Architecture" = [
+      { "Dependency Injection" = "reference/architecture/dependency-injection.md" },
+      { "Adding Ingestion Service" = "reference/architecture/adding-ingestion-service.md" }
+    ] },
+    { "Components" = [
+      { "Certus Assurance" = "reference/components/certus-assurance.md" },
+      { "Certus Integrity" = [
+        { "01 Overview" = "reference/components/certus-integrity/01-overview.md" },
+        { "02 Getting Started" = "reference/components/certus-integrity/02-getting-started.md" },
+        { "03 Configuration" = "reference/components/certus-integrity/03-configuration.md" },
+        { "04 Guardrails" = "reference/components/certus-integrity/04-guardrails.md" },
+        { "05 Monitoring" = "reference/components/certus-integrity/05-monitoring.md" },
+        { "06 Troubleshooting" = "reference/components/certus-integrity/06-troubleshooting.md" }
+      ] },
+      { "Certus Transform" = "reference/components/certus-transform.md" },
+      { "Certus Trust" = "reference/components/certus-trust.md" },
+      { "Datalake Orchestration" = "reference/components/datalake-orchestration.md" },
+      { "Sast Pipeline" = "reference/components/sast-pipeline.md" },
+      { "Neo4j Guide" = "reference/components/neo4j-guide.md" },
+      { "Opensearch Explorer" = "reference/components/opensearch-explorer.md" },
+      { "Ollama Configuration" = "reference/components/ollama-configuration.md" },
+      { "Streamlit Console" = "reference/components/streamlit-console.md" },
+      { "Logging Stack" = "reference/components/logging-stack.md" }
+    ] },
+    { "API Reference" = [
+      { "Api Doc Standard" = "reference/api/api-doc-standard.md" },
+      { "Api Response" = "reference/api/api-response.md" },
+      { "Api Error Codes" = "reference/api/api-error-codes.md" },
+      { "Api Versioning" = "reference/api/api-versioning.md" },
+      { "Metadata Envelopes" = "reference/api/metadata-envelopes.md" }
+    ] },
+    { "Testing" = [
+      { "Home" = "reference/testing/index.md" },
+      { "Test Suite Reference" = "reference/testing/test-suite-reference.md" },
+      { "Strategy & Architecture" = "reference/testing/overview.md" },
+      { "Fixtures Guide" = "reference/testing/fixtures.md" },
+      { "Service & Router Playbook" = "reference/testing/service-playbook.md" },
+      { "Best Practices" = "reference/testing/best-practices.md" },
+      { "Preflight Deep Dive" = "reference/testing/preflight-deep-dive.md" },
+      { "Security Scanning" = "reference/testing/security-scanning.md" },
+      { "Testing Cadence Checklist" = "reference/testing/testing-checklist.md" },
+      { "Test Organization" = "reference/testing/TEST-ORGANIZATION.md" },
+      { "Service Layer Testing" = "reference/testing/service-layer-testing.md" }
+    ] },
+    { "Logging" = [
+      { "Index" = "reference/logging/index.md" },
+      { "Overview" = "reference/logging/overview.md" },
+      { "Getting Started" = "reference/logging/getting-started.md" },
+      { "Configuration" = "reference/logging/configuration.md" },
+      { "Usage" = "reference/logging/usage.md" },
+      { "Opensearch" = "reference/logging/opensearch.md" },
+      { "Privacy Operations" = "reference/logging/privacy-operations.md" },
+      { "Privacy Queries" = "reference/logging/privacy-queries.md" },
+      { "Api Reference" = "reference/logging/api-reference.md" },
+      { "Troubleshooting" = "reference/logging/troubleshooting.md" }
+    ] },
+    { "Troubleshooting" = [
+      { "Index" = "reference/troubleshooting/index.md" },
+      { "General" = "reference/troubleshooting/general.md" },
+      { "Logging" = "reference/troubleshooting/logging.md" },
+      { "Components" = "reference/troubleshooting/components.md" }
+    ] },
+    { "Roadmap" = [
+      { "Readme" = "reference/roadmap/README.md" },
+      { "Proposals" = [
+        { "Core" = [
+          { "☑ Certus Integrity" = "reference/roadmap/proposals/core/certus-integrity.md" },
+          { "◐ Certus Assurance" = "reference/roadmap/proposals/core/certus-assurance-proposal.md" },
+          { "◐ Certus Trust" = "reference/roadmap/proposals/core/certus-trust-proposal.md" },
+          { "✎ Certus Evaluate" = "reference/roadmap/proposals/core/certus-evaluate-service.md" },
+          { "✎ Certus-Evaluate Tech Spec" = "reference/roadmap/proposals/core/certus-evaluate-technical-spec.md" },
+          { "✎ Certus Insight" = "reference/roadmap/proposals/core/certus-insight-proposal.md" },
+          { "✎ DigitalOcean Deployment" = "reference/roadmap/proposals/core/digitalocean-deployment-proposal.md" },
+          { "Service Layer Migration Proposal" = "reference/roadmap/proposals/core/service-layer-migration-proposal.md" }
+        ] },
+        { "Security" = [
+          { "◐ Assurance Manifest" = "reference/roadmap/proposals/security/assurance-manifest-proposal.md" },
+          { "◐ Dagger Module" = "reference/roadmap/proposals/security/dagger-proposal.md" },
+          { "✎ Runtime Security" = "reference/roadmap/proposals/security/runtime-security-proposal.md" },
+          { "✎ Security SLM" = "reference/roadmap/proposals/security/security-slm-proposal.md" },
+          { "✎ AAA" = "reference/roadmap/proposals/security/authentication-authorization-proposal.md" },
+          { "✎ Secrets Management" = "reference/roadmap/proposals/security/infrastructure-secrets-management.md" },
+          { "✎ Policy Engine" = "reference/roadmap/proposals/security/policy-engine-proposal.md" }
+        ] },
+        { "AI" = [
+          { "✎  Agent Framework" = "reference/roadmap/proposals/ai/aaif-agent-framework-proposal.md" },
+          { "✎  Chat Interface" = "reference/roadmap/proposals/ai/chat-proposal.md" },
+          { "✎  MCP Proposal" = "reference/roadmap/proposals/ai/mcp-proposal.md" }
+        ] },
+        { "Misc" = [
+          { "✎  n8n Workflow" = "reference/roadmap/proposals/misc/n8n-workflow-integration-proposal.md" },
+          { "✎  Sovereign AI" = "reference/roadmap/proposals/misc/sovereign-ai-learning-platform-proposal.md" }
+        ] }
+      ] },
+      { "Proposal Submission" = "reference/roadmap/proposal-submission.md" },
+      { "Proposal Template" = "reference/roadmap/PROPOSAL-TEMPLATE.md" },
+      { "Implemenation Priority" = "reference/roadmap/implemenation-priority.md" }
+    ] }
+  ] },
+  { "About" = [
+    { "Index" = "about/index.md" },
+    { "Principles" = "about/principles.md" },
+    { "Vision" = "about/vision.md" },
+    { "Participation" = "about/participation.md" }
+  ] }
+]
+
+
+
+
+[project.theme]
+name = "material"
+logo = "assets/images/logo.png"
+favicon = "assets/images/logo.png"
+custom_dir = "overrides"
+features = [
+    "content.code.copy",
+    "content.code.annotate",
+    "content.tabs.link",
+    "navigation.indexes",
+    "navigation.tabs",
+    "navigation.top",
+    "navigation.tracking",
+    "search.highlight",
+    "search.share",
+    "search.suggest",
+]
+
+[project.theme.icon]
+repo = "fontawesome/brands/github-alt"
+
+
+exclude_docs = """
+learn/develop/*
+learn/develop/**/*
+"""
+
+
+
+[[project.theme.palette]]
+scheme = "slate"
+primary = "custom"
+accent = "custom"
+toggle.icon = "material/weather-sunny"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+scheme = "default"
+primary = "custom"
+accent = "custom"
+toggle.icon = "material/weather-night"
+toggle.name = "Switch to dark mode"
+
+plugins = [
+    "search",
+    { "awesome-pages" = { filename = ".pages", collapse_single_pages = true } },
+    { exclude = { glob = ["*.gz"], regex = [".*\\.(tmp|bin|tar)$"] } },
+]
+
+markdown_extensions = [
+    "admonition",
+    "attr_list",
+    "footnotes",
+    "md_in_html",
+    "pymdownx.details",
+    "pymdownx.highlight",
+    "pymdownx.inlinehilite",
+    { "pymdownx.tabbed" = { alternate_style = true } },
+    { "pymdownx.emoji" = { emoji_index = "zensical.extensions.emoji.twemoji", emoji_generator = "zensical.extensions.emoji.to_svg" } },
+    { "pymdownx.snippets" = { base_path = "./docs", check_paths = true } },
+    { "pymdownx.superfences" = { custom_fences = [ { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" } ] } },
+    { "pymdownx.tasklist" = { custom_checkbox = true } },
+    { "toc" = { permalink = true } },
+]

@@ -1,0 +1,34 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Dagger
+RUN curl -fsSL https://dl.dagger.io/dagger/install.sh | sh && \
+    mv /root/bin/dagger /usr/local/bin/
+
+# Install uv
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Copy application code
+COPY certus_assurance /app/certus_assurance
+COPY dagger_modules /app/dagger_modules
+COPY pyproject.toml /app/
+
+# Install Python dependencies
+RUN pip install -e /app/certus_assurance
+RUN pip install -e /app/dagger_modules/security
+
+# Create artifact directory
+RUN mkdir -p /var/lib/certus/artifacts
+
+# Expose API port
+EXPOSE 8056
+
+# Run API by default
+CMD ["uvicorn", "certus_assurance.api:app", "--host", "0.0.0.0", "--port", "8056"]

@@ -1,0 +1,16 @@
+Certus TAP Usage Policy
+--------------------------
+
+1. Data Classification
+   - Internal documents must be tagged as INTERNAL.
+   - Public releases must be tagged as PUBLIC.
+
+2. Contact Channels
+   - Security incidents: security@example.com
+   - Hotline: +1-415-555-7100 (use for urgent escalations only).
+
+3. Retention
+   - Draft artifacts older than 180 days are automatically deleted.
+
+4. Prohibited Content
+   - Never store payment details or SSNs in this workspace.

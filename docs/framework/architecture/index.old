@@ -1,0 +1,9 @@
+# Introduction
+
+This architectural documentation outlines the design and implementation of our document processing application, built using FastAPI and integrated with Haystack for advanced document indexing and retrieval. The primary goal of this application is to create a custom corpus tailored to specific needs, enabling efficient document handling, indexing, and querying capabilities.
+
+<p align="center">
+  <img src="../assets/images/docops.png" alt="Agentic RAG TAP Architecture"/>
+</p>
+
+The architecture of this application follows the C4 model, which provides a structured approach to visualizing and documenting the software architecture at different levels of detail: Context, Container, Component, and Code. This methodology aids in understanding the application's overall structure and facilitates effective communication among stakeholders and team members.

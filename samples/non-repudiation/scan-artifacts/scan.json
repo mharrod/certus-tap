@@ -1,0 +1,40 @@
+{
+  "scan_id": "scan_550e8400e29b41d4a716446655440000",
+  "git_url": "https://github.com/mharrod/certus-TAP.git",
+  "branch": "main",
+  "commit": "abc123def456789ghi0123456789abcdef012345",
+  "requested_by": "security-team@certus.cloud",
+  "timestamp_created": "2024-01-15T14:30:00Z",
+  "timestamp_completed": "2024-01-15T14:32:45Z",
+  "duration_seconds": 165,
+  "status": "SUCCEEDED",
+  "inner_signature": {
+    "signer": "certus-assurance@certus.cloud",
+    "timestamp": "2024-01-15T14:32:45Z",
+    "signature": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZFv+Zb1FhMFJKVMXjVwzQh2VD8x9qL3WkN4RkV5pQ7nL2QV8J9fKpN5mR2qP8sT3wV9xY1zAbCdEfGhIjKlMnOQIDAQABAoGAV8FKqG5g3VH8Zx7Y9q5V3mL8qQ2R9pK5sN8wL3xZ0qR2sT5vU6wX2yZ3aB4cD5eF6gH7iJ8kL9mN0oP1qS2rT3uV4wX2yZ3aB4cD5eF6gH7iJ8kL9mN0oP1qS2rT3uV4wX2yZ3aB4cD5eF6gH7iJ8kL9mN0oP1qS2rT3uV4wECQQD7N8VZ2M1Q3rS4uT5vU6wX2yZ3aB4cD5eF6gH7iJ8kL9mN0oP1qS2rT3uV4wX2yZ3aB4cD5eF6gH7iJ8kL9mN0oCQQDc9wVa2M1Q3rS4uT5vU6wX2yZ3aB4cD5eF6gH7iJ8kL9mN0oP1qS2rT3uV4wX2yZ3aB4cD5eF6gH7iJ8kL9mN",
+    "algorithm": "SHA256-RSA",
+    "certificate": "-----BEGIN CERTIFICATE-----\nMIIC5jCCAc4CCQDjxJZfDXtTuTA8BgkqhkiG9w0BAQsFADAyMQswCQYDVQQGEwJV\nUzELMAkGA1UECAwCQ0ExGjAYBgNVBAcMEUN1cGVydGlubyBPZmZpY2UwHhcNMjQw\nMTE1MTkwMjE3WhcNMjUwMTE0MTkwMjE3WjAyMQswCQYDVQQGEwJVUzELMAkGA1UE\nCAwCQ0ExGjAYBgNVBAcMEUN1cGVydGlubyBPZmZpY2UwgZ8wDQYJKoZIhvcNAQEB\nBQADgY0AMIGJAoGBANkW/5lvUWEwUkpUxeNXDNCHZUPzH2ovdaQ3hGRXmlDucvZB\nXwn18qk3mZHao/yxPfBX3FjXMBsJ0R8aEiMqUyc5AgMBAAEwDQYJKoZIhvcNAQEL\nBQADgYEAg7N5J8Q4K7Y9M1R3rS4uT5vU6wX2yZ3aB4cD5eF6gH7iJ8kL9mN0oP1q\nS2rT3uV4wX2yZ3aB4cD5eF6gH7iJ8kL9mN0oP1qS2rT3uV4wX2yZ3aB4cD5eF6gH\n7iJ8kL9mN0oP1qS2rT3uV4wX2yZ3aB4cD5eF6gH7iJ8kL9mN0oP1qS2rT3uV4wX\n2yZ3aB4cD5eF6gH7iJ8kL9mN0oP1qS2rT3uV4wX2yZ3aB4cD5eF6gH7iJ8kL9mN\n0oP1qS2rT3uV4w=\n-----END CERTIFICATE-----"
+  },
+  "artifacts": {
+    "sarif": "reports/sast/trivy.sarif.json",
+    "sbom": "reports/sbom/syft.spdx.json",
+    "dast_json": "reports/dast/zap-report.json"
+  },
+  "scanners_invoked": {
+    "sast": {
+      "tool": "trivy",
+      "version": "0.45.0",
+      "invocation_time": "2024-01-15T14:30:15Z"
+    },
+    "sbom": {
+      "tool": "syft",
+      "version": "0.68.1",
+      "invocation_time": "2024-01-15T14:30:45Z"
+    },
+    "dast": {
+      "tool": "owasp-zap",
+      "version": "2.13.0",
+      "invocation_time": "2024-01-15T14:31:30Z"
+    }
+  }
+}

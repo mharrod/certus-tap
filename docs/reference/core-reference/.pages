@@ -1,0 +1,8 @@
+title: Core Reference
+nav:
+  - 'Assurance Manifest': assurance-manifest-reference.md
+  - local-sast-scanning.md
+  - multi-workspace-isolation.md
+  - non-repudation-flow.md
+  - troubleshooting.md
+  - reference-doc-template.md

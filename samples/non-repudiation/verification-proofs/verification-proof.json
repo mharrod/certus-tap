@@ -1,0 +1,70 @@
+{
+  "verification_request": {
+    "scan_id": "scan_550e8400e29b41d4a716446655440000",
+    "assessment_id": "assessment-20240115-001",
+    "tier": "premium"
+  },
+  "verification_proof": {
+    "chain_verified": true,
+    "inner_signature_valid": true,
+    "outer_signature_valid": true,
+    "chain_unbroken": true,
+    "signer_inner": "certus-assurance@certus.cloud",
+    "signer_outer": "certus-trust@certus.cloud",
+    "sigstore_timestamp": "2024-01-15T14:35:23Z",
+    "verification_timestamp": "2024-01-15T14:35:25Z",
+    "rekor_entry_uuid": "550e8400-e29b-41d4-a716-446655440001",
+    "cosign_signature": "MEUCIQDz9pVEZV8H7X5K6L2M3N4O5P6Q7R8S9T0U1V2W3X4Y5Z6aA==",
+    "verification_details": {
+      "inner_signature_algorithm": "SHA256-RSA",
+      "inner_signature_created": "2024-01-15T14:32:45Z",
+      "outer_signature_algorithm": "SHA256-RSA",
+      "outer_signature_created": "2024-01-15T14:35:23Z",
+      "artifact_hash_algorithm": "SHA256",
+      "artifact_hashes": {
+        "sarif": "sha256:abc123def456789ghi0123456789abcdef012345abc123def456789ghi012345",
+        "sbom": "sha256:789ghi0123456789abcdef012345abc123def456789ghi0123456789abcdef01",
+        "metadata": "sha256:456789abcdef012345abc123def456789ghi0123456789abcdef012345abc1"
+      }
+    },
+    "sigstore_entry": {
+      "uuid": "550e8400-e29b-41d4-a716-446655440001",
+      "logIndex": 12345678,
+      "timestamp": "2024-01-15T14:35:23Z",
+      "integrityLog": {
+        "logId": "c0d23d6ad406973f9cea6aaab00bceec2b8541ca",
+        "logURL": "https://rekor.sigstore.dev"
+      },
+      "verificationProperties": {
+        "inclusionProof": {
+          "leafHash": "sha256:7H8I9J0K1L2M3N4O5P6Q7R8S9T0U1V2W3X4Y5Z6aAbBcCdDeEfFgGhHiIjJ",
+          "treeHash": "sha256:eE1V2W3X4Y5Z6aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxX",
+          "hashes": [
+            "sha256:abc123def456789ghi0123456789abcdef012345abc123def456789ghi012345"
+          ]
+        },
+        "consistencyProof": {
+          "verified": true,
+          "treeSize": 12345679
+        }
+      }
+    },
+    "policy_compliance": {
+      "requires_verification": true,
+      "verification_required": true,
+      "verification_passed": true,
+      "policies_checked": [
+        "signature_validity",
+        "chain_integrity",
+        "artifact_integrity",
+        "sigstore_immutability"
+      ]
+    }
+  },
+  "metadata": {
+    "verification_service": "certus-trust@certus.cloud",
+    "verification_version": "1.0.0",
+    "verification_completed_at": "2024-01-15T14:35:25Z",
+    "time_to_verify_ms": 2000
+  }
+}

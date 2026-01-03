@@ -1,0 +1,36 @@
+[Unit]
+Description=Certus Ask API
+After=network-online.target podman.service certus-neo4j.service certus-opensearch.service
+Wants=network-online.target
+Requires=podman.service
+
+[Service]
+Type=simple
+User=certus
+Restart=always
+RestartSec=10s
+TimeoutStartSec=120
+
+MemoryMax=2G
+CPUQuota=100%
+
+EnvironmentFile=/opt/certus/.env
+
+ExecStartPre=-/usr/bin/podman stop certus-ask-api
+ExecStartPre=-/usr/bin/podman rm certus-ask-api
+
+ExecStart=/usr/bin/podman run --rm \
+  --name certus-ask-api \
+  --network certus \
+  -p 8058:8058 \
+  --env-file /opt/certus/.env \
+  localhost/certus-ask:latest \
+  uvicorn certus_ask.api:app --host 0.0.0.0 --port 8058
+
+ExecStop=/usr/bin/podman stop certus-ask-api
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
