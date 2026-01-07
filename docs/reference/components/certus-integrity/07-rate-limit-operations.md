@@ -291,23 +291,23 @@ cd "$EVIDENCE_DIR"
 {
   echo "=== Certus Integrity Rate Limit Report - $REPORT_DATE ==="
   echo ""
-  
+
   echo "Top 10 Denied IPs (last 24h):"
   jq -r 'select(.decision.decision=="denied") | .decision.metadata.client_ip' dec_*.json 2>/dev/null | \
     sort | uniq -c | sort -rn | head -10
-  
+
   echo ""
   echo "Decisions by Outcome:"
   jq -r '.decision.decision' dec_*.json 2>/dev/null | sort | uniq -c
-  
+
   echo ""
   echo "Evidence Files Generated:"
   ls dec_*.json 2>/dev/null | wc -l | tr -d ' '
-  
+
   echo ""
   echo "Total Storage Used:"
   du -sh "$EVIDENCE_DIR"
-  
+
 } > "$REPORT_FILE"
 
 cat "$REPORT_FILE"
@@ -437,7 +437,7 @@ Schedule via cron:
    ```bash
    EVIDENCE_DIR="/tmp/certus-evidence/integrity/rate-limit"
    IP="<user-ip>"
-   
+
    cd "$EVIDENCE_DIR"
    jq -r --arg ip "$IP" 'select(.decision.metadata.client_ip==$ip)' dec_*.json | tail -5
    ```
@@ -462,7 +462,7 @@ Schedule via cron:
 1. Confirm attack pattern:
    ```bash
    EVIDENCE_DIR="/tmp/certus-evidence/integrity/rate-limit"
-   
+
    cd "$EVIDENCE_DIR"
    echo "Recent denied IPs:"
    jq -r 'select(.decision.decision=="denied") | .decision.metadata.client_ip' $(ls -t dec_*.json | head -50) | \
@@ -477,11 +477,11 @@ Schedule via cron:
    ```bash
    ATTACKER_IP="<attacker-ip>"
    mkdir -p /tmp/incident-$(date +%Y%m%d)
-   
+
    cd "$EVIDENCE_DIR"
    jq -r --arg ip "$ATTACKER_IP" 'select(.decision.metadata.client_ip==$ip) | input_filename' dec_*.json | \
      xargs -I {} cp {} /tmp/incident-$(date +%Y%m%d)/
-   
+
    tar -czf /tmp/incident-$(date +%Y%m%d).tar.gz /tmp/incident-$(date +%Y%m%d)/
    ```
 4. Document incident in security log
@@ -494,7 +494,7 @@ Schedule via cron:
 1. Analyze recent denials:
    ```bash
    EVIDENCE_DIR="/tmp/certus-evidence/integrity/rate-limit"
-   
+
    cd "$EVIDENCE_DIR"
    echo "Denial rate over last 1000 decisions:"
    TOTAL=$(ls dec_*.json | wc -l | tr -d ' ')

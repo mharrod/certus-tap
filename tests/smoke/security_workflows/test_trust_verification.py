@@ -183,6 +183,4 @@ def test_trust_verification_flow(http_session: requests.Session, request_timeout
 
     remote_artifacts = upload_data.get("remote_artifacts") or {}
     assert isinstance(remote_artifacts, dict) and remote_artifacts, "S3 upload results missing for verified scan"
-    assert any(key.endswith(".sarif.json") for key in remote_artifacts), (
-        "Expected SARIF artifact not uploaded to S3"
-    )
+    assert any(key.endswith(".sarif.json") for key in remote_artifacts), "Expected SARIF artifact not uploaded to S3"

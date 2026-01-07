@@ -1,5 +1,7 @@
 # Vendor Review & Compliance Proof
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This tutorial shows how a third-party reviewer (customer, independent auditor, or acquisition partner) validates a vendor's security artifacts. You will:
 
 1. Submit a security scan to generate artifacts

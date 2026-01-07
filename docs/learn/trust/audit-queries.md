@@ -1,5 +1,7 @@
 # Forensic Queries & Audit Trail
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This guide shows you how to leverage the non-repudiation audit trail in Neo4j for compliance, incident investigation, and forensic analysis.
 
 This tutorial is standalone - follow the Quick Start section below to populate Neo4j with sample data, or use it after completing [`verify-trust.md`](verify-trust.md) or [`vendor-review.md`](vendor-review.md).

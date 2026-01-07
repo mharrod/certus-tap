@@ -1,8 +1,8 @@
 # ============================================================================
-# Certus Local Development Environment - EXAMPLE
+# Certus Local Development Environment
 # ============================================================================
-# Copy this file to .envrc and customize as needed
-# Then run: direnv allow
+# This file is automatically loaded by direnv when you cd into this directory
+# Review this file and run: direnv allow
 
 # Environment marker
 export CERTUS_ENV=local
@@ -18,13 +18,15 @@ fi
 # Load .env file for docker-compose if it exists
 dotenv_if_exists
 
-# Local service endpoints (matching docker-compose.full-dev.yml)
+# Local service endpoints (matching compose defaults)
 export OPENSEARCH_HOST=http://localhost:9200
-export LOCALSTACK_ENDPOINT=http://localhost:4566
+export S3_ENDPOINT=http://localhost:4566
+export S3_ENDPOINT_URL=http://localhost:4566
 export NEO4J_URI=neo4j://localhost:7687
 export NEO4J_USER=neo4j
 export NEO4J_PASSWORD=password
 export VICTORIAMETRICS_URL=http://localhost:8428
+export OTEL_COLLECTOR_METRICS=http://localhost:8889
 export REDIS_URL=redis://localhost:6379
 
 # API endpoints (local)
@@ -37,19 +39,13 @@ export CERTUS_TRANSFORM_URL=http://localhost:8100
 export LOG_LEVEL=INFO
 export RELOAD=true
 
-# Helpful aliases for local development
-alias dev='just dev-up && just preflight-dev'
-alias dev-stop='just dev-down'
-alias dev-logs='docker compose -f docker-compose.full-dev.yml logs -f'
-alias dev-rebuild='just dev-down && docker compose -f docker-compose.full-dev.yml build && just dev-up'
-
 # Show environment info
 echo "🚀 Certus Local Development Environment"
 echo "   Environment: $CERTUS_ENV"
 echo "   Python: $(python --version 2>/dev/null || echo 'not in venv')"
 echo ""
 echo "   Quick start:"
-echo "     just dev-up          - Start all services"
-echo "     just preflight-dev   - Check health"
-echo "     just dev-down        - Stop all services"
+echo "     just up          - Start all services"
+echo "     just preflight   - Check health"
+echo "     just down        - Stop all services"
 echo ""

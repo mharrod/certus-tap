@@ -21,14 +21,14 @@ Security analysts spend 60-70% of their time on manual evidence gathering tasks:
 
 - **Solution**: Adapt the multi-agent workflow patterns from `.context/` for security operations. AI agents use MCP tools (Trust, Assurance, Ask, Integrity, Insight) to autonomously gather evidence, verify artifacts, and assemble findings while analysts focus on judgment calls and remediation.
 
-- **Benefits**: 
+- **Benefits**:
   - 50% reduction in incident investigation time
   - 80% automation of evidence gathering tasks
   - Complete audit trails via Integrity evidence bundles
   - Parallel investigation capabilities for multiple analysts
   - Faster compliance reporting (hours → minutes)
 
-- **Risks**: 
+- **Risks**:
   - Agents may miss context that human analysts would catch
   - Over-reliance on automation could reduce analyst skill development
   - False confidence in agent findings without validation
@@ -48,7 +48,7 @@ Current security operations require significant manual effort:
    - Check production deployments (query container registries)
    - Assess blast radius (identify affected services)
    - Generate evidence package for compliance
-   
+
    **Time per incident**: 30-90 minutes of pure data gathering
 
 2. **Artifact Verification**: Every dependency change requires:
@@ -56,7 +56,7 @@ Current security operations require significant manual effort:
    - Transparency log checks (curl Rekor API)
    - SLSA provenance review (manual JSON parsing)
    - Internal policy compliance (check against allowlists)
-   
+
    **Time per artifact**: 5-10 minutes
 
 3. **Compliance Reporting**: SOC 2 / ISO 27001 audits require:
@@ -64,7 +64,7 @@ Current security operations require significant manual effort:
    - Verifying each signature (batch cosign verify)
    - Generating summary statistics (manual aggregation)
    - Packaging evidence (zip files, PDFs)
-   
+
    **Time per report**: 2-4 hours
 
 4. **Threat Hunting**: Proactive security requires:
@@ -72,10 +72,10 @@ Current security operations require significant manual effort:
    - Correlating signing patterns with deployment patterns
    - Identifying unsigned or suspicious artifacts
    - Investigating provenance chains
-   
+
    **Time per hunt**: Hours to days
 
-**The Core Problem**: 
+**The Core Problem**:
 Analysts are data gatherers, not threat analysts. The tools exist (MCP-Trust, MCP-Assurance, MCP-Ask, MCP-Insight) but require manual invocation. What's missing is the **orchestration layer** that uses these tools autonomously.
 
 ### Background
@@ -96,7 +96,7 @@ Analysts are data gatherers, not threat analysts. The tools exist (MCP-Trust, MC
 - Lock-based concurrency for parallel work
 - Evidence trails via task logs
 
-**Gap**: 
+**Gap**:
 The infrastructure exists (MCP tools, multi-agent framework) but is optimized for **development workflows**, not **security operations**. Security analysts need:
 - Investigation-focused roles (Threat Hunter, Evidence Collector, Validator)
 - Security-specific workflows (incident response, threat hunting, compliance)
@@ -206,7 +206,7 @@ Adapt the proven `.context/` multi-agent workflow for security operations by:
 
 5. **Audit Integration**: All agent MCP calls → Integrity middleware → evidence bundles → compliance-grade audit trail
 
-**Architectural Principle**: 
+**Architectural Principle**:
 Agents are **evidence gatherers**, humans are **decision makers**. Agents never take action (deploy, rollback, revoke), only investigate and recommend.
 
 ### Architecture
@@ -239,7 +239,7 @@ C4Context
 
     Rel(analyst, goose, "Directs investigations")
     Rel(goose, context, "Coordinates via")
-    
+
     Rel(goose, mcp_trust, "Verifies provenance", "MCP")
     Rel(goose, mcp_assurance, "Fetches scans", "MCP")
     Rel(goose, mcp_ask, "Queries knowledge", "MCP")
@@ -255,7 +255,7 @@ C4Context
     Rel(compliance, opensearch, "Audits evidence in")
 ```
 
-**Description**: 
+**Description**:
 
 Security analysts receive alerts from SIEM systems (Splunk, Elastic) and create investigation tasks. Goose agents, coordinated via the `.context/` framework, use MCP tools to autonomously gather evidence (verify provenance, fetch scan results, query knowledge base, check policies, generate reports). All MCP calls flow through Integrity middleware, producing evidence bundles in OpenSearch. Analysts review agent findings and make decisions. Compliance auditors access the complete evidence trail for audit purposes.
 
@@ -322,7 +322,7 @@ C4Container
 
     Rel(goose_hunter, charter, "Follows")
     Rel(goose_collector, bootstrap, "Loads role")
-    
+
     Rel(goose_collector, trust_mcp, "verify, sign, query", "MCP")
     Rel(goose_collector, assurance_mcp, "scan, analyze", "MCP")
     Rel(goose_collector, ask_mcp, "search, query", "MCP")
@@ -378,7 +378,7 @@ sequenceDiagram
 
     SIEM->>Analyst: Alert: CVE-2024-1234 in scan_abc123
     Analyst->>Hunter: "Investigate CVE-2024-1234"
-    
+
     Note over Hunter: Creates investigation plan
     Hunter->>Hunter: Create .locks/incident-CVE-2024-1234.lock
     Hunter->>Hunter: Add task to security-now.md
@@ -420,7 +420,7 @@ sequenceDiagram
     Reviewer->>Reviewer: Generate incident report
 
     Reviewer-->>Analyst: "Investigation complete"
-    
+
     Note over Analyst: Human decision point
     Analyst->>Analyst: Review findings
     Analyst->>Analyst: Approve remediation plan
@@ -483,7 +483,7 @@ sequenceDiagram
     autonumber
 
     Analyst->>Hunter: "Hunt for unsigned artifacts in prod last 7 days"
-    
+
     Hunter->>Hunter: Create .locks/hunt-unsigned-artifacts.lock
     Hunter->>Hunter: Add hunt task to security-now.md
     Hunter-->>Collector: "Query all production signatures, flag anomalies"
@@ -515,7 +515,7 @@ sequenceDiagram
     Insight-->>Reviewer: Report generated
 
     Reviewer-->>Analyst: "ALERT: Unauthorized signer detected"
-    
+
     Analyst->>Analyst: Review finding
     Analyst->>Analyst: Escalate to security team
     Analyst->>Hunter: "Mark as escalated, release lock"
@@ -1070,10 +1070,10 @@ for bundle in bundles:
     tool = bundle["tool_invocation"]["tool"]
     input = bundle["tool_invocation"]["input"]
     output = bundle["tool_invocation"]["output"]
-    
+
     # Simulate agent decision-making with same inputs
     agent_decision = replay_agent(tool, input, output)
-    
+
     # Compare to original investigation outcome
     assert agent_decision == bundle["investigation_context"]["outcome"]
 ```

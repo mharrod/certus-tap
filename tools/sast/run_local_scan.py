@@ -347,7 +347,18 @@ async def run_sast_pipeline(args: argparse.Namespace) -> int:
         # Run tools based on flags
         if args.tools is None or "trivy" in args.tools:
             print("\n[trivy] Running filesystem vulnerability scanner (SARIF)...")
-            trivy_cmd = ["trivy", "fs", "--scanners", "vuln,secret,config", "--format", "sarif", "--output", f"{report_dir}/SECURITY/trivy.sarif.json", ".", *_parse_extra(args.trivy_args)]
+            trivy_cmd = [
+                "trivy",
+                "fs",
+                "--scanners",
+                "vuln,secret,config",
+                "--format",
+                "sarif",
+                "--output",
+                f"{report_dir}/SECURITY/trivy.sarif.json",
+                ".",
+                *_parse_extra(args.trivy_args),
+            ]
 
             # Execute trivy - wrap in sh to suppress exit code and ensure file creation
             empty_sarif = '{"version":"2.1.0","$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","runs":[]}'
@@ -369,9 +380,15 @@ async def run_sast_pipeline(args: argparse.Namespace) -> int:
 
         if args.tools is None or "semgrep" in args.tools:
             print("\n[semgrep] Running static pattern matching (SARIF)...")
-            semgrep_cmd = (
-                ["semgrep", "scan", ".", *_parse_extra(args.semgrep_args), "--sarif", "--output", f"{report_dir}/SECURITY/semgrep.sarif.json"]
-            )
+            semgrep_cmd = [
+                "semgrep",
+                "scan",
+                ".",
+                *_parse_extra(args.semgrep_args),
+                "--sarif",
+                "--output",
+                f"{report_dir}/SECURITY/semgrep.sarif.json",
+            ]
             empty_sarif = '{"version":"2.1.0","$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","runs":[]}'
             container = container.with_exec([
                 "sh",
@@ -391,7 +408,17 @@ async def run_sast_pipeline(args: argparse.Namespace) -> int:
 
         if args.tools is None or "bandit" in args.tools:
             print("\n[bandit] Running Python security scanner (SARIF)...")
-            bandit_cmd = ["bandit", "-q", "-r", ".", "-f", "sarif", "-o", f"{report_dir}/SECURITY/bandit.sarif.json", *_parse_extra(args.bandit_args)]
+            bandit_cmd = [
+                "bandit",
+                "-q",
+                "-r",
+                ".",
+                "-f",
+                "sarif",
+                "-o",
+                f"{report_dir}/SECURITY/bandit.sarif.json",
+                *_parse_extra(args.bandit_args),
+            ]
 
             # Execute bandit - wrap in sh to suppress exit code and ensure file creation
             empty_sarif = '{"version":"2.1.0","$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","runs":[]}'

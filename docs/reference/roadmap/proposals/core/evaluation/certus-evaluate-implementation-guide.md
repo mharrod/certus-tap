@@ -206,7 +206,7 @@ certus-evaluate/
 
 Evaluation with RAGAS requires curated reference datasets with human-approved responses and vetted context. These datasets provide ground truth for metrics like context_precision and context_recall.
 
-**For complete dataset creation workflow and tooling recommendations, see**:  
+**For complete dataset creation workflow and tooling recommendations, see**:
 → **[Reference Dataset Creation Guide](./certus-evaluate-dataset-guide.md)**
 
 The dataset guide covers:
@@ -2098,7 +2098,7 @@ Same as original proposal.
 This revised proposal now fully aligns with Certus architectural patterns:
 
 ✅ **Exception Hierarchy** - All exceptions inherit from CertusException with error_code and details
-✅ **Structured Logging** - Uses structlog with JSON output and dot-separated event names  
+✅ **Structured Logging** - Uses structlog with JSON output and dot-separated event names
 ✅ **Configuration Validation** - Fail-fast validation at startup with clear error messages
 ✅ **Request Context** - ContextVar-based trace ID propagation across all operations
 ✅ **Standard Responses** - All API responses wrapped in StandardResponse[T]

@@ -1,6 +1,6 @@
 # What is Certus TAP?
 
-Certus TAP is a **research and learning platform** for exploring how to build trustworthy AI systems. It's not a product you deploy. It's a framework you learn from, adapt, and build upon.
+Certus TAP is a **research and learning platform** for exploring how to build trustworthy AI systems and better understand how AI can amplify human expertise. It's not a product you deploy. It's a framework you learn from, adapt, and build upon.
 
 The initial focus is on security analysis and assurance, but every architectural component (manifests, guardrails, evidence pipelines, TrustCentre) is domain-agnostic. The same patterns can be applied to other regulated practices—medical research, legal review, compliance audits—by defining new manifest profiles, policies, scanners, and evaluation thresholds.
 

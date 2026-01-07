@@ -59,7 +59,9 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _build_runtime(runtime_name: Literal["dagger", "local"], timeout: float | None = None) -> DaggerRuntime | LocalRuntime:
+def _build_runtime(
+    runtime_name: Literal["dagger", "local"], timeout: float | None = None
+) -> DaggerRuntime | LocalRuntime:
     if runtime_name == "local":
         return LocalRuntime()
     return DaggerRuntime(timeout=timeout)

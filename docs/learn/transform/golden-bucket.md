@@ -1,5 +1,7 @@
 # Scenario: Privacy Screening & Rejection
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This scenario shows how to stage a mixed-format knowledge pack (PDF, Markdown, RTF) and scan it for personally identifiable information (PII) with a Presidio guardrail before ingesting into the vector database. In this case, we are mirroring the
 “raw → curated → consumption” pattern from data lakes. This pattern allows us to quarantine (or delete) violations without polluting downstream indexes and gives auditors a clear trail.
 

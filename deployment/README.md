@@ -30,7 +30,7 @@ deployment/
 ### 1. Local Development
 - **Location:** Project root
 - **Technology:** Docker Compose
-- **Command:** `just dev-up`
+- **Command:** `just up`
 - **Use Case:** Development, testing, iteration
 
 ### 2. Single-Node DigitalOcean
@@ -79,12 +79,12 @@ deployment/
 
 4. Start development environment:
    ```bash
-   just dev-up
+   just up
    ```
 
 5. Verify services:
    ```bash
-   just preflight-dev
+   just preflight
    ```
 
 ### Single-Node Deployment Setup
@@ -146,7 +146,7 @@ When in project root (`~/src/certus/certus-TAP`):
 - `CERTUS_ENV=local`
 - Python virtualenv activated
 - Local service URLs set
-- Aliases like `dev`, `dev-stop`, `dev-logs`
+- Shell prints quick-start commands (`just up/preflight/down`)
 
 ### Deployment Environment
 

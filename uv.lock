@@ -468,7 +468,7 @@ wheels = [
 ]
 
 [[package]]
-name = "certus-docops"
+name = "certus-tap"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
@@ -604,7 +604,7 @@ docslabs = [
 requires-dist = [
     { name = "beautifulsoup4", marker = "extra == 'documents'", specifier = ">=4.12" },
     { name = "boto3" },
-    { name = "certus-docops", extras = ["documents", "llm", "eval", "git"], marker = "extra == 'all'" },
+    { name = "certus-tap", extras = ["documents", "llm", "eval", "git"], marker = "extra == 'all'" },
     { name = "cryptography", specifier = ">=41.0.0" },
     { name = "dagger-io", specifier = ">=0.11.0" },
     { name = "deepeval", marker = "extra == 'eval'", specifier = ">=0.21" },

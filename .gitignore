@@ -104,6 +104,8 @@ ipython_config.py
 #   This is especially recommended for binary packages to ensure reproducibility, and is more
 #   commonly ignored for libraries.
 #uv.lock
+.uv-cache/
+.uv_cache/
 
 # poetry
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
@@ -218,27 +220,93 @@ marimo/_lsp/
 __marimo__/
 
 
-#my stuff
+# ==============================================================================
+# Certus TAP Specific
+# ==============================================================================
+
+# Local development overrides
 .old
 scripts/local/
+.local/
+*.local.*
 
+# Draft and work-in-progress
 draft/
 draft/local-bandit-scan.json
 
+# Sample data that shouldn't be in repo
 samples/local-bandit-scan.json
 
-# Generated artifacts from all services (not committed)
+# Generated artifacts from all services
 .artifacts/
+certus-assurance-artifacts/
+/security-results
 
+# Temporary files
 tmp/
+temp/
+*.tmp
 
+# Certus Integrity evidence bundles (sensitive - contains request logs)
+certus-evidence/
+~/certus-evidence/
+evidence/
+*.evidence.json
+
+# Certus Trust artifacts (may contain signatures/keys)
 .env.trust
 .locks/
+*.sig
+*.intoto.json
+*.intoto.jsonl
+*.tlog
 
-/security-results
-certus-assurance-artifacts/
+# Certus Assurance reports
+compliance-reports/
+audit-reports/
+scan-results/
 
+# ==============================================================================
+# Secrets & Credentials (CRITICAL - DO NOT COMMIT)
+# ==============================================================================
+
+# Generic secrets
+*.secret
+*.secrets
+*secret*
+*credentials*
+credentials.json
+service-account.json
+*.credentials
+
+# Cloud provider credentials
+.aws/credentials
+.azure/credentials
+.gcloud/
+
+# API keys and tokens
+*.key
+*.pem
+*.pfx
+*.p12
+id_rsa
+id_rsa.pub
+*.pub
+
+# Sigstore/Cosign keys (if using local keys instead of keyless)
+cosign.key
+cosign.pub
+fulcio.crt
+rekor.pub
+
+# Database credentials
+database.yml
+database.json
+
+# ==============================================================================
 # OpenTofu / Terraform
+# ==============================================================================
+
 **/.terraform/
 **/.terraform.lock.hcl
 **/terraform.tfstate
@@ -253,3 +321,144 @@ certus-assurance-artifacts/
 # Deployment secrets
 deployment/tofu/environments/*/secrets.tfvars
 deployment/tofu/environments/*/.env
+
+# ==============================================================================
+# Docker & Container Secrets
+# ==============================================================================
+
+# Docker overrides (often contain local secrets)
+docker-compose.override.yml
+docker-compose.local.yml
+.dockerignore.local
+
+# Kubernetes secrets
+k8s-secrets.yaml
+secrets.yaml
+*-secrets.yaml
+
+# ==============================================================================
+# Large Files & Binary Data
+# ==============================================================================
+
+# Large model files
+*.bin
+*.safetensors
+*.gguf
+*.ggml
+*.pt
+*.pth
+*.onnx
+
+# Large datasets
+*.csv.gz
+*.parquet
+*.arrow
+*.hdf5
+
+# Archives
+*.tar.gz
+*.zip
+*.7z
+*.rar
+
+# ==============================================================================
+# OS & Editor Specific
+# ==============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# Vim
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# Emacs
+\#*\#
+.#*
+
+# ==============================================================================
+# IDE Specific
+# ==============================================================================
+
+# VSCode
+.vscode/settings.json
+.vscode/launch.json
+.vscode/*.code-workspace
+
+# JetBrains (PyCharm, IntelliJ)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# ==============================================================================
+# Runtime & State
+# ==============================================================================
+
+# Process IDs
+*.pid
+
+# Application state
+.state/
+state.json
+
+# Session data
+.session/
+sessions/
+
+# Cache directories
+.cache/
+cache/
+
+# ==============================================================================
+# Monitoring & Observability
+# ==============================================================================
+
+# Prometheus data
+prometheus-data/
+
+# Grafana data
+grafana-data/
+
+# VictoriaMetrics data
+victoria-metrics-data/
+
+# OpenTelemetry collector state
+otel-collector-data/
+
+# ==============================================================================
+# Development & Testing
+# ==============================================================================
+
+# Test data
+test-data/
+test-results/
+test-artifacts/
+
+# Benchmark results
+benchmarks/
+*.bench
+
+# Debug outputs
+debug/
+debug.log
+*.debug
+
+.envrc

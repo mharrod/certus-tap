@@ -1,5 +1,7 @@
 # Certus Assurance Learning Path
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 **Certus Assurance** is a verification-first security scanning service that generates cryptographically signed artifacts for use across the Certus platform.
 
 ## What is Certus Assurance?
@@ -209,7 +211,7 @@ See [End-to-End Workflow](end-to-end-workflow.md) for the complete integration.
 1. [Quick Start: CLI Scan](quick-start-cli-scan.md)
 2. [Custom Manifests](custom-manifests.md) (optional)
 
-**Tools:** Dagger module (CLI)  
+**Tools:** Dagger module (CLI)
 **Time:** 2-5 minutes per scan
 
 ---
@@ -223,7 +225,7 @@ See [End-to-End Workflow](end-to-end-workflow.md) for the complete integration.
 1. [Managed Service API](managed-service-api-scanning.md)
 2. [CI/CD Integration Guide](../../reference/integration/cicd-integration.md)
 
-**Tools:** Certus Assurance API  
+**Tools:** Certus Assurance API
 **Time:** 2-5 minutes per commit
 
 ---
@@ -238,7 +240,7 @@ See [End-to-End Workflow](end-to-end-workflow.md) for the complete integration.
 2. [Custom Manifests](custom-manifests.md)
 3. [End-to-End Workflow](end-to-end-workflow.md) (Step 11: Compliance Reports)
 
-**Tools:** Assurance + Ask  
+**Tools:** Assurance + Ask
 **Output:** OWASP Top 10, CWE Top 25, PCI-DSS reports
 
 ---
@@ -252,7 +254,7 @@ See [End-to-End Workflow](end-to-end-workflow.md) for the complete integration.
 1. [Managed Service API](managed-service-api-scanning.md) - scan multiple repos
 2. [End-to-End Workflow](end-to-end-workflow.md) - query with Ask
 
-**Tools:** Assurance API + Ask API  
+**Tools:** Assurance API + Ask API
 **Strategies:** Semantic search, knowledge graphs
 
 ---

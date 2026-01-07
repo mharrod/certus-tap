@@ -1,5 +1,7 @@
 # Generating Compliance Reports
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This tutorial shows compliance officers and auditors how to extract evidence from Certus Integrity for SOC 2, ISO 27001, PCI-DSS, and other compliance frameworks.
 
 **Who is this for?** Compliance officers, auditors, and security teams preparing for audits.

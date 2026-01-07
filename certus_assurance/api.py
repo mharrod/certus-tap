@@ -200,12 +200,12 @@ async def upload_archive(
             if compound not in {".tar.gz", ".tar.bz2"}:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=f"Unsupported file type. Allowed: .tar, .tar.gz, .tgz, .tar.bz2, .zip",
+                    detail="Unsupported file type. Allowed: .tar, .tar.gz, .tgz, .tar.bz2, .zip",
                 )
         else:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Unsupported file type. Allowed: .tar, .tar.gz, .tgz, .tar.bz2, .zip",
+                detail="Unsupported file type. Allowed: .tar, .tar.gz, .tgz, .tar.bz2, .zip",
             )
 
     # Create upload directory if it doesn't exist
@@ -214,6 +214,7 @@ async def upload_archive(
 
     # Generate unique filename to avoid conflicts
     import time
+
     timestamp = int(time.time() * 1000)
     safe_filename = f"{timestamp}_{file.filename}"
     archive_path = upload_dir / safe_filename
@@ -271,10 +272,14 @@ class ScanCreateRequest(BaseModel):
     commit: str | None = Field(None, description="Optional commit hash.")
 
     # Directory source (Phase 1)
-    directory_path: str | None = Field(None, description="Local directory path to scan (required if source_type='directory').")
+    directory_path: str | None = Field(
+        None, description="Local directory path to scan (required if source_type='directory')."
+    )
 
     # Archive source (Phase 2)
-    archive_path: str | None = Field(None, description="Path to archive file to scan (required if source_type='archive').")
+    archive_path: str | None = Field(
+        None, description="Path to archive file to scan (required if source_type='archive')."
+    )
 
     # Metadata
     requested_by: str | None = Field(None, description="Optional identifier for the caller.")

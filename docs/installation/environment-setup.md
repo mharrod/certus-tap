@@ -18,11 +18,10 @@ Certus TAP uses a combination of **direnv** and **`.env` files** to manage envir
 1. **Clone project** → `.envrc` exists in repository
 2. **Run `direnv allow`** → direnv is now active for this directory
 3. **Copy `.env.example` to `.env`** → Your local configuration
-4. **`cd` into project** → direnv automatically:
-   - Activates Python virtual environment
-   - Loads variables from `.env`
-   - Sets up helpful aliases (`dev`, `dev-stop`)
-   - Configures `PYTHONPATH` and other development settings
+  4. **`cd` into project** → direnv automatically:
+     - Activates Python virtual environment
+     - Loads variables from `.env`
+     - Configures `PYTHONPATH` and other development settings
 
 ### Benefits
 
@@ -43,10 +42,10 @@ Certus TAP supports multiple deployment environments, each with different config
 **Purpose:** Development on your local machine
 **Services:** All services run in Docker containers
 **Configuration:** `.env` in project root
-**Managed by:** `docker-compose.full-dev.yml`
+**Managed by:** `just up` (wraps the compose files in `certus_infrastructure/` plus each service's deploy stack)
 
-**Start:** `just dev-up` or `dev` (direnv alias)
-**Stop:** `just dev-down` or `dev-stop` (direnv alias)
+**Start:** `just up`
+**Stop:** `just down`
 
 **Key settings in `.env`:**
 
@@ -243,7 +242,8 @@ LLM_MODEL=llama3.1:8b
 **Start development environment:**
 
 ```bash
-dev  # direnv alias for 'just dev-up && just preflight-dev'
+just up         # start stack
+just preflight  # verify services are healthy
 ```
 
 ### Single-Node Deployment Configuration
@@ -294,7 +294,7 @@ OPENSEARCH_HOST=http://localhost:9200      # ✓ Works
 OPENSEARCH_HOST=http://opensearch:9200     # ✗ Fails (no DNS)
 ```
 
-Services in Docker are accessible via `localhost` because of port mapping in `docker-compose.full-dev.yml`.
+Services in Docker are accessible via `localhost` because each compose stack maps container ports to the host (see `certus_infrastructure/docker-compose.yml` and the service deploy files).
 
 #### Running Application in Container (Docker Compose)
 
@@ -378,7 +378,7 @@ LLM_URL=http://localhost:11434
    docker ps
 
    # Start services
-   just dev-up
+   just up
    ```
 
 2. **Wrong URL in .env**
@@ -394,7 +394,7 @@ LLM_URL=http://localhost:11434
 3. **Service not ready yet**
    ```bash
    # Wait for services to be healthy
-   just preflight-dev
+   just preflight
    ```
 
 ### direnv Not Loading Environment
@@ -551,9 +551,8 @@ Before starting development or deployment, verify:
 - [ ] `direnv allow` has been run in project directory
 - [ ] `.env` file exists (copied from `.env.example`)
 - [ ] Virtual environment activates automatically when entering directory
-- [ ] `dev` alias available (test with `type dev`)
-- [ ] Services start with `just dev-up` or `dev`
-- [ ] Preflight checks pass: `just preflight-dev`
+- [ ] Services start with `just up`
+- [ ] Preflight checks pass: `just preflight`
 
 ### Deployment Environment
 

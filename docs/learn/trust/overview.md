@@ -1,5 +1,7 @@
 # Non-Repudiation Overview
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This guide explains the concept of non-repudiation in security scanning and why it matters for compliance and audit trails.
 
 ## What is Non-Repudiation?

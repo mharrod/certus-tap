@@ -1,5 +1,7 @@
 # Semantic Search for Security Findings
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 Use this tutorial to ingest security scans into Certus TAP and query them with true semantic search (dense vector embeddings) instead of pure keyword matching. We’ll reuse the privacy governance workflow, but the focus here is the Haystack pipeline and OpenSearch vector indices that power natural-language questions like “Show me auth-related SQL injection issues”.
 
 ```mermaid

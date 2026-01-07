@@ -1,5 +1,7 @@
 # Baselining Rate Limits
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This tutorial walks you through baselining Certus Integrity's rate limiting in shadow mode. You'll collect baseline metrics, identify legitimate high-traffic patterns, and determine the right rate limit for your production environment.
 
 **Why baseline?** Effective rate limiting requires understanding normal traffic patterns first. Without a baseline, you risk blocking legitimate users or failing to detect attacks. Baselining in shadow mode lets you observe what would be blocked, distinguish normal bursts from anomalous behavior, and set data-driven limits that protect your system while minimizing false positives.
@@ -183,7 +185,7 @@ jq -r 'select(.decision.decision == "denied" and .decision.reason == "rate_limit
 
 ```bash
 # Count denied requests per IP to see violation patterns
-jq -r 'select(.decision.decision == "denied" and .decision.reason == "rate_limit_exceeded") | 
+jq -r 'select(.decision.decision == "denied" and .decision.reason == "rate_limit_exceeded") |
   .decision.metadata.client_ip' *.json | sort | uniq -c | sort -rn
 
 # Expected output:
@@ -203,7 +205,7 @@ jq -r '.decision.metadata.client_ip' *.json | sort | uniq -c | sort -rn
 
 # Show only rate limit violations per IP
 echo -e "\nRate limit violations per IP:"
-jq -r 'select(.decision.decision == "denied" and .decision.reason == "rate_limit_exceeded") | 
+jq -r 'select(.decision.decision == "denied" and .decision.reason == "rate_limit_exceeded") |
   .decision.metadata.client_ip' *.json | sort | uniq -c | sort -rn
 ```
 
@@ -220,7 +222,7 @@ Based on the violation patterns, determine the right limit:
 ```bash
 # Calculate time window of violations to estimate request rate
 echo "First and last violation timestamps:"
-jq -r 'select(.decision.decision == "denied" and .decision.reason == "rate_limit_exceeded") | 
+jq -r 'select(.decision.decision == "denied" and .decision.reason == "rate_limit_exceeded") |
   .decision.timestamp' *.json | sort | sed -n '1p;$p'
 ```
 
@@ -235,7 +237,7 @@ jq -r 'select(.decision.decision == "denied" and .decision.reason == "rate_limit
 
 **For this tutorial:** Based on the synthetic traffic showing:
 - Normal users (192.168.1.x): 0 violations
-- Batch job (10.0.1.100): 0 violations  
+- Batch job (10.0.1.100): 0 violations
 - Attacker (203.0.113.25): 5 violations
 
 A limit of **100 req/min** effectively blocks the attacker while allowing legitimate traffic.

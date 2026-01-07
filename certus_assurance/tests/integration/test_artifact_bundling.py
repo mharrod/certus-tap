@@ -117,7 +117,7 @@ def test_artifact_bundle_size_reasonable(tmp_path: Path):
 
     # Create multiple files with compressible content
     for i in range(10):
-        (artifacts_dir / f"file_{i}.json").write_text('{"data": "' + ('x' * 1000) + '"}')
+        (artifacts_dir / f"file_{i}.json").write_text('{"data": "' + ("x" * 1000) + '"}')
 
     # Create tarball
     tarball_path = tmp_path / "bundle.tar.gz"

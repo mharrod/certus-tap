@@ -1,5 +1,7 @@
 # Multi-Agent Development Walkthrough: Certus Insight
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 Learn how to stand up a new feature (the Certus-Insight service) using the multi-agent workflow defined in `.context/`. This tutorial mirrors the Phase 0 scope from `docs/reference/roadmap/proposals/core/certus-insight-proposal.md` and shows how Goose-powered agents collaborate while a human integrates the final result.
 
 ## Prerequisites

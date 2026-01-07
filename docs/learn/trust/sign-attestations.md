@@ -1,5 +1,7 @@
 # Supply Chain Security
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 ## Scenario
 
 You've completed the product acquisition security review using Certus TAP. Now you need to validate that all the security artifacts (SBOM, scan results, build attestations) came from legitimate, signed sources before ingesting them into your permanent knowledge base.

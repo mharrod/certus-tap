@@ -155,6 +155,7 @@ def test_scanner_builder_interface():
 
     class MockScanner:
         """Mock scanner for testing."""
+
         def scan(self):
             return {"findings": []}
 

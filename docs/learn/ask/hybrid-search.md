@@ -1,5 +1,7 @@
 # Hybrid Search: Combining Semantic Search and Knowledge Graphs
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 The most powerful security analysis combines **OpenSearch's semantic search** for exploratory discovery with **Neo4j's knowledge graph** for structural analysis. This guide shows how to use both tools together to answer complex security questions, perform impact analysis, and generate compliance reports.
 
 ```mermaid

@@ -1,5 +1,7 @@
 # Non-Repudiation & Security Scanning Tutorials
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 Learn how to run security scans with non-repudiation guarantees, enabling compliance, audit trails, and forensic analysis.
 
 ## Tutorial Series

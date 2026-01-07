@@ -1,5 +1,9 @@
 # Security Analyst Capstone: Product Acquisition Review
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
+> **NOTE: This tutorial is a wok in progress and not ready for use**
+
 ## Scenario
 
 Your company is evaluating a new product acquisition. Before approval, you must conduct a comprehensive security, privacy, and compliance review using the **full Certus stack**: Trust (signing & verification), Ask (RAG), Integrity (rate limiting), Assurance (metrics), and Transform (PII detection).
@@ -496,7 +500,7 @@ curl -X POST "${CERTUS_ASK_URL}/v1/${WORKSPACE_ID}/ask" \
 
 **What you'll do:**
 1. Generate signed SBOM and SARIF for your chosen repo
-2. Scan for vulnerabilities and security issues  
+2. Scan for vulnerabilities and security issues
 3. Ingest the code into the workspace for RAG queries
 4. Verify cryptographic signatures on artifacts
 
@@ -938,7 +942,7 @@ Verify all actions taken during the review process.
 **Check ingestion logs:**
 
 ```bash
-curl ${OPENSEARCH_URL}/logs-certus-tap/_search?pretty \
+curl ${OPENSEARCH_URL}/logs-certus-docops/_search?pretty \
   -H "Content-Type: application/json" \
   -d "{
     \"query\": {
@@ -953,7 +957,7 @@ curl ${OPENSEARCH_URL}/logs-certus-tap/_search?pretty \
 **Review privacy events:**
 
 ```bash
-curl ${OPENSEARCH_URL}/logs-certus-tap/_search?pretty \
+curl ${OPENSEARCH_URL}/logs-certus-docops/_search?pretty \
   -H "Content-Type: application/json" \
   -d '{
     "query": {
@@ -1140,7 +1144,7 @@ cat > "$OUTPUT_FILE" << 'HTML'
             <!-- NEW: API Security & Integrity Section -->
             <div class="section">
                 <h2>API Security & Access Control (Certus Integrity)</h2>
-                
+
                 <h3>Integrity Summary</h3>
                 <table>
                     <tr>
@@ -1196,7 +1200,7 @@ cat > "$OUTPUT_FILE" << 'HTML'
 
         <div class="footer">
             <p>This report is confidential and intended for authorized personnel only.</p>
-            <p>Generated: REVIEW_DATE | Certus TAP Security Review System</p>
+            <p>Generated: REVIEW_DATE | Certus DocOps Security Review System</p>
         </div>
     </div>
 </body>

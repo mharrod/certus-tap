@@ -62,10 +62,10 @@ You should see output like:
    Environment: local
    Python: Python 3.11.x
 
-   Quick start:
-     just dev-up          - Start all services
-     just preflight-dev   - Check health
-     just dev-down        - Stop all services
+  Quick start:
+    just up          - Start all services
+    just preflight   - Check health
+    just down        - Stop all services
 ```
 
 ### 3. Create .env File
@@ -87,7 +87,7 @@ uv sync
 ### 5. Start Services
 
 ```bash
-just dev-up
+just up
 ```
 
 This will start:
@@ -101,7 +101,7 @@ This will start:
 ### 6. Verify Everything Works
 
 ```bash
-just preflight-dev
+just preflight
 ```
 
 ## Daily Workflow
@@ -112,7 +112,8 @@ just preflight-dev
 cd ~/src/certus/certus-TAP
 # direnv auto-loads environment
 
-dev  # Alias for: just dev-up && just preflight-dev
+just up
+just preflight
 ```
 
 ### During Development
@@ -126,13 +127,13 @@ just test-assurance    # Specific service
 
 **View logs:**
 ```bash
-dev-logs                           # All services
-docker compose logs ask-certus-backend -f  # Specific service
+docker compose -p certus -f certus_infrastructure/docker-compose.yml logs -f
+docker compose -f certus_ask/deploy/docker-compose.yml logs -f ask-certus-backend
 ```
 
 **Rebuild service:**
 ```bash
-dev-rebuild                        # All services
+just rebuild                       # All services
 docker compose build ask-certus-backend  # Specific service
 docker compose up -d ask-certus-backend  # Restart it
 ```
@@ -147,7 +148,7 @@ curl http://localhost:8057/health  # Trust API
 ### Evening: Stop Services
 
 ```bash
-dev-stop  # Alias for: just dev-down
+just down
 ```
 
 ## Available Services
@@ -191,15 +192,15 @@ View all variables:
 printenv | grep CERTUS
 ```
 
-## Useful Aliases
+## Common Commands
 
-direnv sets up helpful aliases:
+Use these frequently during local development:
 
 ```bash
-dev                    # Start services + health check
-dev-stop               # Stop all services
-dev-logs               # View all logs
-dev-rebuild            # Rebuild and restart
+just up         # Start services
+just preflight  # Health check
+just down       # Stop all services
+just rebuild    # Rebuild and restart
 ```
 
 ## Tutorial Environments
@@ -247,7 +248,7 @@ just test-fast
 
 ### Full Test Suite (Requires Docker)
 ```bash
-just dev-up
+just up
 just test
 ```
 
@@ -278,15 +279,15 @@ docker compose ps
 
 **Check logs:**
 ```bash
-dev-logs
+docker compose -p certus -f certus_infrastructure/docker-compose.yml logs -f
 ```
 
 **Clean slate:**
 ```bash
-just dev-down
+just down
 docker compose down -v  # Remove volumes
 docker system prune -a  # Clean all Docker
-just dev-up
+just up
 ```
 
 ### direnv not loading
@@ -310,7 +311,7 @@ If ports are already in use:
 # Find what's using port 9200
 lsof -i :9200
 
-# Kill it or change port in docker-compose.full-dev.yml
+# Kill it or change port in certus_infrastructure/docker-compose.yml (or the service-specific compose file)
 ```
 
 ### Python environment issues
@@ -331,11 +332,11 @@ which python
 
 ```bash
 # Remove all volumes
-just dev-down
+just down
 docker compose down -v
 
 # Restart fresh
-just dev-up
+just up
 ```
 
 ## Advanced Usage
@@ -372,7 +373,7 @@ LOG_LEVEL=DEBUG
 RELOAD=true
 
 # Restart services
-dev-rebuild
+just rebuild
 ```
 
 ### Hot Reload

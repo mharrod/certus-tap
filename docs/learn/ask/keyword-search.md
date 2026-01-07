@@ -1,5 +1,7 @@
 # Keyword Search for Security Analysis
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 While semantic search finds conceptually related issues and knowledge graphs analyze relationships, **keyword search** provides precise, deterministic results for compliance audits, exact matching, and structured queries. This guide shows how to use OpenSearch keyword search for security investigations that require accuracy over relevance.
 
 ```mermaid

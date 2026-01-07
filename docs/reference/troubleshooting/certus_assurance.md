@@ -511,10 +511,10 @@ If none of these solutions work:
    ```bash
    # Service logs
    docker logs certus-assurance --tail=100 > assurance-logs.txt
-   
+
    # Scan status
    curl -s http://localhost:8056/v1/security-scans/$SCAN_ID > scan-status.json
-   
+
    # Health check
    curl http://localhost:8056/health > health.json
    ```

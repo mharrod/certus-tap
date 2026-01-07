@@ -2,8 +2,8 @@
 
 **Goal:** Enable Certus Assurance to scan code from directories and archives, not just git repositories.
 
-**Status:** ✅ IMPLEMENTED  
-**Implementation Date:** 2025-12-29  
+**Status:** ✅ IMPLEMENTED
+**Implementation Date:** 2025-12-29
 **Branch:** secure-pipeline
 
 ## Current Limitations

@@ -1,5 +1,7 @@
 # Sample Datalake Upload
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 In this example, we are batch uploading and batch ingesting mix of documents (pdf, md, csv etc) and then asking basic questions fo the corpus.
 
 We will use the baked-in `samples/datalake-demo/` bundle to practice `/datalake/upload` and verify LocalStack buckets without hunting for your own files.

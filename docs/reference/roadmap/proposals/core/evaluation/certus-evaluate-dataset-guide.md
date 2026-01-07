@@ -9,7 +9,7 @@
 - **Author**: Certus TAP (AI agent for @harma)
 - **Created**: 2025-12-28
 - **Last Updated**: 2025-12-28
-- **Related**: 
+- **Related**:
   - [certus-evaluate-service.md](./certus-evaluate-service.md) (main proposal)
   - [certus-evaluate-implementation-guide.md](./certus-evaluate-implementation-guide.md) (technical implementation)
 - **Audience**: Product managers, technical writers, SMEs, workspace teams
@@ -97,12 +97,12 @@ This is fundamentally different from traditional metrics because it evaluates **
 ```
 Query: "What is Certus?"
 
-Context: 
+Context:
 - "Certus is a trust automation platform"
 - "It provides security scanning and integrity verification"
 
-Response: 
-"Certus is a trust automation platform that offers security scanning 
+Response:
+"Certus is a trust automation platform that offers security scanning
 and blockchain verification"
 
 LLM Analysis:
@@ -136,8 +136,8 @@ Faithfulness Score: 2/3 = 0.67
 ```
 Query: "How do I configure MLflow in Certus?"
 
-Response: 
-"MLflow is a platform for managing ML workflows including tracking 
+Response:
+"MLflow is a platform for managing ML workflows including tracking
 experiments and model registry."
 
 LLM generates hypothetical questions this response answers:
@@ -218,8 +218,8 @@ Context Precision Score: 0.81 (weighted average)
 Query: "How do I enable DAST scanning?"
 
 Ground Truth Answer:
-"Enable DAST scanning by setting `dast.enabled=true` in your manifest. 
-Specify the target URL with `dast.target_url`. The ZAP scanner will run 
+"Enable DAST scanning by setting `dast.enabled=true` in your manifest.
+Specify the target URL with `dast.target_url`. The ZAP scanner will run
 and output results to `zap-dast.sarif.json`."
 
 LLM extracts sentences:
@@ -276,7 +276,7 @@ Context Recall Score: 2/3 = 0.67
 | 10% sampling | 3,000 | $510 | $51 |
 | 1% sampling | 300 | $51 | $5 |
 
-**Recommendation**: 
+**Recommendation**:
 - Start with **10% sampling** + **GPT-4** = **$510/month/workspace**
 - After baseline established, use GPT-3.5-turbo for ongoing monitoring = **$51/month**
 
@@ -383,7 +383,7 @@ Step 3: Vet Context Chunks (Days 8-10)
 Step 4: Review & Approve (Days 11-14)
 ```
 
-**Total effort**: 
+**Total effort**:
 - **Engineering**: 2-3 days (tooling setup, MLflow integration)
 - **Product/SME**: 8-12 days (annotation, review, approval)
 
@@ -401,7 +401,7 @@ Get the most common queries users actually ask:
 
 ```sql
 -- Top 50 queries by frequency
-SELECT 
+SELECT
     query,
     COUNT(*) as frequency,
     COUNT(DISTINCT user_id) as unique_users
@@ -533,8 +533,8 @@ query,frequency,category,priority
 
 ✅ **GOOD Response** (complete, actionable):
 ```
-"Enable DAST scanning by setting `dast.enabled=true` in your `certus-assurance` 
-manifest and specifying the target URL with `dast.target_url`. The ZAP scanner 
+"Enable DAST scanning by setting `dast.enabled=true` in your `certus-assurance`
+manifest and specifying the target URL with `dast.target_url`. The ZAP scanner
 will run during the assurance pipeline and output results to `zap-dast.sarif.json`."
 ```
 **Why good**: Specific file, exact settings, outcome described
@@ -551,18 +551,18 @@ will run during the assurance pipeline and output results to `zap-dast.sarif.jso
 
 ❌ **BAD Response** (too verbose):
 ```
-"Certus is a comprehensive trust automation platform that was designed to 
-provide organizations with end-to-end visibility and control over their 
-software supply chain security posture through integrated scanning, 
+"Certus is a comprehensive trust automation platform that was designed to
+provide organizations with end-to-end visibility and control over their
+software supply chain security posture through integrated scanning,
 verification, and attestation capabilities, enabling teams to..."
 ```
 **Problems**: Run-on sentence, jargon-heavy, overwhelming
 
 ✅ **GOOD Response** (balanced):
 ```
-"Certus is a trust automation platform that provides security scanning, 
-integrity verification, and supply chain attestation for software artifacts. 
-It integrates with your CI/CD pipeline to automatically scan code, 
+"Certus is a trust automation platform that provides security scanning,
+integrity verification, and supply chain attestation for software artifacts.
+It integrates with your CI/CD pipeline to automatically scan code,
 dependencies, and infrastructure for vulnerabilities."
 ```
 **Why good**: Clear, concise, complete
@@ -574,7 +574,7 @@ dependencies, and infrastructure for vulnerabilities."
 - 5 min: Verify accuracy (check docs)
 - 3 min: Polish tone/grammar
 
-**Total for 50 queries**: 
+**Total for 50 queries**:
 - Single annotator: **8-12 hours**
 - Team of 3: **3-4 hours each** (parallelizable)
 
@@ -599,7 +599,7 @@ dependencies, and infrastructure for vulnerabilities."
 for query in queries:
     # Use Certus-Ask's retrieval
     retrieved_chunks = opensearch.search(query, top_k=10)
-    
+
     # Save for manual review
     save_for_review(query, retrieved_chunks)
 ```
@@ -617,20 +617,20 @@ for query in queries:
 
 **Retrieved Chunks** (from OpenSearch):
 ```
-1. "Certus-Assurance coordinates security scanning across multiple tools..." 
+1. "Certus-Assurance coordinates security scanning across multiple tools..."
    → ✅ KEEP (context/intro)
 
-2. "Supported scanners include Bandit (Python), Semgrep (multi-language), 
-    Checkov (IaC), Trivy (containers), and ZAP (DAST)..." 
+2. "Supported scanners include Bandit (Python), Semgrep (multi-language),
+    Checkov (IaC), Trivy (containers), and ZAP (DAST)..."
    → ✅ KEEP (directly answers query)
 
-3. "Certus-Trust handles artifact signing and verification using Sigstore..." 
+3. "Certus-Trust handles artifact signing and verification using Sigstore..."
    → ❌ REMOVE (wrong service, not relevant)
 
-4. "Scanner results are aggregated and converted to SARIF format..." 
+4. "Scanner results are aggregated and converted to SARIF format..."
    → ⚠️ BORDERLINE (supportive detail, keep if space allows)
 
-5. "Configure scanners in the assurance manifest file..." 
+5. "Configure scanners in the assurance manifest file..."
    → ❌ REMOVE (about configuration, not list of scanners)
 ```
 
@@ -670,7 +670,7 @@ for query in queries:
 - 3 min: Mark keep/remove
 - 3 min: Search for missing chunks (if needed)
 
-**Total for 50 queries**: 
+**Total for 50 queries**:
 - **4-8 hours** (can parallelize)
 
 ---
@@ -681,7 +681,7 @@ for query in queries:
 
 **Duration**: 2-3 days
 
-**Who does this**: 
+**Who does this**:
 - **Reviewer**: Peer (different from annotator)
 - **Approver**: Product owner, tech lead, or SME
 
@@ -756,10 +756,10 @@ mlflow.set_experiment(experiment_name)
 with mlflow.start_run(run_name=f"dataset-v1-{datetime.now().strftime('%Y%m%d')}"):
     # Upload dataset file
     mlflow.log_artifact(
-        "reference_dataset_v1.jsonl", 
+        "reference_dataset_v1.jsonl",
         artifact_path="reference_dataset.jsonl"
     )
-    
+
     # Add metadata tags
     mlflow.set_tags({
         "dataset_version": "1",
@@ -780,7 +780,7 @@ print(f"✅ Uploaded reference dataset v1 for {workspace_id}")
 # Version 2 after Q2 refresh
 with mlflow.start_run(run_name=f"dataset-v2-{datetime.now().strftime('%Y%m%d')}"):
     mlflow.log_artifact("reference_dataset_v2.jsonl", ...)
-    
+
     mlflow.set_tags({
         "dataset_version": "2",
         "approved_by": "alice@acme.com",
@@ -800,7 +800,7 @@ reference = await loader.get_reference(workspace_id, query)
 if not reference:
     logger.warning("no_reference_data", workspace_id=workspace_id)
     # Skip precision/recall metrics
-    
+
 if not reference.approved_by:
     logger.error("unapproved_reference_data", workspace_id=workspace_id)
     raise ValueError("Reference dataset must be approved")
@@ -808,8 +808,8 @@ if not reference.approved_by:
 # Check freshness
 days_old = (datetime.now() - reference.approved_at).days
 if days_old > 90:
-    logger.warning("stale_reference_data", 
-                   workspace_id=workspace_id, 
+    logger.warning("stale_reference_data",
+                   workspace_id=workspace_id,
                    days_old=days_old)
 ```
 
@@ -867,24 +867,24 @@ def normalize_query(query: str) -> str:
 
 def sheets_to_jsonl(csv_file: str, output_file: str, workspace_id: str):
     """Convert Google Sheets CSV to reference dataset JSONL"""
-    
+
     entries = []
-    
+
     with open(csv_file, 'r') as f:
         reader = csv.DictReader(f)
-        
+
         for row in reader:
             # Skip if not approved
             if row['status'] != 'Approved':
                 continue
-            
+
             # Collect context chunks
             context = []
             for i in range(1, 6):
                 chunk = row.get(f'vetted_context_{i}', '').strip()
                 if chunk:
                     context.append(chunk)
-            
+
             # Build entry
             entry = {
                 "query_signature": normalize_query(row['query']),
@@ -897,14 +897,14 @@ def sheets_to_jsonl(csv_file: str, output_file: str, workspace_id: str):
                 "tags": [t.strip() for t in row.get('tags', '').split(',') if t.strip()],
                 "notes": row.get('notes', '').strip()
             }
-            
+
             entries.append(entry)
-    
+
     # Write JSONL
     with open(output_file, 'w') as f:
         for entry in entries:
             f.write(json.dumps(entry) + '\n')
-    
+
     print(f"✅ Converted {len(entries)} approved entries to {output_file}")
 
 if __name__ == "__main__":
@@ -989,16 +989,16 @@ docker-compose -f docker-compose-labelstudio.yml up -d
 ```xml
 <View>
   <Header value="Reference Dataset Annotation"/>
-  
+
   <!-- Query (read-only) -->
   <Text name="query" value="$query" label="Query"/>
-  
+
   <!-- Ideal Response (annotate) -->
-  <TextArea name="ideal_response" 
+  <TextArea name="ideal_response"
             toName="query"
             placeholder="Write the perfect answer (2-4 sentences)"
             maxSubmissions="1"/>
-  
+
   <!-- Context Chunks (annotate) -->
   <Text name="context_label" value="Vetted Context Chunks:"/>
   <TextArea name="context_1" placeholder="Chunk 1"/>
@@ -1006,7 +1006,7 @@ docker-compose -f docker-compose-labelstudio.yml up -d
   <TextArea name="context_3" placeholder="Chunk 3 (optional)"/>
   <TextArea name="context_4" placeholder="Chunk 4 (optional)"/>
   <TextArea name="context_5" placeholder="Chunk 5 (optional)"/>
-  
+
   <!-- Metadata -->
   <Choices name="category" toName="query" choice="single">
     <Choice value="getting-started"/>
@@ -1014,7 +1014,7 @@ docker-compose -f docker-compose-labelstudio.yml up -d
     <Choice value="troubleshooting"/>
     <Choice value="advanced"/>
   </Choices>
-  
+
   <TextArea name="notes" placeholder="Internal notes (optional)"/>
 </View>
 ```
@@ -1037,7 +1037,7 @@ for query in queries:
             "query": query
         }
     }
-    
+
     response = requests.post(
         API_URL,
         headers={"Authorization": f"Token {API_KEY}"},
@@ -1058,7 +1058,7 @@ exported_data = requests.get(
 entries = []
 for item in exported_data:
     annotations = item['annotations'][0]['result']
-    
+
     # Extract fields
     ideal_response = next(a['value']['text'][0] for a in annotations if a['from_name'] == 'ideal_response')
     context = [
@@ -1066,7 +1066,7 @@ for item in exported_data:
         for a in annotations
         if a['from_name'].startswith('context_') and a['value']['text']
     ]
-    
+
     entry = {
         "query_signature": normalize_query(item['data']['query']),
         "ideal_response": ideal_response,
@@ -1150,7 +1150,7 @@ if st.button("Submit for Review"):
         "tags": tags,
         "notes": notes
     }
-    
+
     save_to_database(entry)  # Save draft
     st.success("Submitted for review!")
 ```
@@ -1242,21 +1242,21 @@ def upload_reference_dataset(
     changelog: str = ""
 ):
     """Upload reference dataset to MLflow"""
-    
+
     experiment_name = f"certus-evaluate-references-{workspace_id}"
     mlflow.set_experiment(experiment_name)
-    
+
     # Count entries
     with open(jsonl_file) as f:
         entry_count = sum(1 for line in f)
-    
+
     # Create run
     run_name = f"dataset-v{version}-{datetime.now().strftime('%Y%m%d')}"
-    
+
     with mlflow.start_run(run_name=run_name):
         # Upload file
         mlflow.log_artifact(jsonl_file, artifact_path="reference_dataset.jsonl")
-        
+
         # Add tags
         mlflow.set_tags({
             "dataset_version": str(version),
@@ -1266,12 +1266,12 @@ def upload_reference_dataset(
             "workspace_id": workspace_id,
             "changelog": changelog or f"Version {version} created"
         })
-        
+
         run_id = mlflow.active_run().info.run_id
         print(f"✅ Uploaded dataset v{version} for {workspace_id}")
         print(f"   Run ID: {run_id}")
         print(f"   Entries: {entry_count}")
-        
+
         return run_id
 
 # Usage
@@ -1293,54 +1293,54 @@ class MLflowReferenceLoader:
     def __init__(self, tracking_uri: str):
         self.tracking_uri = tracking_uri
         mlflow.set_tracking_uri(tracking_uri)
-    
+
     async def get_reference(
         self,
         workspace_id: str,
         query_signature: str
     ) -> Optional[ReferenceEntry]:
         """Load reference entry from latest approved dataset"""
-        
+
         experiment_name = f"certus-evaluate-references-{workspace_id}"
-        
+
         try:
             experiment = mlflow.get_experiment_by_name(experiment_name)
             if not experiment:
                 logger.warning(f"No reference experiment for {workspace_id}")
                 return None
-            
+
             # Get latest run
             runs = mlflow.search_runs(
                 experiment_ids=[experiment.experiment_id],
                 order_by=["start_time DESC"],
                 max_results=1
             )
-            
+
             if runs.empty:
                 logger.warning(f"No reference runs for {workspace_id}")
                 return None
-            
+
             run_id = runs.iloc[0].run_id
-            
+
             # Download artifact
             artifact_path = mlflow.artifacts.download_artifacts(
                 run_id=run_id,
                 artifact_path="reference_dataset.jsonl"
             )
-            
+
             # Search for matching query
             normalized_query = self._normalize_query(query_signature)
-            
+
             with open(artifact_path) as f:
                 for line in f:
                     entry_dict = json.loads(line)
                     entry = ReferenceEntry(**entry_dict)
-                    
+
                     if self._normalize_query(entry.query_signature) == normalized_query:
                         return entry
-            
+
             return None
-            
+
         except Exception as e:
             logger.error(f"Error loading reference: {e}")
             return None
@@ -1355,11 +1355,11 @@ class MLflowReferenceLoader:
 workspace:
   id: acme
   name: "Acme Corporation"
-  
+
 evaluation:
   enabled: true
   sampling_rate: 0.1  # Evaluate 10% of queries
-  
+
   reference_dataset:
     mlflow_experiment: "certus-evaluate-references-acme"
     mlflow_run_id: "a1b2c3d4e5f6..."  # Pin to specific version
@@ -1367,7 +1367,7 @@ evaluation:
     last_updated: "2025-12-28"
     entry_count: 70
     approved_by: "alice@acme.com"
-    
+
     # Baseline metrics (for regression detection)
     baseline:
       faithfulness: 0.85
@@ -1397,7 +1397,7 @@ evaluation:
 
 1. **Sample recent evaluations for review**:
    ```sql
-   SELECT 
+   SELECT
        query,
        response,
        faithfulness_score,
@@ -1458,7 +1458,7 @@ Track dataset health over time:
 **Monitoring Query** (run monthly):
 
 ```sql
-SELECT 
+SELECT
     workspace_id,
     COUNT(*) as total_entries,
     COUNT(DISTINCT query_signature) as unique_queries,
@@ -1505,22 +1505,22 @@ import re
 
 def sanitize_pii(text: str) -> str:
     """Mask PII in text"""
-    
+
     # Mask emails
-    text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', 
+    text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
                   '[EMAIL]', text)
-    
+
     # Mask IP addresses
-    text = re.sub(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b', 
+    text = re.sub(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b',
                   '[IP_ADDRESS]', text)
-    
+
     # Mask API keys (common patterns)
     text = re.sub(r'sk-[a-zA-Z0-9]{32,}', '[API_KEY]', text)
     text = re.sub(r'ghp_[a-zA-Z0-9]{36}', '[GITHUB_TOKEN]', text)
-    
+
     # Mask URLs
     text = re.sub(r'https?://[^\s]+', '[URL]', text)
-    
+
     return text
 
 # Apply before storing
@@ -1544,7 +1544,7 @@ def can_read_experiment(user: str, experiment_name: str) -> bool:
     # Extract workspace_id from experiment name
     # e.g., "certus-evaluate-references-acme" → "acme"
     workspace_id = experiment_name.split('-')[-1]
-    
+
     # Check user's workspace membership
     return user_has_workspace_access(user, workspace_id)
 ```
@@ -1568,7 +1568,7 @@ logger.info(
 **Query audit logs**:
 
 ```sql
-SELECT 
+SELECT
     user,
     workspace_id,
     action,
@@ -1589,7 +1589,7 @@ ORDER BY access_count DESC
 # Workspace config
 evaluation:
   log_full_content: false  # Default
-  
+
   # If enabled, require approval
   log_full_content_approved_by: "alice@acme.com"
   log_full_content_approved_at: "2025-12-28"
@@ -1604,19 +1604,19 @@ evaluation:
 def log_evaluation(self, result, query=None, response=None, ...):
     # Always log hashes
     mlflow.log_text(result.query_hash, "query_hash.txt")
-    
+
     # Opt-in for full content
     if settings.MLFLOW_LOG_FULL_CONTENT:
         # Check approval
         if not self._is_approved(workspace_id):
             logger.warning("Full content logging not approved")
             return
-        
+
         # Check expiry
         if self._is_expired(workspace_id):
             logger.warning("Full content logging approval expired")
             return
-        
+
         # Log with warning
         logger.warning("Logging full content (contains PII)")
         mlflow.log_text(query, "query.txt")
@@ -1674,7 +1674,7 @@ current = {
 for metric, baseline_score in baseline.items():
     current_score = current[metric]
     drop_pct = (baseline_score - current_score) / baseline_score
-    
+
     if drop_pct > 0.10:  # >10% drop
         alert(f"⚠️ {metric} regression: {baseline_score:.2f} → {current_score:.2f}")
         # Investigate: Doc updates? Retrieval changes? LLM prompt changes?

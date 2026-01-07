@@ -93,8 +93,29 @@ async def run_security_pipeline(args: argparse.Namespace) -> None:
         security_dir = "/tmp/security-reports"
 
         opengrep_cmd = ["opengrep", "scan", ".", *_parse_extra(args.opengrep_args)]
-        bandit_cmd = ["bandit", "-q", "-r", ".", "-f", "json", "-o", f"{security_dir}/bandit.json", *_parse_extra(args.bandit_args)]
-        trivy_cmd = ["trivy", "fs", "--scanners", "vuln,secret,config", "--format", "json", "--output", f"{security_dir}/trivy.json", ".", *_parse_extra(args.trivy_args)]
+        bandit_cmd = [
+            "bandit",
+            "-q",
+            "-r",
+            ".",
+            "-f",
+            "json",
+            "-o",
+            f"{security_dir}/bandit.json",
+            *_parse_extra(args.bandit_args),
+        ]
+        trivy_cmd = [
+            "trivy",
+            "fs",
+            "--scanners",
+            "vuln,secret,config",
+            "--format",
+            "json",
+            "--output",
+            f"{security_dir}/trivy.json",
+            ".",
+            *_parse_extra(args.trivy_args),
+        ]
 
         opengrep_output = await run_cmd(tooling, _tee_command(opengrep_cmd, f"{security_dir}/opengrep.txt")).stdout()
         print("\n[opengrep]\n", opengrep_output.strip())

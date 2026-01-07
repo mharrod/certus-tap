@@ -1,5 +1,7 @@
 # Security Profiles: Tailored Security Scanning
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 Learn how to use different security profiles to customize scans for your needs.
 
 ## What You'll Learn

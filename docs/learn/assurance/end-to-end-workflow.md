@@ -1,5 +1,7 @@
 # Tutorial 4: End-to-End Security Workflow
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 **Time:** 20 minutes
 **Prerequisites:** Docker, Docker Compose, completed [Quick Start](quick-start-cli-scan.md)
 **What you'll learn:** Complete Certus workflow from scanning to querying findings

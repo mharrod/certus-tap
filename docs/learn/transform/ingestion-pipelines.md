@@ -1,5 +1,7 @@
 # Basic Document Ingestion
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This tutorial walks through moving raw content into the Certus TAP pipeline using the api (curl) and the Streamlit UI. The preprocessing pipeline already handles a mix of file types (Markdown, PDF, HTML, etc.) via its file-type router, anonymizer, and converter chain, so you can upload heterogeneous corpora without manual format conversion.
 
 ## Workflow Overview

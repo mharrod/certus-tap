@@ -1,5 +1,7 @@
 # Scanning methods
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 Learn how to use Certus Assurance as a centralized scanning service for your team.
 
 ## What You'll Learn

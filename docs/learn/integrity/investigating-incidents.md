@@ -1,5 +1,7 @@
 # Investigating Incidents with Integrity Evidence
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This tutorial shows security teams how to use Certus Integrity's evidence bundles and audit trails to investigate security incidents. You'll learn how to trace requests, verify what was blocked, and prove when security controls were active.
 
 **Who is this for?** Security engineers, incident responders, and forensic analysts investigating suspicious activity.
@@ -518,7 +520,7 @@ jq -r --arg ip "$IP" 'select(.decision.metadata.client_ip == $ip) |
 ```bash
 # Analyze attack pattern by showing allowed vs denied over time
 jq -r --arg ip "$IP" 'select(.decision.metadata.client_ip == $ip) |
-  "\(.decision.timestamp | split(".")[0])  \(.decision.decision)"' *.json | 
+  "\(.decision.timestamp | split(".")[0])  \(.decision.decision)"' *.json |
   sort | uniq -c
 
 # Shows the progression of allowed requests being blocked as rate limit kicks in

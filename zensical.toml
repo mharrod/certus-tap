@@ -175,7 +175,7 @@ nav = [
       { "B) Custom Manifests" = "learn/assurance/custom-manifests.md" },
       { "C) Managed Service API" = "learn/assurance/managed-service-api-scanning.md" },
       { "D) Scanning Without Git" = "learn/assurance/scanning-without-git.md" },
-      { "E) End-to-End Workflow" = "learn/assurance/end-to-end-workflow.md" }
+      # { "E) End-to-End Workflow" = "learn/assurance/end-to-end-workflow.md" }
     ] },
     { "5. Trust" = [
       { "A) Overview" = "learn/trust/overview.md" },

@@ -1,5 +1,7 @@
 # Passing Scans Through Certus-Trust
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This guide walks you through the **verification-first** non-repudiation flow where Certus-Trust acts as a cryptographic gatekeeper, verifying scans before any artifacts are stored.
 
 **How this fits with the other tutorials**

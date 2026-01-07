@@ -1,5 +1,7 @@
 # Integrity Tutorial - Setup Complete
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 ## Summary
 
 The Certus Integrity tutorial environment has been fully configured and is now working end-to-end.

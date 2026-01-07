@@ -1,5 +1,7 @@
 # Running a Security Scan with Provenance
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 This guide walks you through running your first security scan with Certus-Assurance and understanding provenance metadata.
 
 ## ⚠️ Important: Scanning Modes

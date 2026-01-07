@@ -39,7 +39,7 @@ Response: "Certus is a trust automation platform that offers security scanning a
 
 LLM Analysis:
 - Claim 1: "Certus is a trust automation platform" ✅ Supported by context
-- Claim 2: "offers security scanning" ✅ Supported by context  
+- Claim 2: "offers security scanning" ✅ Supported by context
 - Claim 3: "blockchain verification" ❌ NOT in context
 
 Faithfulness Score: 2/3 = 0.67
@@ -236,7 +236,7 @@ Each reference entry contains:
    -- Queries with low user satisfaction scores
    SELECT query
    FROM ask_queries
-   WHERE workspace_id = 'acme' 
+   WHERE workspace_id = 'acme'
      AND user_rating < 3
    ORDER BY RANDOM()
    LIMIT 20
@@ -270,8 +270,8 @@ Query: "How do I enable DAST scanning in Certus?"
 "You can enable DAST scanning in the configuration file."
 
 ✅ GOOD Response (complete, actionable):
-"Enable DAST scanning by setting `dast.enabled=true` in your `certus-assurance` 
-manifest and specifying the target URL with `dast.target_url`. The ZAP scanner 
+"Enable DAST scanning by setting `dast.enabled=true` in your `certus-assurance`
+manifest and specifying the target URL with `dast.target_url`. The ZAP scanner
 will run during the assurance pipeline and output results to `zap-dast.sarif.json`."
 ```
 
@@ -305,7 +305,7 @@ Query: "What scanners does Certus-Assurance support?"
 
 Retrieved Chunks (before vetting):
 1. "Certus-Assurance coordinates security scanning..." ✅ KEEP
-2. "Supported scanners: Bandit, Semgrep, Checkov, Trivy, ZAP..." ✅ KEEP  
+2. "Supported scanners: Bandit, Semgrep, Checkov, Trivy, ZAP..." ✅ KEEP
 3. "Certus-Trust handles signing and verification..." ❌ REMOVE (wrong service)
 4. "Configure scanning in the manifest file..." ⚠️ BORDERLINE (keep if relevant to "how")
 
@@ -577,11 +577,11 @@ This week includes creating the initial reference dataset for at least 2 workspa
      import mlflow
      import json
      from datetime import datetime
-     
+
      workspace_id = "acme"
      experiment_name = f"certus-evaluate-references-{workspace_id}"
      mlflow.set_experiment(experiment_name)
-     
+
      with mlflow.start_run(run_name=f"dataset-v1-{datetime.now().strftime('%Y%m%d')}"):
          mlflow.log_artifact("reference_dataset.jsonl", artifact_path="reference_dataset.jsonl")
          mlflow.set_tags({
@@ -591,7 +591,7 @@ This week includes creating the initial reference dataset for at least 2 workspa
              "entry_count": "50",
              "workspace_id": workspace_id
          })
-     
+
      print(f"✅ Uploaded reference dataset v1 for {workspace_id}")
      ```
    - [ ] Repeat for second workspace (total: 100 reference entries)
@@ -654,7 +654,7 @@ This week includes creating the initial reference dataset for at least 2 workspa
 
 ```python
 # Example metrics query
-SELECT 
+SELECT
     workspace_id,
     COUNT(*) as total_entries,
     COUNT(DISTINCT query_signature) as unique_queries,

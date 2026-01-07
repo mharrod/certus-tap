@@ -75,7 +75,7 @@ When you `cd` into the project directory, direnv automatically:
 
 - Activates the Python virtual environment
 - Loads environment variables
-- Sets up helpful aliases like `dev`, `dev-stop`, `dev-logs`
+- Displays quick-start commands in your shell
 
 `just install` executes `uv sync`, installs dev dependencies, and attaches pre-commit hooks so your environment mirrors CI.
 

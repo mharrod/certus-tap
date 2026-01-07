@@ -1,5 +1,7 @@
 # Neo4j Local Ingestion Guide
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 Semantic search excels at answering natural language questions across unstructured text, but it struggles with richly structured sources like SARIF, SBOMs, SPDX manifests, SPDX JSON/YAML, or custom JSON audit logs. Neo4j fills that gap: it stores each finding, package, dependency, and relationship explicitly, enabling questions like "Which packages depend on `requests` and have known vulnerabilities?" or "Which files have the most security findings?" that would be tedious with embedding-only search. This guide shows how to load the provided SARIF/SBOM samples into Neo4j so you can complement semantic search with graph queries.
 
 ```mermaid

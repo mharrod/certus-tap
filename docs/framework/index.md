@@ -1,6 +1,6 @@
 # Certus TAP
 
-**Certus Trust & Assurance Platform (CertusTAP)** is a unified, technology-agnostic framework for evaluating, enriching, and governing software and AI systems through automation, evidence, and selective human review. It defines the target architecture (principles, workflows, ontology, and practices) that any trust & assurance platform should aspire to implement.
+**Certus Trust, Assurance, & Privacy platform (CertusTAP)** is a unified, technology-agnostic framework for evaluating, enriching, and governing software and AI systems through automation, evidence, and selective human review. It defines the target architecture (principles, workflows, ontology, and practices) that any trust & assurance platform should aspire to implement.
 
 The companion Certus PoC (this repository’s services and scripts) is a concrete reference implementation that incrementally validates these ideas with specific technologies. As you explore the framework, keep in mind that some components are already realized in the PoC, while others remain forward-looking roadmap items.
 

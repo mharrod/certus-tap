@@ -239,9 +239,9 @@ def generate_summary(bundles: list[dict[str, Any]]):
     denied = sum(1 for b in bundles if b["decision"]["decision"] == "denied")
 
     unique_ips = len({b["decision"]["metadata"]["client_ip"] for b in bundles})
-    attacking_ips = len(
-        {b["decision"]["metadata"]["client_ip"] for b in bundles if b["decision"]["decision"] == "denied"}
-    )
+    attacking_ips = len({
+        b["decision"]["metadata"]["client_ip"] for b in bundles if b["decision"]["decision"] == "denied"
+    })
 
     print("\nAttack Scenario: Automated Scraper Attack (December 15, 2025)")
     print(f"\nTotal Decisions:        {total}")

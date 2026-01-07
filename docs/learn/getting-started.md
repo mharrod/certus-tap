@@ -1,9 +1,10 @@
 # Getting Started with Certus TAP (Local Development)
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../about/communication.md)**
+
 This walkthrough takes you from a clean checkout to a working local development stack and your first RAG query.
 
-!!! note "Local Development Only"
-This guide covers local development setup using Docker Compose. For production deployments to DigitalOcean or other cloud providers, see the [deployment guides](../../deployment/tofu/environments/).
+This guide covers **local development** setup using Docker Compose. For more production/staging like deployments to DigitalOcean or other cloud providers, see the [deployment guides](https://github.com/mharrod/certus-tap/tree/main/deployment/tofu/environments).
 
 ## 1. Prerequisites
 
@@ -17,7 +18,7 @@ This guide covers local development setup using Docker Compose. For production d
 - **Git**
 
 !!! tip "Quick Start"
-For a condensed overview, see [QUICKSTART.md](../../QUICKSTART.md) in the repository root.
+For a condensed overview, see [QUICKSTART.md](https://github.com/mharrod/certus-tap/blob/main/QUICKSTART.md) in the repository root.
 
 ## 2. Clone and Configure
 
@@ -40,7 +41,7 @@ Once you run `direnv allow`, direnv automatically:
     - Sets up helpful aliases like `dev` (starts stack + runs preflight)
     - Configures `PYTHONPATH` and other development settings
 
-    See the [Installation Guide](../../installation/) for more details.
+    See the [Installation Guide](../installation/) for more details.
 
 Adjust `.env` if you're using custom ports or credentials.
 
@@ -100,7 +101,7 @@ All checks must pass before continuing.
 
 ## 7. Ingest Documents
 
-By default, documents are ingested into the `default` workspace. To learn about multi-workspace isolation, see [Multi-Workspace Isolation](multi-workspace-isolation.md).
+By default, documents are ingested into the `default` workspace. To learn about multi-workspace isolation, see [Multi-Workspace Isolation](../reference/core-reference/multi-workspace-isolation.md).
 
 Single file (e.g. `docs/index.md`):
 
@@ -140,7 +141,7 @@ Responses include the model's answer plus retrieved context.
 
 ## 9. Multi-Workspace Isolation
 
-The `default` workspace used above is the starting point. For managing multiple independent analyses, products, or clients with complete data separation, see [Multi-Workspace Isolation](multi-workspace-isolation.md).
+The `default` workspace used above is the starting point. For managing multiple independent analyses, products, or clients with complete data separation, see [Multi-Workspace Isolation](../reference/core-reference/multi-workspace-isolation.md).
 
 ## 10. Supporting UIs
 
@@ -152,18 +153,19 @@ The `default` workspace used above is the starting point. For managing multiple 
 
 ## 11. Maintenance Commands
 
-- **Stop containers, keep volumes:** `just down` or `just dev-down`
+- **Stop containers, keep volumes:** `just down`
 - **Stop + remove containers, keep volumes:** `just cleanup`
 - **Full teardown (containers + volumes):** `just destroy`
 
-Without `just`, run the underlying scripts in `./scripts`. Re-run `dev` or `just dev-up` (or `./scripts/start-up.sh`) whenever you want to bring the stack back.
+Without `just`, run the underlying scripts in `./scripts`. Re-run `just up` (or `./scripts/start-up.sh`) whenever you want to bring the stack back.
 
 !!! tip "Development Workflow"
 With direnv configured, your typical workflow is:
 
     1. `cd certus-tap` - environment auto-loads
-    2. `dev` - starts stack and runs preflight
-    3. Make code changes
-    4. `dev-stop` - stops the stack when done
+    2. `just up` - starts the stack
+    3. `just preflight` - verifies services are healthy
+    4. Make code changes
+    5. `just down` - stops the stack when done
 
-    See [Local Development Guide](../../deployment/README.md) for advanced workflows.
+    See [Local Development Guide](https://github.com/mharrod/certus-tap/blob/main/deployment/README.md) for advanced workflows.

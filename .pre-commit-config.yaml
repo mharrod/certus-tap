@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 'v5.0.0'
+    rev: "v5.0.0"
     hooks:
       - id: check-case-conflict
       - id: check-merge-conflict
@@ -16,8 +16,31 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.12.7'
+    rev: "v0.12.7"
     hooks:
       - id: ruff-check
         args: [--exit-non-zero-on-fix]
       - id: ruff-format
+
+  # Security: Detect secrets in code
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: "v1.4.0"
+    hooks:
+      - id: detect-secrets
+        exclude: package.lock.json
+
+  # Security: Prevent committing private keys
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v5.0.0"
+    hooks:
+      - id: detect-private-key
+
+  # Security: Custom Certus TAP checks
+  - repo: local
+    hooks:
+      - id: certus-security-check
+        name: Certus TAP Security Check
+        entry: scripts/pre-commit-security-check.sh
+        language: script
+        pass_filenames: false
+        always_run: true

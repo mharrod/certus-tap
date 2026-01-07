@@ -1,5 +1,7 @@
 # Quick Start: Your First Security Scan
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 Start with a quick 2-minute scan, then optionally upgrade to a comprehensive 10-minute scan with SBOM generation.
 
 ## What You'll Learn

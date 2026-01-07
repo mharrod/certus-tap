@@ -442,6 +442,7 @@ class DaggerRuntime:
         policy_file = bundle_path / "policy-result.json"
         if policy_file.exists():
             import json
+
             try:
                 policy_data = json.loads(policy_file.read_text())
                 policy_passed = policy_data.get("passed")

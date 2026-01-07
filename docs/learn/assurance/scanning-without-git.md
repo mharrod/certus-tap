@@ -1,5 +1,7 @@
 # Tutorial: Scanning Without Git
 
+>**STATUS:Tutorial is currently in beta. If you have issues see our [Communication & Support guide](../../about/communication.md)**
+
 **Time:** 15 minutes
 **Prerequisites:** Docker, completed [Quick Start](quick-start-cli-scan.md)
 **What you'll learn:** Scan local directories and archives without requiring git
