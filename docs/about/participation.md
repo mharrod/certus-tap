@@ -27,7 +27,7 @@ By contributing, you agree that your contributions will be licensed under AGPL v
 
 If you modify this software for network use, you must make your source code available to users of that service.
 
-See: [LICENSE](https://github.com/mharrod/certus_doc_ops/blob/main/LICENSE)
+See: [LICENSE](https://github.com/mharrod/certus-tap/blob/main/LICENSE)
 
 > Signing the CLA is **required** for any contribution or write access, but **does not automatically grant contribution rights**.
 
@@ -43,7 +43,7 @@ The CLA ensures:
 - The project may use, modify, and redistribute your work
 - Contributions remain compatible with Certus TAP's licensing model
 
-See: [CLA.md](https://github.com/mharrod/certus_doc_ops/blob/main/CLA.md)
+See: [CLA.md](https://github.com/mharrod/certus-tap/blob/main/CLA.md)
 
 ---
 

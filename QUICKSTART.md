@@ -22,7 +22,7 @@ echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
 source ~/.zshrc
 
 # 2. Clone and setup
-git clone https://github.com/mharrod/certus_doc_ops.git certus-TAP
+git clone https://github.com/mharrod/certus-tap.git certus-TAP
 cd certus-TAP
 direnv allow
 

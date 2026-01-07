@@ -147,4 +147,4 @@ tofu destroy -var-file=secrets.tfvars
 
 - **Full documentation**: [deployment/tofu/README.md](../../deployment/tofu/README.md)
 - **Troubleshooting**: See README troubleshooting section
-- **Issues**: https://github.com/mharrod/certus_doc_ops/issues
+- **Issues**: https://github.com/mharrod/certus-tap/issues

@@ -53,13 +53,13 @@ variable "ssh_public_key_path" {
 variable "github_repo" {
   description = "GitHub repository (owner/repo)"
   type        = string
-  default     = "mharrod/certus_doc_ops"
+  default     = "mharrod/certus-tap"
 }
 
 variable "github_repo_url" {
   description = "GitHub repository URL"
   type        = string
-  default     = "https://github.com/mharrod/certus_doc_ops.git"
+  default     = "https://github.com/mharrod/certus-tap.git"
 }
 
 variable "github_branch" {

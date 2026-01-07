@@ -46,7 +46,7 @@ The local environment uses Docker Compose to run all services on your machine. I
 
 ```bash
 cd ~/src/certus
-git clone https://github.com/mharrod/certus_doc_ops.git certus-TAP
+git clone https://github.com/mharrod/certus-tap.git certus-TAP
 cd certus-TAP
 ```
 

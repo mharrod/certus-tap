@@ -598,6 +598,6 @@ rm -rf .terraform terraform.tfstate*
 ## Support
 
 - **Documentation:** [Main Deployment README](../../README.md)
-- **Issues:** https://github.com/mharrod/certus_doc_ops/issues
+- **Issues:** https://github.com/mharrod/certus-tap/issues
 - **Tailscale Help:** https://tailscale.com/kb/
 - **DigitalOcean Help:** https://docs.digitalocean.com/

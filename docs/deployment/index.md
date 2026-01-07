@@ -162,4 +162,4 @@ Regardless of deployment method, you'll need:
 
 - **Deployment Issues:** See troubleshooting sections in each guide
 - **General Questions:** Check the [FAQ](../reference/troubleshooting/index.md)
-- **Bug Reports:** https://github.com/mharrod/certus_doc_ops/issues
+- **Bug Reports:** https://github.com/mharrod/certus-tap/issues
