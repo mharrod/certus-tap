@@ -859,12 +859,24 @@ docs-serve:
 ## Test if documentation can be built without warnings
 [group('documentation')]
 docs-test:
-    @uv run mkdocs build -s
+    @if [ -f "zensical.toml" ]; then \
+        CONFIG_FILE=${MKDOCS_CONFIG:-zensical.toml}; \
+        uv run --with zensical zensical build -f "${CONFIG_FILE}" -s; \
+    else \
+        CONFIG_FILE=${MKDOCS_CONFIG:-mkdocs.yml}; \
+        uv run mkdocs build -f "${CONFIG_FILE}" -s; \
+    fi
 
 ## Build documentation
 [group('documentation')]
 docs-build:
-    @uv run mkdocs build
+    @if [ -f "zensical.toml" ]; then \
+        CONFIG_FILE=${MKDOCS_CONFIG:-zensical.toml}; \
+        uv run --with zensical zensical build -f "${CONFIG_FILE}"; \
+    else \
+        CONFIG_FILE=${MKDOCS_CONFIG:-mkdocs.yml}; \
+        uv run mkdocs build -f "${CONFIG_FILE}"; \
+    fi
 
 # Alias
 alias docs := docs-serve
